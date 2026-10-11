@@ -463,6 +463,69 @@ a{text-decoration:none;color:inherit}
 .ca-btn{background:none;border:none;color:var(--gray);font-size:14px;cursor:pointer;padding:2px 4px}
 .ca-btn.liked{color:var(--red)}
 .comment-like-count{color:var(--gray);font-size:11px}
+
+.cf-kg{display:flex;align-items:center;gap:8px}
+.cf-kg .poll-inp{flex:1;font-size:18px;font-weight:800}
+.cf-kg span{color:var(--gold);font-weight:900;font-size:16px}
+.cc-kg{background:var(--bg3);color:var(--white);font-size:12.5px;font-weight:800;padding:4px 10px;border-radius:20px}
+.st-rec{display:flex;gap:12px;align-items:center}
+.st-rec img{width:96px;height:96px;object-fit:cover;border-radius:12px;cursor:zoom-in;flex-shrink:0}
+.st-rec-kg{color:var(--gold);font-size:30px;font-weight:900;font-family:'Barlow Condensed',sans-serif;line-height:1}
+.st-rec-m{color:var(--gray);font-size:12.5px;margin-top:4px}
+.st-top{display:flex;flex-direction:column;gap:6px}
+.st-top-row{display:flex;align-items:center;gap:9px;background:var(--bg3);border-radius:10px;padding:7px 10px}
+.st-top-i{width:20px;height:20px;border-radius:50%;background:var(--bg);color:var(--gold);font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.st-top-n{flex:1;color:var(--white);font-size:13px;font-weight:700;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st-top-n small{color:var(--gray);font-weight:500}
+.st-top-row b{font-size:14px}
+
+.story-thumbs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-bottom:12px;padding:2px}
+.story-thumbs::-webkit-scrollbar{display:none}
+.story-thumb{width:48px;height:64px;border-radius:9px;overflow:hidden;flex-shrink:0;border:2px solid rgba(255,255,255,.2);background:#222;cursor:pointer}
+.story-thumb.on{border-color:var(--gold)}
+.story-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.story-thumb-add{display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;border-style:dashed}
+/* automatska temperatura */
+.cf-wx{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(95,212,196,.12),rgba(95,212,196,.04));border:1px solid rgba(95,212,196,.3);border-radius:14px;padding:10px 12px;margin-bottom:9px}
+.cf-wx.err{background:var(--bg2);border-color:var(--border2)}
+.cf-wx-ic{font-size:24px}
+.cf-wx-b{flex:1;min-width:0}
+.cf-wx-b b{display:block;color:var(--white);font-size:15px}
+.cf-wx.err .cf-wx-b b{color:var(--gray)}
+.cf-wx-b small{display:block;color:var(--gray);font-size:11px;margin-top:2px}
+.cf-wx-r{background:var(--bg3);border:1px solid var(--border2);border-radius:9px;width:34px;height:34px;color:var(--white);font-size:16px;cursor:pointer;flex-shrink:0}
+.cc-temp{background:rgba(251,146,60,.15);color:#fdba74}
+/* folder uredi */
+.folder-btns{display:flex;gap:6px;flex-shrink:0}
+.folder-edit{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--white);font-size:12px;padding:5px 9px;cursor:pointer}
+/* nezaboravi */
+.nz-seg{display:flex;background:var(--bg3);border-radius:13px;padding:4px;margin-bottom:12px;border:1px solid var(--border)}
+.nz-seg div{flex:1;text-align:center;padding:9px 6px;border-radius:10px;color:var(--gray);font-weight:800;font-size:13px;cursor:pointer}
+.nz-seg div.on{background:var(--gold);color:#03201c}
+.nz-add{display:flex;gap:8px;margin-bottom:12px}
+.nz-add input{flex:1;margin:0;font-size:16px}
+.nz-add button{background:var(--gold);border:none;border-radius:11px;width:48px;color:#03201c;font-size:22px;font-weight:900;cursor:pointer;flex-shrink:0}
+.nz-item{display:flex;align-items:center;gap:11px;background:var(--bg2);border:1px solid var(--border);border-radius:13px;padding:11px 12px;margin-bottom:7px}
+.nz-check{width:26px;height:26px;border-radius:50%;border:2px solid var(--gold);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#03201c;font-size:15px;font-weight:900;cursor:pointer}
+.nz-item.done .nz-check{background:var(--gold)}
+.nz-txt{flex:1;min-width:0;color:var(--white);font-size:14.5px;line-height:1.35;word-break:break-word;cursor:pointer}
+.nz-txt small{display:block;color:var(--gray);font-size:11px;margin-top:2px}
+.nz-item.done .nz-txt{color:var(--gray);text-decoration:line-through}
+.nz-del{background:none;border:none;color:var(--gray2);font-size:16px;cursor:pointer;padding:4px}
+.nz-sec{color:var(--gray);font-size:11px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;margin:14px 2px 8px;display:flex;justify-content:space-between;align-items:center}
+.nz-sec button{background:none;border:none;color:var(--red);font-size:11.5px;font-weight:700;cursor:pointer;text-transform:none;letter-spacing:0}
+/* aktivnost / obavještenja */
+.act-banner{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 10px);transform:translate(-50%,-140%);width:calc(100% - 24px);max-width:456px;background:var(--bg2);border:1px solid rgba(95,212,196,.4);border-radius:16px;padding:11px 13px;display:flex;align-items:center;gap:10px;z-index:900;box-shadow:0 14px 40px rgba(0,0,0,.6);transition:transform .35s;cursor:pointer}
+.act-banner.show{transform:translate(-50%,0)}
+.act-banner .ab-ic{font-size:24px}
+.act-banner .ab-t{flex:1;color:var(--white);font-size:13px;font-weight:700;line-height:1.35}
+.act-banner .ab-t small{display:block;color:var(--gray);font-weight:500;font-size:11px}
+.notif-sec{color:var(--gold);font-size:10.5px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:12px 16px 4px}
+.notif-push{margin:12px 16px 4px;background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:10px 12px;color:var(--gray);font-size:12px;line-height:1.45}
+
+.nicon{position:relative}
+.nz-badge{position:absolute;top:-4px;right:-9px;background:var(--red);color:#fff;font-size:9px;font-weight:800;min-width:15px;height:15px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px;font-family:Inter,sans-serif;font-style:normal}
+.nlabel{font-size:8px;letter-spacing:.2px}
 </style>
 </head>
 <body>
@@ -507,13 +570,15 @@ a{text-decoration:none;color:inherit}
     <div id="tp-stat" class="tab-panel"><div class="rb-pad" id="stat-inner"></div></div>
     <div id="tp-bihbook" class="tab-panel"><div id="pull-indicator" style="display:none;align-items:center;justify-content:center;gap:8px;padding:14px 0 4px;color:var(--gold);font-size:13px;font-weight:600;transition:opacity .2s;opacity:0">&#x2193; Povuci dolje za osvježavanje</div>
       <div class="bihbook-pad" id="bihbook-inner"></div></div>
+    <div id="tp-nezab" class="tab-panel"><div class="rb-pad" id="nezab-inner"></div></div>
   </div>
   <nav class="bnav">
     <button class="nbtn on" data-tab="jezera" onclick="goTab('jezera',this)"><span class="nicon">🏞️</span><span class="nlabel">Jezera</span><div class="ndot"></div></button>
-    <button class="nbtn" data-tab="ribe" onclick="goTab('ribe',this)"><span class="nicon">📸</span><span class="nlabel">Ribe</span></button>
+    <button class="nbtn" data-tab="ribe" onclick="goTab('ribe',this)"><span class="nicon">📸</span><span class="nlabel">Slike</span></button>
     <button class="nbtn" data-tab="ulov" onclick="goTab('ulov',this)"><span class="nicon">🐟</span><span class="nlabel">Ulov</span></button>
     <button class="nbtn" data-tab="stat" onclick="goTab('stat',this)"><span class="nicon">📊</span><span class="nlabel">Statistika</span></button>
     <button class="nbtn" data-tab="bihbook" onclick="goTab('bihbook',this)"><span class="nicon">🎣</span><span class="nlabel">Ribolovci</span></button>
+    <button class="nbtn" data-tab="nezab" onclick="goTab('nezab',this)"><span class="nicon">📝</span><span class="nlabel">Nezaboravi</span></button>
   </nav>
 </div>
 
@@ -544,7 +609,7 @@ a{text-decoration:none;color:inherit}
   <div class="pv-top">
     <button class="pv-btn" onclick="closePhotoViewer()">&#x2715;</button>
     <div class="pv-meta" id="pv-meta"></div>
-    <button class="pv-btn" onclick="downloadAlbumPhoto()" title="Preuzmi">⬇</button>
+    <button class="pv-btn" id="pv-dl" onclick="downloadAlbumPhoto()" title="Sačuvaj" style="min-width:auto;padding:0 12px;font-size:13px;font-weight:800;gap:5px">⬇</button>
     <button class="pv-btn" id="pv-del" onclick="deleteAlbumPhoto()" style="background:rgba(255,71,87,.85)" title="Obriši">&#x1F5D1;</button>
   </div>
   <div class="pv-img-wrap">
@@ -599,77 +664,32 @@ a{text-decoration:none;color:inherit}
     <button id="story-delete-btn" onclick="storyDeleteCurrent()" style="display:none;background:rgba(255,71,87,.85);border:none;border-radius:50%;width:40px;height:40px;color:#fff;font-size:15px;cursor:pointer;flex-shrink:0;align-items:center;justify-content:center">&#x1F5D1;</button>
   </div>
 </div>
-<!-- STORY UPLOAD -->
+<!-- STORY UPLOAD (vise prica odjednom) -->
 <div class="modal" id="story-upload-modal" style="align-items:stretch">
   <div style="background:#000;width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden">
-
-    <!-- FULL SCREEN PREVIEW AREA -->
-    <div id="story-preview-area" onclick="document.getElementById('story-file-input').click()"
+    <div id="story-preview-area" onclick="storyAreaTap()"
       style="flex:1;background:#111;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer;min-height:0">
-
-      <!-- Placeholder -->
       <div id="story-placeholder" style="text-align:center;pointer-events:none;user-select:none">
         <div style="font-size:64px;margin-bottom:18px">&#128247;</div>
-        <div style="font-size:20px;font-weight:700;color:#fff">Izaberi fotografiju</div>
-        <div style="font-size:14px;margin-top:8px;color:rgba(255,255,255,.5)">Dodirni ekran</div>
+        <div style="font-size:20px;font-weight:700;color:#fff">Izaberi fotografije</div>
+        <div style="font-size:14px;margin-top:8px;color:rgba(255,255,255,.5)">Možeš izabrati više odjednom – svaka postaje jedna priča</div>
       </div>
-
-      <!-- Image preview -->
-      <img id="story-upload-preview" src="" alt=""
-        style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-
-      <!-- Draggable text overlay -->
-      <div id="story-overlay-text" contenteditable="true"
-        data-placeholder="Upiši tekst..."
-        style="position:absolute;z-index:10;color:#fff;font-size:24px;font-weight:800;
-               text-align:center;text-shadow:0 2px 12px rgba(0,0,0,.9);outline:none;
-               cursor:move;min-width:60px;min-height:30px;padding:8px 12px;
-               border-radius:10px;left:50%;top:50%;transform:translate(-50%,-50%);
-               white-space:pre-wrap;word-break:break-word;max-width:90%">
-      </div>
-
-      <!-- Pinch hint -->
-      <div style="position:absolute;bottom:14px;left:0;right:0;text-align:center;
-                  color:rgba(255,255,255,.5);font-size:12px;pointer-events:none">
-        &#x1F91C; Raširi prste za zum
-      </div>
+      <img id="story-upload-preview" src="" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none">
+      <div id="story-live-text" style="position:absolute;left:0;right:0;bottom:24%;padding:0 18px;text-align:center;color:#fff;font-size:22px;font-weight:800;text-shadow:0 2px 10px rgba(0,0,0,.9);pointer-events:none;white-space:pre-wrap;word-break:break-word"></div>
+      <div id="story-counter" style="display:none;position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);left:14px;background:rgba(0,0,0,.6);color:#fff;font-size:13px;font-weight:800;padding:6px 11px;border-radius:20px"></div>
+      <button id="story-remove-btn" onclick="event.stopPropagation();storyRemoveCurrent()" style="display:none;position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px;background:rgba(255,71,87,.85);border:none;border-radius:50%;width:38px;height:38px;color:#fff;font-size:15px;cursor:pointer">&#x1F5D1;</button>
     </div>
-
-    <!-- BOTTOM CONTROLS -->
-    <div style="flex-shrink:0;background:rgba(0,0,0,.85);backdrop-filter:blur(20px);
-                padding:14px 16px calc(env(safe-area-inset-bottom,0px)+14px)">
-
-      <!-- Color picker -->
-      <div id="story-bg-picker"
-        style="display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;margin-bottom:12px;padding-bottom:2px">
-      </div>
-
-      <!-- Text input -->
-      <input type="text" id="story-text-inp" placeholder="Dodaj tekst..."
-        style="width:100%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
-               border-radius:12px;padding:12px 14px;color:#fff;font-size:16px;outline:none;
-               font-family:Inter,sans-serif;-webkit-appearance:none;margin-bottom:12px"
-        onclick="event.stopPropagation()">
-
-      <!-- Action buttons -->
+    <div style="flex-shrink:0;background:rgba(0,0,0,.85);backdrop-filter:blur(20px);padding:12px 16px calc(env(safe-area-inset-bottom,0px)+14px)">
+      <div id="story-thumbs" class="story-thumbs"></div>
+      <div id="story-bg-picker" style="display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;margin-bottom:12px;padding-bottom:2px"></div>
+      <input type="text" id="story-text-inp" placeholder="Dodaj tekst za ovu priču..." oninput="storyTextInput(this.value)"
+        style="width:100%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:12px 14px;color:#fff;font-size:16px;outline:none;font-family:Inter,sans-serif;-webkit-appearance:none;margin-bottom:12px">
       <div style="display:flex;gap:10px">
-        <button onclick="closeStoryUpload()"
-          style="flex:1;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
-                 border-radius:14px;padding:14px;color:#fff;font-size:15px;font-weight:700;
-                 cursor:pointer;font-family:Inter,sans-serif">
-          Otkaži
-        </button>
-        <button onclick="uploadStory()" id="story-post-btn"
-          style="flex:2;background:#5fd4c4;border:none;border-radius:14px;padding:14px;
-                 color:#03201c;font-size:15px;font-weight:800;cursor:pointer;
-                 font-family:Inter,sans-serif">
-          Objavi priču
-        </button>
+        <button onclick="closeStoryUpload()" style="flex:1;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:14px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif">Otkaži</button>
+        <button onclick="uploadStory()" id="story-post-btn" style="flex:2;background:#5fd4c4;border:none;border-radius:14px;padding:14px;color:#03201c;font-size:15px;font-weight:800;cursor:pointer;font-family:Inter,sans-serif">Objavi priču</button>
       </div>
     </div>
-
-    <input type="file" id="story-file-input" accept="image/*" style="display:none"
-      onchange="previewStoryImg(this)">
+    <input type="file" id="story-file-input" accept="image/*" multiple style="display:none" onchange="previewStoryImg(this)">
   </div>
 </div>
 <!-- SHARE SHEET -->
@@ -696,7 +716,7 @@ a{text-decoration:none;color:inherit}
     <div><div class="apanel-title">ADMIN PANEL</div><div class="apanel-sub">Ribolovci · Moderacija</div></div>
   </div>
   <div class="apanel-body">
-    <div class="rb-hint" style="margin:0 0 12px">Jezera, foldere i fotografije uređuješ direktno u tabovima Jezera, Ribe i Ulov.</div>
+    <div class="rb-hint" style="margin:0 0 12px">Jezera, foldere i fotografije uređuješ direktno u tabovima Jezera, Slike i Ulov.</div>
     <div class="atab-row">
       <div class="atab-pill on" onclick="adminTab('posts',this)">&#x1F4CB; Objave</div>
       <div class="atab-pill" onclick="adminTab('users',this)">&#x1F465; Korisnici</div>
@@ -899,6 +919,8 @@ function enterApp(welcomeMsg) {
   setTimeout(runAutoCleanup, 3000);
   setTimeout(loadNotifications, 1000);
   startNotifPolling();
+  startTodoListeners();
+  startActivityListener();
 }
 
 function doAuth(btnOrMode) {
@@ -958,7 +980,7 @@ function resetBtn(btn, mode) {
 // ════════════════════════════════════════════════════════════
 // NAVIGACIJA
 // ════════════════════════════════════════════════════════════
-var T_TITLES = { jezera: 'Jezera', ribe: 'Ribe', ulov: 'Ulov', stat: 'Statistika', bihbook: 'Ribolovci' };
+var T_TITLES = { jezera: 'Jezera', ribe: 'Slike', ulov: 'Ulov', stat: 'Statistika', bihbook: 'Ribolovci', nezab: 'Ne zaboravi' };
 function goTab(tab, btn) {
   document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('on'); });
   document.querySelectorAll('.nbtn').forEach(function(b) { b.classList.remove('on'); var d = b.querySelector('.ndot'); if (d) d.remove(); });
@@ -972,6 +994,7 @@ function goTab(tab, btn) {
   if (tab === 'ulov') { if (RB.ulovLake && !RB.folders[RB.ulovLake]) loadFolders(RB.ulovLake, renderUlov); renderUlov(); }
   if (tab === 'stat') { if (RB.statLake) statPickLake(RB.statLake); else renderStat(); }
   if (tab === 'bihbook') { renderBihbook(); loadStories(); }
+  if (tab === 'nezab') renderNezab();
 }
 function goTabKey(tab) { goTab(tab); }
 
@@ -1043,15 +1066,52 @@ function removeImage() {
   togglePost();
 }
 
-function openImgFull(src) {
+function openImgFull(src, name) {
   var o = document.createElement('div');
-  o.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:200;display:flex;align-items:center;justify-content:center;cursor:pointer';
-  o.onclick = function() { document.body.removeChild(o); };
+  o.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:450;display:flex;align-items:center;justify-content:center;cursor:pointer';
+  o.onclick = function() { if (o.parentNode) document.body.removeChild(o); };
   var img = document.createElement('img');
   img.src = src;
-  img.style.cssText = 'max-width:95%;max-height:90vh;border-radius:12px;object-fit:contain';
-  o.appendChild(img);
+  img.style.cssText = 'max-width:95%;max-height:86vh;border-radius:12px;object-fit:contain';
+  var btn = document.createElement('button');
+  btn.innerHTML = '⬇ Sačuvaj';
+  btn.style.cssText = 'position:absolute;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);left:50%;transform:translateX(-50%);background:var(--gold);color:#03201c;border:none;border-radius:22px;padding:11px 22px;font-weight:800;font-size:14px;cursor:pointer;font-family:Inter,sans-serif';
+  btn.onclick = function(e) { e.stopPropagation(); saveImage(img.src, name || 'ribolovci'); };
+  var x = document.createElement('button');
+  x.innerHTML = '&#x2715;';
+  x.style.cssText = 'position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);right:12px;background:rgba(255,255,255,.15);border:none;border-radius:10px;width:40px;height:40px;color:#fff;font-size:17px;cursor:pointer';
+  o.appendChild(img); o.appendChild(btn); o.appendChild(x);
   document.body.appendChild(o);
+}
+
+// ── Spremanje slike na telefon (iPhone: "Sačuvaj sliku" preko dijeljenja) ──
+function dataUrlToFile(dataUrl, name) {
+  var parts = String(dataUrl).split(',');
+  var mime = (parts[0].match(/:(.*?);/) || [])[1] || 'image/jpeg';
+  var bin = atob(parts[1] || ''), n = bin.length, u8 = new Uint8Array(n);
+  while (n--) u8[n] = bin.charCodeAt(n);
+  return new File([u8], name.replace(/[^a-z0-9_-]/gi, '_') + '.jpg', { type: mime });
+}
+function saveImage(src, name) {
+  if (!src) return;
+  if (String(src).indexOf('data:') !== 0) { window.open(src, '_blank'); return; }
+  var file;
+  try { file = dataUrlToFile(src, name || 'ribolovci'); } catch (e) { showToast('Greška pri spremanju'); return; }
+  if (navigator.canShare && navigator.share && navigator.canShare({ files: [file] })) {
+    navigator.share({ files: [file], title: 'Ribolovci' }).catch(function(err) {
+      if (err && err.name !== 'AbortError') fallbackDownload(file);
+    });
+    return;
+  }
+  fallbackDownload(file);
+}
+function fallbackDownload(file) {
+  var url = URL.createObjectURL(file);
+  var a = document.createElement('a');
+  a.href = url; a.download = file.name; a.rel = 'noopener';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function() { URL.revokeObjectURL(url); }, 4000);
+  showToast('⬇ Slika se preuzima...');
 }
 // BIHBOOK — Firebase Realtime
 // ════════════════════════════════════════════════════════════
@@ -1340,6 +1400,7 @@ function submitPost() {
       extractMentions(txt).forEach(function(u) {
         createNotification(u, 'mention_post', { text: txt, postId: ref.id });
       });
+      logActivity('post', (ME.name || 'Neko') + ' je objavio: ' + (txt ? (txt.length > 70 ? txt.slice(0, 70) + '…' : txt) : '📷 fotografiju'), {});
       if (area) area.value = '';
       if (btn) { btn.disabled = false; btn.textContent = 'Objavi'; }
       removeImage(); togglePost();
@@ -1518,6 +1579,7 @@ function doLogout() {
   fbAuth.signOut().then(function() {
     ME = null; votedPoll = null;
     if (RB.lakesUnsub) { RB.lakesUnsub(); RB.lakesUnsub = null; }
+    stopTodoListeners(); stopActivityListener();
     RB.lakes = []; RB.lakesLoaded = false;
     showScreen('s-auth');
     renderAuthForm('login');
@@ -1561,190 +1623,128 @@ function pickStoryBg(color, el) {
   }
 }
 
+// ── Upload priča: više fotografija odjednom, svaka = jedna priča ──
+var storyItems = [];   // [{file, src, text}]
+var storyIdx = 0;
+var storyTextOnly = '';
+
 function openStoryUpload() {
   var modal = document.getElementById('story-upload-modal');
   if (modal) modal.classList.add('open');
   initStoryBgPicker();
+  renderStoryEditor();
 }
 
 function closeStoryUpload() {
   var modal = document.getElementById('story-upload-modal');
   if (modal) modal.classList.remove('open');
-  selectedStoryImageFile = null;
-  var prev = document.getElementById('story-upload-preview');
-  var inp = document.getElementById('story-file-input');
-  if (prev) { prev.style.display = 'none'; prev.src = ''; }
-  if (inp) inp.value = '';
+  storyItems = []; storyIdx = 0; storyTextOnly = '';
+  var inp = document.getElementById('story-file-input'); if (inp) inp.value = '';
+  var ti = document.getElementById('story-text-inp'); if (ti) ti.value = '';
+  var btn = document.getElementById('story-post-btn'); if (btn) { btn.disabled = false; btn.textContent = 'Objavi priču'; }
+  renderStoryEditor();
+}
+
+function storyAreaTap() {
+  if (!storyItems.length) document.getElementById('story-file-input').click();
 }
 
 function previewStoryImg(input) {
-  var file = input.files[0];
-  if (!file) return;
-  if (file.size > 10485760) { showToast('Slika je prevelika! Max. 10MB.'); return; }
-  selectedStoryImageFile = file;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var prev = document.getElementById('story-upload-preview');
-    var placeholder = document.getElementById('story-placeholder');
-    var area = document.getElementById('story-preview-area');
-    if (prev) {
-      prev.src = e.target.result;
-      prev.style.display = 'block';
-      prev.style.transform = 'scale(1) translate(0px,0px)';
-      prev.style.transformOrigin = 'center center';
-      prev.style.cursor = 'grab';
-      // Remove onclick from area so tapping doesn't reopen file picker
-      if (area) area.onclick = null;
-      setupStoryGestures(prev);
-    }
-    if (placeholder) placeholder.style.display = 'none';
-    // Show text overlay input on image
-    setupStoryTextOverlay();
-  };
-  reader.readAsDataURL(file);
-}
-
-function setupStoryGestures(img) {
-  var scale = 1, lastScale = 1;
-  var translateX = 0, translateY = 0;
-  var lastTX = 0, lastTY = 0;
-  var startDist = 0;
-  var isDragging = false;
-  var dragStartX = 0, dragStartY = 0;
-
-  function applyTransform() {
-    img.style.transform = 'scale(' + scale + ') translate(' + translateX + 'px,' + translateY + 'px)';
-  }
-
-  // Pinch to zoom
-  img.parentElement.addEventListener('touchstart', function(e) {
-    if (e.touches.length === 2) {
-      var dx = e.touches[0].clientX - e.touches[1].clientX;
-      var dy = e.touches[0].clientY - e.touches[1].clientY;
-      startDist = Math.sqrt(dx*dx + dy*dy);
-      lastScale = scale;
-    } else if (e.touches.length === 1) {
-      isDragging = true;
-      dragStartX = e.touches[0].clientX - translateX;
-      dragStartY = e.touches[0].clientY - translateY;
-    }
-    e.preventDefault();
-  }, {passive: false});
-
-  img.parentElement.addEventListener('touchmove', function(e) {
-    if (e.touches.length === 2) {
-      var dx = e.touches[0].clientX - e.touches[1].clientX;
-      var dy = e.touches[0].clientY - e.touches[1].clientY;
-      var dist = Math.sqrt(dx*dx + dy*dy);
-      scale = Math.min(Math.max(lastScale * (dist / startDist), 0.5), 4);
-      applyTransform();
-    } else if (e.touches.length === 1 && isDragging) {
-      translateX = e.touches[0].clientX - dragStartX;
-      translateY = e.touches[0].clientY - dragStartY;
-      applyTransform();
-    }
-    e.preventDefault();
-  }, {passive: false});
-
-  img.parentElement.addEventListener('touchend', function(e) {
-    isDragging = false;
-    lastScale = scale;
-    lastTX = translateX;
-    lastTY = translateY;
+  var files = Array.prototype.slice.call(input.files || []);
+  input.value = '';
+  if (!files.length) return;
+  var tooBig = 0, pending = 0, firstNew = storyItems.length;
+  files.forEach(function(file) {
+    if (file.size > 15728640) { tooBig++; return; }
+    if (storyItems.length + pending >= 10) return;
+    pending++;
+    var item = { file: file, src: '', text: '' };
+    storyItems.push(item);
+    var reader = new FileReader();
+    reader.onload = function(e) { item.src = e.target.result; renderStoryEditor(); };
+    reader.readAsDataURL(file);
   });
-
-  // Double tap to reset
-  var lastTap = 0;
-  img.parentElement.addEventListener('touchend', function(e) {
-    var now = Date.now();
-    if (now - lastTap < 300) {
-      scale = 1; translateX = 0; translateY = 0; applyTransform();
-    }
-    lastTap = now;
-  });
+  if (tooBig) showToast('Neke slike su prevelike (max. 15MB)');
+  if (storyItems.length >= 10 && files.length > pending) showToast('Max. 10 priča odjednom');
+  if (storyItems.length > firstNew) storyIdx = firstNew;
+  renderStoryEditor();
 }
 
-function setupStoryTextOverlay() {
-  var area = document.getElementById('story-preview-area');
-  if (!area) return;
-  // Add draggable text overlay on the image
-  var existing = document.getElementById('story-overlay-text');
-  if (!existing) {
-    var overlay = document.createElement('div');
-    overlay.id = 'story-overlay-text';
-    overlay.contentEditable = 'true';
-    overlay.style.cssText = 'position:absolute;z-index:10;color:#fff;font-size:22px;font-weight:800;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.9);outline:none;cursor:move;user-select:none;min-width:60px;min-height:30px;padding:6px 10px;border-radius:8px;background:rgba(0,0,0,.0);left:50%;top:50%;transform:translate(-50%,-50%);white-space:pre-wrap;word-break:break-word;max-width:90%';
-    overlay.setAttribute('data-placeholder', 'Upiši tekst...');
-    overlay.innerHTML = '';
-    area.appendChild(overlay);
-    // Make it draggable
-    makeDraggable(overlay);
-    // Focus on tap
-    overlay.addEventListener('click', function(e) { e.stopPropagation(); overlay.focus(); });
+function storySelect(i) { storyIdx = i; renderStoryEditor(); }
+function storyRemoveCurrent() {
+  if (!storyItems.length) return;
+  storyItems.splice(storyIdx, 1);
+  if (storyIdx >= storyItems.length) storyIdx = Math.max(0, storyItems.length - 1);
+  renderStoryEditor();
+}
+function storyTextInput(v) {
+  if (storyItems.length) storyItems[storyIdx].text = v; else storyTextOnly = v;
+  var lt = document.getElementById('story-live-text'); if (lt) lt.textContent = v;
+}
+
+function renderStoryEditor() {
+  var cur = storyItems[storyIdx] || null;
+  var prev = document.getElementById('story-upload-preview');
+  var ph = document.getElementById('story-placeholder');
+  var cnt = document.getElementById('story-counter');
+  var rm = document.getElementById('story-remove-btn');
+  var lt = document.getElementById('story-live-text');
+  var ti = document.getElementById('story-text-inp');
+  var thumbs = document.getElementById('story-thumbs');
+  var btn = document.getElementById('story-post-btn');
+  if (!prev) return;
+  if (cur && cur.src) { prev.src = cur.src; prev.style.display = 'block'; } else { prev.style.display = 'none'; prev.removeAttribute('src'); }
+  ph.style.display = storyItems.length ? 'none' : 'block';
+  cnt.style.display = storyItems.length ? 'block' : 'none';
+  cnt.textContent = (storyIdx + 1) + ' / ' + storyItems.length;
+  rm.style.display = storyItems.length ? 'block' : 'none';
+  var txt = cur ? cur.text : storyTextOnly;
+  if (ti && document.activeElement !== ti) ti.value = txt;
+  if (ti && document.activeElement === ti && ti.value !== txt) ti.value = txt;
+  if (lt) lt.textContent = txt;
+  if (thumbs) {
+    thumbs.innerHTML = storyItems.map(function(it, i) {
+      return '<div class="story-thumb' + (i === storyIdx ? ' on' : '') + '" onclick="storySelect(' + i + ')">' + (it.src ? '<img src="' + it.src + '">' : '') + '</div>';
+    }).join('') + '<div class="story-thumb story-thumb-add" onclick="document.getElementById(\'story-file-input\').click()">＋</div>';
   }
+  if (btn && !btn.disabled) btn.textContent = storyItems.length > 1 ? 'Objavi ' + storyItems.length + ' priče' : 'Objavi priču';
 }
 
-function makeDraggable(el) {
-  var startX, startY, startLeft, startTop;
-  el.addEventListener('touchstart', function(e) {
-    if (e.touches.length !== 1) return;
-    var rect = el.parentElement.getBoundingClientRect();
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    var cs = window.getComputedStyle(el);
-    startLeft = parseFloat(cs.left) || 0;
-    startTop = parseFloat(cs.top) || 0;
-    e.stopPropagation();
-  }, {passive: true});
-  el.addEventListener('touchmove', function(e) {
-    if (e.touches.length !== 1) return;
-    var dx = e.touches[0].clientX - startX;
-    var dy = e.touches[0].clientY - startY;
-    el.style.left = (startLeft + dx) + 'px';
-    el.style.top = (startTop + dy) + 'px';
-    el.style.transform = 'none';
-    e.stopPropagation();
-    e.preventDefault();
-  }, {passive: false});
-}
 function uploadStory() {
   if (!ME) { showToast('Prijavi se!'); return; }
   if (!fbDb) { showToast('Greška veze!'); return; }
-  var textInp = document.getElementById('story-text-inp');
-  var overlayEl = document.getElementById('story-overlay-text');
-  var overlayText = overlayEl ? (overlayEl.innerText || '').trim() : '';
-  var storyText = overlayText || (textInp ? textInp.value.trim() : '');
-  if (!selectedStoryImageFile && !storyText) {
-    showToast('Dodaj fotografiju ili tekst.'); return;
-  }
+  var items = storyItems.slice();
+  if (!items.length && !storyTextOnly.trim()) { showToast('Dodaj fotografiju ili tekst.'); return; }
   var btn = document.getElementById('story-post-btn');
   if (btn) { btn.disabled = true; btn.textContent = '...'; }
-  var expiresAt = new Date(Date.now() + 6 * 60 * 60 * 1000);
+  var bg = selectedStoryBg, ok = 0, fail = 0;
+  var base = Date.now();
 
-  function saveStory(imgUrl) {
-    var sd = {
+  function saveOne(text, imgUrl, i) {
+    return fbDb.collection('stories').add({
       uid: ME.uid, displayName: ME.name, username: ME.username,
-      text: storyText, imageUrl: imgUrl || null, bgColor: selectedStoryBg,
+      text: text || '', imageUrl: imgUrl || null, bgColor: bg,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      expiresAt: expiresAt, views: 0
-    };
-    fbDb.collection('stories').add(sd).then(function() {
-      if (btn) { btn.disabled = false; btn.textContent = 'Objavi'; }
-      closeStoryUpload(); showToast('Priča je 6h aktivna!'); loadStories();
-    }).catch(function(e) {
-      if (btn) { btn.disabled = false; btn.textContent = 'Objavi'; }
-      showToast('Greška: ' + e.message);
+      order: base + i,
+      expiresAt: new Date(base + 6 * 60 * 60 * 1000), views: 0
+    }).then(function() { ok++; }).catch(function() { fail++; });
+  }
+  function finish() {
+    if (btn) btn.disabled = false;
+    if (ok) logActivity('story', (ME.name || 'Neko') + (ok > 1 ? ' je objavio ' + ok + ' nove priče' : ' je objavio novu priču'), {});
+    closeStoryUpload();
+    showToast(fail ? ('⚠️ ' + ok + ' objavljeno, ' + fail + ' greška') : (ok > 1 ? ok + ' priče su 6h aktivne!' : 'Priča je 6h aktivna!'));
+    loadStories();
+  }
+  if (!items.length) { saveOne(storyTextOnly.trim(), null, 0).then(finish); return; }
+  function next(i) {
+    if (i >= items.length) { finish(); return; }
+    if (btn) btn.textContent = '⏫ ' + (i + 1) + '/' + items.length;
+    compressImage(items[i].file, 900, 0.75, function(compressed) {
+      saveOne((items[i].text || '').trim(), compressed, i).then(function() { next(i + 1); });
     });
   }
-
-  if (selectedStoryImageFile) {
-    // Compress to max 900px, 75% quality for stories
-    compressImage(selectedStoryImageFile, 900, 0.75, function(compressed) {
-      saveStory(compressed);
-    });
-  } else {
-    saveStory(null);
-  }
+  next(0);
 }
 function loadStories() {
   if (!fbDb) return;
@@ -1872,8 +1872,13 @@ function viewStoryEl(el) {
 }
 function viewStory(uid) {
   var byUser = window._storiesByUser || {};
-  var stories = byUser[uid] || [];
+  var stories = (byUser[uid] || []).slice();
   if (!stories.length) return;
+  stories.sort(function(a, b) {
+    var ta = a.order || (a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0);
+    var tb = b.order || (b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0);
+    return ta - tb;
+  });
   currentStories = stories;
   currentStoryIndex = 0;
   var modal = document.getElementById('story-modal');
@@ -2529,6 +2534,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
   fbAuth = firebase.auth();
   fbDb = firebase.firestore();
+  // lokalni keš → albumi i ulovi se drugi put otvaraju odmah
+  try { if (fbDb.enablePersistence) fbDb.enablePersistence({ synchronizeTabs: true }).catch(function() {}); } catch (e) {}
 
   // Angemeldet bleiben — auch nach App-Neustart (LOCAL = dauerhaft gespeichert)
   fbAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(function() {
@@ -2717,10 +2724,7 @@ function loadNotifications() {
         return tb - ta;
       });
       window._notifications = notifs;
-      var unread = notifs.filter(function(n) { return !n.read; }).length;
-      if (btn) {
-        btn.innerHTML = '&#x1F514;' + (unread > 0 ? '<span style="position:absolute;top:-2px;right:-2px;background:var(--red);color:#fff;border-radius:50%;width:16px;height:16px;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:800">' + Math.min(unread, 9) + '</span>' : '');
-      }
+      updateBell();
     }).catch(function() {});
 }
 
@@ -2741,10 +2745,11 @@ function openNotifications() {
   var modal = document.getElementById('notif-modal');
   var list = document.getElementById('notif-list');
   if (!modal || !list) return;
-  if (!notifs.length) {
-    list.innerHTML = '<div style="text-align:center;padding:28px;color:var(--gray);font-size:14px">' + 'Nema obavještenja' + '</div>';
+  var act = activityListHTML();
+  if (!notifs.length && !act) {
+    list.innerHTML = notifPermissionHTML() + '<div style="text-align:center;padding:28px;color:var(--gray);font-size:14px">Nema obavještenja</div>';
   } else {
-    list.innerHTML = notifs.map(function(n) {
+    list.innerHTML = notifPermissionHTML() + act + (notifs.length ? '<div class="notif-sec">Spominjanja i odgovori</div>' : '') + notifs.map(function(n) {
       var ts = n.createdAt && n.createdAt.toDate ? n.createdAt.toDate().toLocaleDateString('bs-BA', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
       var txt = _esc(n.text || '').replace(/@(\w+)/g, '<span style="color:var(--gold);font-weight:700">@$1</span>');
       var dot = n.read ? '' : '<span style="width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:6px"></span>';
@@ -2757,6 +2762,7 @@ function openNotifications() {
     }).join('');
   }
   modal.classList.add('open');
+  setTimeout(markActivitySeen, 400);
 }
 
 // Klick auf Benachrichtigung → als gelesen markieren + zur Quelle navigieren
@@ -2825,7 +2831,7 @@ var FISH = [
   { k: 'Šaran', c: '#60a5fa' }
 ];
 var WEATHER = [
-  { k: 'Sunce', e: '☀️' }, { k: 'Kiša', e: '🌧️' }, { k: 'Oblačno', e: '☁️' }, { k: 'Puni mjesec', e: '🌕' }
+  { k: 'Sunce', e: '☀️' }, { k: 'Kiša', e: '🌧️' }, { k: 'Oblačno', e: '☁️' }, { k: 'Bez oblaka', e: '✨' }, { k: 'Puni mjesec', e: '🌕' }
 ];
 var METHODS = [
   { k: 'Mamac', e: '🪱', ph: 'npr. živi mamac, glista, riblji komad...' },
@@ -2900,6 +2906,7 @@ function startLakesListener() {
     arr.sort(function(a, b) { return (a.name || '').localeCompare(b.name || '', 'bs'); });
     RB.lakes = arr; RB.lakesLoaded = true;
     refreshActiveTab();
+    if (isAdmin() && !snap.metadata.fromCache) arr.forEach(function(l) { if (l.photo && !l.thumb) migrateLakePhoto(l); });
   }, function(err) {
     RB.lakesLoaded = true;
     var el = document.getElementById('jezera-inner');
@@ -2917,7 +2924,41 @@ function refreshActiveTab() {
 }
 
 function lakeThumb(l, cls) {
-  return l.photo ? '<img class="' + cls + '" src="' + l.photo + '" alt="" loading="lazy">' : '<div class="' + cls + ' rb-noimg">🏞️</div>';
+  var src = l.thumb || l.photo;
+  return src ? '<img class="' + cls + '" src="' + src + '" alt="" decoding="async">' : '<div class="' + cls + ' rb-noimg">🏞️</div>';
+}
+
+// ── Fotografija jezera: mala (thumb) u listi, puna se učitava tek kad treba ──
+RB.lakeFull = {};
+function lakeHasPhoto(l) { return !!(l && (l.photo || l.thumb)); }
+function lakeImgNow(l) { return (l && (RB.lakeFull[l.id] || l.photo || l.thumb)) || ''; }
+function getLakePhoto(l, cb) {
+  if (!l) { cb(null); return; }
+  if (RB.lakeFull[l.id]) { cb(RB.lakeFull[l.id]); return; }
+  if (l.photo) { RB.lakeFull[l.id] = l.photo; cb(l.photo); return; }
+  fbDb.collection('rb_lake_full').doc(l.id).get().then(function(d) {
+    var u = d.exists && d.data().imageUrl;
+    if (u) RB.lakeFull[l.id] = u;
+    cb(u || l.thumb || null);
+  }).catch(function() { cb(l.thumb || null); });
+}
+// zamijeni sve <img data-lakefull="id"> punom slikom kad stigne
+function upgradeLakeImgs(l) {
+  if (!lakeHasPhoto(l)) return;
+  getLakePhoto(l, function(u) {
+    if (!u) return;
+    document.querySelectorAll('img[data-lakefull="' + l.id + '"]').forEach(function(im) { if (im.src !== u) im.src = u; });
+  });
+}
+function migrateLakePhoto(l) {
+  if (RB['_mig_' + l.id]) return; RB['_mig_' + l.id] = 1;
+  thumbFromData(l.photo, 640, function(th) {
+    if (!th) return;
+    RB.lakeFull[l.id] = l.photo;
+    fbDb.collection('rb_lake_full').doc(l.id).set({ imageUrl: l.photo })
+      .then(function() { return fbDb.collection('rb_lakes').doc(l.id).update({ thumb: th, photo: firebase.firestore.FieldValue.delete() }); })
+      .catch(function() {});
+  });
 }
 
 function renderJezera() {
@@ -2947,7 +2988,7 @@ function lakeMapQuery(l) {
 function openLake(id) {
   var l = lakeById(id); if (!l) return;
   var q = lakeMapQuery(l);
-  var h = (l.photo ? '<img class="ld-photo" src="' + l.photo + '" onclick="openImgFull(this.src)">' : '') +
+  var h = (lakeHasPhoto(l) ? '<img class="ld-photo" data-lakefull="' + l.id + '" src="' + lakeImgNow(l) + '" onclick="openImgFull(this.src, \'jezero\')">' : '') +
     '<div class="ld-name">' + _esc(l.name) + '</div>' +
     (l.address ? '<div class="ld-addr">📍 ' + _esc(l.address) + '</div>' : '') +
     (l.lat != null && l.lat !== '' ? '<div class="ld-coords" onclick="copyCoords(\'' + l.id + '\')">🌐 ' + Number(l.lat).toFixed(5) + ', ' + Number(l.lng).toFixed(5) + ' <span>kopiraj</span></div>' : '') +
@@ -2958,12 +2999,13 @@ function openLake(id) {
     '<div class="ld-map"><iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=' + q + '&z=14&t=k&output=embed"></iframe></div>' +
     (l.note ? '<div class="ld-note"><div class="rb-label">Napomena</div>' + _esc(l.note).replace(/\n/g, '<br>') + '</div>' : '') +
     '<div class="ld-quick">' +
-      '<div onclick="rbSheetClose();goTabKey(\'ribe\');ribePickLake(\'' + l.id + '\')">📸<span>Ribe</span></div>' +
+      '<div onclick="rbSheetClose();goTabKey(\'ribe\');ribePickLake(\'' + l.id + '\')">📸<span>Slike</span></div>' +
       '<div onclick="rbSheetClose();goTabKey(\'ulov\');ulovPickLake(\'' + l.id + '\')">🐟<span>Ulov</span></div>' +
       '<div onclick="rbSheetClose();goTabKey(\'stat\');statPickLake(\'' + l.id + '\')">📊<span>Statistika</span></div>' +
     '</div>' +
     (isAdmin() ? '<div class="ld-admin"><button class="rb-btn" onclick="openLakeForm(\'' + l.id + '\')">✏️ Uredi</button><button class="rb-btn rb-btn-del" onclick="deleteLake(\'' + l.id + '\')">🗑 Obriši jezero</button></div>' : '');
   rbSheet('🏞️ ' + (l.name || 'Jezero'), h);
+  upgradeLakeImgs(l);
 }
 
 function copyCoords(id) {
@@ -3007,7 +3049,7 @@ function openGoogleMapsIOS(dest) {
 function openLakeForm(id) {
   if (!isAdmin()) return;
   var l = id ? lakeById(id) : null;
-  RB.lakeFormPhoto = l ? (l.photo || null) : null;
+  RB.lakeFormPhoto = l ? (lakeImgNow(l) || null) : null; RB.lakeFormChanged = false;
   var h = '<input type="hidden" id="lf-id" value="' + (l ? l.id : '') + '">' +
     '<div class="rb-label">Naziv jezera *</div><input class="poll-inp" id="lf-name" placeholder="npr. Nancy" value="' + _esc(l ? l.name : '') + '">' +
     '<div class="rb-label">Google Maps link ili koordinate</div>' +
@@ -3024,6 +3066,10 @@ function openLakeForm(id) {
     '</div>' +
     '<button class="apin-btn" id="lf-save" onclick="saveLake()">💾 Spremi jezero</button>';
   rbSheet(l ? '✏️ Uredi jezero' : '＋ Novo jezero', h);
+  if (l && lakeHasPhoto(l)) getLakePhoto(l, function(u) {
+    if (!u || RB.lakeFormChanged) return;
+    RB.lakeFormPhoto = u; var p = document.getElementById('lf-prev'); if (p) p.src = u;
+  });
 }
 
 function parseCoords(s) {
@@ -3062,7 +3108,7 @@ function lfMyLocation() {
 function lfPhoto(input) {
   var f = input.files[0]; if (!f) return;
   compressImage(f, 1200, 0.75, function(data) {
-    RB.lakeFormPhoto = data;
+    RB.lakeFormPhoto = data; RB.lakeFormChanged = true;
     var p = document.getElementById('lf-prev'); p.src = data; p.style.display = 'block';
     var ph = document.getElementById('lf-ph'); if (ph) ph.style.display = 'none';
   });
@@ -3082,14 +3128,30 @@ function saveLake() {
     lng: lng !== '' ? parseFloat(lng) : null,
     address: document.getElementById('lf-addr').value.trim(),
     note: document.getElementById('lf-note').value.trim(),
-    photo: RB.lakeFormPhoto,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
   var btn = document.getElementById('lf-save'); btn.disabled = true; btn.textContent = '...';
-  var p = id ? fbDb.collection('rb_lakes').doc(id).set(data, { merge: true })
-             : fbDb.collection('rb_lakes').add(Object.assign({ createdAt: firebase.firestore.FieldValue.serverTimestamp(), createdBy: ME.uid }, data));
-  p.then(function() { rbSheetClose(); showToast('✅ Jezero spremljeno!'); })
-   .catch(function(e) { btn.disabled = false; btn.textContent = '💾 Spremi jezero'; showToast('Greška: ' + e.message); });
+  var old = id ? lakeById(id) : null;
+  var ref = id ? fbDb.collection('rb_lakes').doc(id) : fbDb.collection('rb_lakes').doc();
+  // nova ili stara (legacy) slika → napravi thumb + spremi punu sliku odvojeno
+  var needPhoto = !id || RB.lakeFormChanged || (old && old.photo && !old.thumb);
+  function write(thumb) {
+    var batch = fbDb.batch();
+    if (thumb) {
+      batch.set(fbDb.collection('rb_lake_full').doc(ref.id), { imageUrl: RB.lakeFormPhoto });
+      data.thumb = thumb;
+      if (id) data.photo = firebase.firestore.FieldValue.delete();
+      RB.lakeFull[ref.id] = RB.lakeFormPhoto;
+    }
+    if (id) batch.set(ref, data, { merge: true });
+    else batch.set(ref, Object.assign({ createdAt: firebase.firestore.FieldValue.serverTimestamp(), createdBy: ME.uid }, data));
+    batch.commit().then(function() {
+      rbSheetClose(); showToast('✅ Jezero spremljeno!');
+      if (!id) logActivity('lake', ME.name + ' je dodao novo jezero: ' + name, { lakeId: ref.id });
+    }).catch(function(e) { btn.disabled = false; btn.textContent = '💾 Spremi jezero'; showToast('Greška: ' + e.message); });
+  }
+  if (needPhoto) thumbFromData(RB.lakeFormPhoto, 640, function(th) { write(th); });
+  else write(null);
 }
 function deleteLake(id) {
   if (!isAdmin()) return;
@@ -3099,7 +3161,7 @@ function deleteLake(id) {
     .catch(function(e) { showToast('Greška: ' + e.message); });
 }
 
-// ── Izbor jezera (zajednički za Ribe / Ulov / Statistika) ──
+// ── Izbor jezera (zajednički za Slike / Ulov / Statistika) ──
 function lakePickerHTML(fn, sub) {
   if (!RB.lakesLoaded) return '<div class="rb-load">Učitavam jezera...</div>';
   if (!RB.lakes.length) return rbEmpty('🏞️', 'Još nema jezera', 'Jezera dodaje admin u tabu „Jezera".');
@@ -3110,7 +3172,7 @@ function lakePickerHTML(fn, sub) {
 
 // ── Folderi (sesije) ──
 function loadFolders(lakeId, cb) {
-  fbDb.collection('rb_folders').where('lakeId', '==', lakeId).get().then(function(snap) {
+  fastGet(fbDb.collection('rb_folders').where('lakeId', '==', lakeId), function(snap) {
     var arr = [];
     snap.forEach(function(doc) { arr.push(Object.assign({ id: doc.id }, doc.data())); });
     arr.sort(function(a, b) { return (b.date || '').localeCompare(a.date || '') || tsMs(b) - tsMs(a); });
@@ -3127,28 +3189,35 @@ function foldersHTML(lakeId, fn) {
   return h + arr.map(function(f) {
     return '<div class="folder-row fu" onclick="' + fn + '(\'' + f.id + '\')"><div class="folder-ic">📁</div>' +
       '<div style="flex:1;min-width:0"><div class="folder-n">' + _esc(f.name) + '</div><div class="folder-d">' + (f.date ? '📅 ' + fmtDate(f.date) : '') + '</div></div>' +
-      (isAdmin() ? '<button class="amod-del" onclick="event.stopPropagation();deleteFolder(\'' + lakeId + '\',\'' + f.id + '\')">🗑</button>' : '<span class="folder-go">›</span>') + '</div>';
+      (isAdmin() ? '<div class="folder-btns"><button class="folder-edit" onclick="event.stopPropagation();openFolderForm(\'' + lakeId + '\',\'' + f.id + '\')">✏️</button>' +
+        '<button class="amod-del" onclick="event.stopPropagation();deleteFolder(\'' + lakeId + '\',\'' + f.id + '\')">🗑</button></div>' : '<span class="folder-go">›</span>') + '</div>';
   }).join('');
 }
-function openFolderForm(lakeId) {
+// novi folder ili preimenovanje postojećeg (fid)
+function openFolderForm(lakeId, fid) {
   if (!isAdmin()) return;
   var l = lakeById(lakeId);
-  rbSheet('📁 Novi folder – ' + (l ? l.name : ''),
-    '<div class="rb-label">Naziv foldera / sesije *</div><input class="poll-inp" id="ff-name" placeholder="npr. Sesija jun 2026">' +
-    '<div class="rb-label">Datum</div><input class="poll-inp" id="ff-date" type="date" value="' + todayISO() + '">' +
-    '<div class="rb-hint">U ovaj folder svi članovi mogu dodavati fotografije (Ribe) i ulove (Ulov).</div>' +
-    '<button class="apin-btn" onclick="saveFolder(\'' + lakeId + '\')">📁 Napravi folder</button>');
+  var f = fid ? folderById(lakeId, fid) : null;
+  rbSheet((f ? '✏️ Preimenuj folder' : '📁 Novi folder') + ' – ' + (l ? l.name : ''),
+    '<div class="rb-label">Naziv foldera / sesije *</div><input class="poll-inp" id="ff-name" placeholder="npr. Sesija jun 2026" value="' + _esc(f ? f.name : '') + '">' +
+    '<div class="rb-label">Datum</div><input class="poll-inp" id="ff-date" type="date" value="' + (f ? (f.date || '') : todayISO()) + '">' +
+    '<div class="rb-hint">U ovaj folder svi članovi mogu dodavati fotografije (Slike) i ulove (Ulov).' + (f ? ' Fotografije i ulovi ostaju u folderu.' : '') + '</div>' +
+    '<button class="apin-btn" id="ff-save" onclick="saveFolder(\'' + lakeId + '\'' + (f ? ',\'' + f.id + '\'' : '') + ')">' + (f ? '💾 Spremi naziv' : '📁 Napravi folder') + '</button>');
+  setTimeout(function() { var i = document.getElementById('ff-name'); if (i && f) { i.focus(); i.select(); } }, 250);
 }
-function saveFolder(lakeId) {
+function saveFolder(lakeId, fid) {
   var name = document.getElementById('ff-name').value.trim();
+  var date = document.getElementById('ff-date').value || '';
   if (!name) { showToast('Naziv je obavezan!'); return; }
-  fbDb.collection('rb_folders').add({
-    lakeId: lakeId, name: name, date: document.getElementById('ff-date').value || '',
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(), createdBy: ME.uid
-  }).then(function() {
-    rbSheetClose(); showToast('✅ Folder napravljen!');
+  var btn = document.getElementById('ff-save'); if (btn) btn.disabled = true;
+  var p = fid
+    ? fbDb.collection('rb_folders').doc(fid).update({ name: name, date: date, updatedAt: firebase.firestore.FieldValue.serverTimestamp() })
+    : fbDb.collection('rb_folders').add({ lakeId: lakeId, name: name, date: date, createdAt: firebase.firestore.FieldValue.serverTimestamp(), createdBy: ME.uid });
+  p.then(function(ref) {
+    rbSheetClose(); showToast(fid ? '✅ Folder preimenovan!' : '✅ Folder napravljen!');
+    if (!fid) { var l = lakeById(lakeId); logActivity('folder', 'Novi folder „' + name + '" na jezeru ' + (l ? l.name : ''), { lakeId: lakeId, folderId: ref && ref.id }); }
     loadFolders(lakeId, function() { refreshActiveTab(); });
-  }).catch(function(e) { showToast('Greška: ' + e.message); });
+  }).catch(function(e) { if (btn) btn.disabled = false; showToast('Greška: ' + e.message); });
 }
 function deleteFolder(lakeId, fid) {
   if (!isAdmin()) return;
@@ -3156,7 +3225,7 @@ function deleteFolder(lakeId, fid) {
   if (!confirm('Obrisati folder "' + (f ? f.name : '') + '" i sve fotografije u njemu?')) return;
   fbDb.collection('rb_photos').where('folderId', '==', fid).get().then(function(snap) {
     var batch = fbDb.batch();
-    snap.forEach(function(d) { batch.delete(d.ref); });
+    snap.forEach(function(d) { batch.delete(d.ref); batch.delete(fbDb.collection('rb_photo_full').doc(d.id)); });
     batch.delete(fbDb.collection('rb_folders').doc(fid));
     return batch.commit();
   }).then(function() {
@@ -3192,62 +3261,151 @@ function renderRibe() {
   loadAlbum();
 }
 
+// ── Brza obrada slika: mala sličica (thumb) + puna slika odvojeno ──
+function loadImg(src, cb) {
+  var img = new Image();
+  img.onload = function() { cb(img); };
+  img.onerror = function() { cb(null); };
+  img.src = src;
+}
+function drawJpeg(img, maxW, q) {
+  var w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+  var s = Math.min(1, maxW / Math.max(w, h));
+  var c = document.createElement('canvas');
+  c.width = Math.round(w * s); c.height = Math.round(h * s);
+  c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+  return c.toDataURL('image/jpeg', q);
+}
+// file → {full, thumb}; full ostaje ispod Firestore limita (1MB)
+function makeImages(file, thumbW, cb) {
+  var url = URL.createObjectURL(file);
+  loadImg(url, function(img) {
+    URL.revokeObjectURL(url);
+    if (!img) { cb(null); return; }
+    var full = drawJpeg(img, 1600, 0.8);
+    if (full.length > 900000) full = drawJpeg(img, 1400, 0.7);
+    if (full.length > 900000) full = drawJpeg(img, 1100, 0.65);
+    cb({ full: full, thumb: drawJpeg(img, thumbW, 0.62) });
+  });
+}
+function thumbFromData(dataUrl, w, cb) { loadImg(dataUrl, function(img) { cb(img ? drawJpeg(img, w, 0.62) : null); }); }
+
+// Prvo pokaži iz keša (odmah), zatim osvježi sa servera
+function fastGet(query, render) {
+  var shown = false;
+  query.get({ source: 'cache' }).then(function(snap) { if (!snap.empty) { shown = true; render(snap, true); } }).catch(function() {});
+  return query.get().then(function(snap) { render(snap, false); }).catch(function(e) { if (!shown) throw e; });
+}
+
+RB.full = {}; // id -> puna slika (keš u memoriji)
+
 function loadAlbum() {
   var fid = RB.ribeFolder;
-  fbDb.collection('rb_photos').where('folderId', '==', fid).get().then(function(snap) {
+  fastGet(fbDb.collection('rb_photos').where('folderId', '==', fid), function(snap, fromCache) {
     if (fid !== RB.ribeFolder) return;
     var arr = [];
     snap.forEach(function(doc) { arr.push(Object.assign({ id: doc.id }, doc.data())); });
     arr.sort(function(a, b) { return tsMs(b) - tsMs(a); });
     window._albumPhotos = arr;
     var g = document.getElementById('ribe-grid'); if (!g) return;
-    if (!arr.length) { g.innerHTML = '<div style="grid-column:1/-1">' + rbEmpty('🖼️', 'Album je prazan', 'Dodaj prve fotografije!') + '</div>'; return; }
+    if (!arr.length) { if (!fromCache) g.innerHTML = '<div style="grid-column:1/-1">' + rbEmpty('🖼️', 'Album je prazan', 'Dodaj prve fotografije!') + '</div>'; return; }
     g.innerHTML = arr.map(function(p, i) {
-      return '<div class="photo-cell" onclick="openAlbumPhoto(' + i + ')"><img src="' + p.imageUrl + '" loading="lazy"></div>';
+      return '<div class="photo-cell" onclick="openAlbumPhoto(' + i + ')"><img src="' + (p.thumb || p.imageUrl) + '" decoding="async"></div>';
     }).join('');
+    if (!fromCache) migrateLegacy('rb_photos', 'rb_photo_full', arr, 360);
   }).catch(function(e) {
     var g = document.getElementById('ribe-grid'); if (g) g.innerHTML = '<div style="grid-column:1/-1;color:var(--red);font-size:13px">Greška: ' + _esc(e.message) + '</div>';
   });
 }
 
-function ribeUpload(input) {
-  var files = Array.prototype.slice.call(input.files || []);
-  if (!files.length || !ME) return;
-  var lakeId = RB.ribeLake, fid = RB.ribeFolder;
-  var prog = document.getElementById('ribe-progress');
-  var done = 0, failed = 0;
-  if (prog) { prog.style.display = 'block'; prog.textContent = '⏫ Učitavam 0/' + files.length + '...'; }
+// Stari zapisi (puna slika u dokumentu) → jednom se pretvore u sličicu + odvojenu punu sliku
+function migrateLegacy(col, fullCol, arr, w) {
+  var todo = arr.filter(function(p) { return p.imageUrl && !p.thumb; });
   function next(i) {
-    if (i >= files.length) {
-      input.value = '';
-      if (prog) prog.style.display = 'none';
-      showToast(failed ? ('⚠️ ' + done + ' spremljeno, ' + failed + ' greška') : ('✅ ' + done + ' fotografija dodano!'));
-      if (fid === RB.ribeFolder) loadAlbum();
-      return;
-    }
-    compressImage(files[i], 1280, 0.72, function(data) {
-      fbDb.collection('rb_photos').add({
-        lakeId: lakeId, folderId: fid, imageUrl: data,
-        uid: ME.uid, username: ME.username, displayName: ME.name,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(function() { done++; }).catch(function() { failed++; }).then(function() {
-        if (prog) prog.textContent = '⏫ Učitavam ' + (i + 1) + '/' + files.length + '...';
-        next(i + 1);
-      });
+    if (i >= todo.length) return;
+    var p = todo[i];
+    thumbFromData(p.imageUrl, w, function(th) {
+      if (!th) { next(i + 1); return; }
+      RB.full[p.id] = p.imageUrl;
+      fbDb.collection(fullCol).doc(p.id).set({ imageUrl: p.imageUrl, folderId: p.folderId || '', lakeId: p.lakeId || '' })
+        .then(function() { return fbDb.collection(col).doc(p.id).update({ thumb: th, imageUrl: firebase.firestore.FieldValue.delete() }); })
+        .then(function() { p.thumb = th; delete p.imageUrl; })
+        .catch(function() {}).then(function() { next(i + 1); });
     });
   }
   next(0);
+}
+
+function getFull(fullCol, item, cb) {
+  if (RB.full[item.id]) { cb(RB.full[item.id]); return; }
+  if (item.imageUrl) { RB.full[item.id] = item.imageUrl; cb(item.imageUrl); return; }
+  fbDb.collection(fullCol).doc(item.id).get().then(function(d) {
+    var u = d.exists && d.data().imageUrl;
+    if (u) RB.full[item.id] = u;
+    cb(u || null);
+  }).catch(function() { cb(null); });
+}
+
+function ribeUpload(input) {
+  var files = Array.prototype.slice.call(input.files || []);
+  input.value = '';
+  if (!files.length || !ME) return;
+  var lakeId = RB.ribeLake, fid = RB.ribeFolder;
+  var prog = document.getElementById('ribe-progress');
+  var done = 0, failed = 0, finished = 0, idx = 0, total = files.length;
+  if (prog) { prog.style.display = 'block'; prog.textContent = '⏫ Učitavam 0/' + total + '...'; }
+  function one() {
+    if (idx >= total) return;
+    var file = files[idx++];
+    makeImages(file, 360, function(im) {
+      if (!im) { failed++; step(); return; }
+      var ref = fbDb.collection('rb_photos').doc();
+      RB.full[ref.id] = im.full;
+      var batch = fbDb.batch();
+      batch.set(fbDb.collection('rb_photo_full').doc(ref.id), { imageUrl: im.full, folderId: fid, lakeId: lakeId });
+      batch.set(ref, {
+        lakeId: lakeId, folderId: fid, thumb: im.thumb,
+        uid: ME.uid, username: ME.username, displayName: ME.name,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      batch.commit().then(function() { done++; }).catch(function() { failed++; }).then(step);
+    });
+  }
+  function step() {
+    finished++;
+    if (prog) prog.textContent = '⏫ Učitavam ' + finished + '/' + total + '...';
+    if (finished >= total) {
+      if (prog) prog.style.display = 'none';
+      showToast(failed ? ('⚠️ ' + done + ' spremljeno, ' + failed + ' greška') : ('✅ ' + done + ' fotografija dodano!'));
+      if (done) { var L = lakeById(lakeId), F = folderById(lakeId, fid); logActivity('photos', (ME.name || 'Neko') + ' je dodao ' + done + (done === 1 ? ' fotografiju' : ' fotografija') + ' · ' + (L ? L.name : '') + (F ? ' › ' + F.name : ''), { lakeId: lakeId, folderId: fid }); }
+      if (fid === RB.ribeFolder) loadAlbum();
+    } else one();
+  }
+  // 3 slike paralelno
+  for (var k = 0; k < Math.min(3, total); k++) one();
 }
 
 function openAlbumPhoto(i) {
   var arr = window._albumPhotos || []; var p = arr[i]; if (!p) return;
   window._albumIdx = i;
   var v = document.getElementById('photo-viewer');
-  document.getElementById('pv-img').src = p.imageUrl;
+  var img = document.getElementById('pv-img');
+  img.src = RB.full[p.id] || p.thumb || p.imageUrl || '';
   var ts = p.createdAt && p.createdAt.toDate ? p.createdAt.toDate().toLocaleDateString('bs-BA', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '';
   document.getElementById('pv-meta').textContent = '@' + (p.username || '') + (ts ? ' · ' + ts : '') + '  (' + (i + 1) + '/' + arr.length + ')';
   document.getElementById('pv-del').style.display = isAdmin() ? 'flex' : 'none';
+  var dl = document.getElementById('pv-dl');
   v.classList.add('open');
+  if (!RB.full[p.id]) {
+    dl.innerHTML = '⏳'; dl.disabled = true;
+    getFull('rb_photo_full', p, function(u) {
+      if (window._albumIdx !== i) return;
+      if (u) img.src = u;
+      dl.innerHTML = '⬇'; dl.disabled = false;
+    });
+  } else { dl.innerHTML = '⬇'; dl.disabled = false; }
+  // unaprijed učitaj susjedne
+  [i + 1, i - 1].forEach(function(j) { var q = arr[(j + arr.length) % arr.length]; if (q && !RB.full[q.id]) getFull('rb_photo_full', q, function() {}); });
 }
 function albumNav(d) {
   var arr = window._albumPhotos || []; if (!arr.length) return;
@@ -3258,14 +3416,18 @@ function deleteAlbumPhoto() {
   if (!isAdmin()) { showToast('Samo admin može brisati!'); return; }
   var p = (window._albumPhotos || [])[window._albumIdx]; if (!p) return;
   if (!confirm('Obrisati ovu fotografiju?')) return;
-  fbDb.collection('rb_photos').doc(p.id).delete().then(function() {
+  var batch = fbDb.batch();
+  batch.delete(fbDb.collection('rb_photos').doc(p.id));
+  batch.delete(fbDb.collection('rb_photo_full').doc(p.id));
+  batch.commit().then(function() {
+    delete RB.full[p.id];
     closePhotoViewer(); showToast('Fotografija obrisana'); loadAlbum();
   }).catch(function(e) { showToast('Greška: ' + e.message); });
 }
 function downloadAlbumPhoto() {
   var p = (window._albumPhotos || [])[window._albumIdx]; if (!p) return;
-  var a = document.createElement('a'); a.href = p.imageUrl; a.download = 'ribolovci-' + p.id + '.jpg';
-  document.body.appendChild(a); a.click(); a.remove();
+  var src = RB.full[p.id] || document.getElementById('pv-img').src;
+  saveImage(src, 'ribolovci-' + p.id);
 }
 
 // ════════════════════════════════════════════════════════════
@@ -3293,16 +3455,17 @@ function renderUlov() {
 
 function loadCatches() {
   var fid = RB.ulovFolder;
-  fbDb.collection('rb_catches').where('folderId', '==', fid).get().then(function(snap) {
+  fastGet(fbDb.collection('rb_catches').where('folderId', '==', fid), function(snap, fromCache) {
     if (fid !== RB.ulovFolder) return;
     var arr = [];
     snap.forEach(function(doc) { arr.push(Object.assign({ id: doc.id }, doc.data())); });
     arr.sort(function(a, b) { return ((b.date || '') + (b.time || '')).localeCompare((a.date || '') + (a.time || '')); });
     window._catchList = arr;
     var box = document.getElementById('ulov-list'); if (!box) return;
-    if (!arr.length) { box.innerHTML = rbEmpty('🐟', 'Još nema ulova u ovom folderu', 'Budi prvi – klikni „Dodaj ulov".'); return; }
+    if (!arr.length) { if (!fromCache) box.innerHTML = rbEmpty('🐟', 'Još nema ulova u ovom folderu', 'Budi prvi – klikni „Dodaj ulov".'); return; }
     var lake = lakeById(RB.ulovLake) || {};
     box.innerHTML = '<div class="rb-sub">' + arr.length + ' ' + (arr.length === 1 ? 'ulov' : 'ulova') + '</div>' + arr.map(function(c) { return catchCardHTML(c, lake); }).join('');
+    if (!fromCache) migrateLegacy('rb_catches', 'rb_catch_full', arr, 720);
   }).catch(function(e) {
     var box = document.getElementById('ulov-list'); if (box) box.innerHTML = '<div style="color:var(--red);font-size:13px">Greška: ' + _esc(e.message) + '</div>';
   });
@@ -3312,23 +3475,47 @@ function catchCardHTML(c, lake) {
   var col = fishColor(c.fish);
   var weather = (c.weather || []).map(function(w) { return '<span class="cc-chip">' + weatherEmoji(w) + ' ' + _esc(w) + '</span>'; }).join('');
   return '<div class="catch-card fu">' +
-    (c.imageUrl ? '<img class="cc-img" src="' + c.imageUrl + '" onclick="openImgFull(this.src)" loading="lazy">' : '') +
+    ((c.thumb || c.imageUrl) ? '<img class="cc-img" src="' + (c.thumb || c.imageUrl) + '" onclick="openCatchImg(\'' + c.id + '\')" decoding="async">' : '') +
     '<div class="cc-body">' +
       '<div class="cc-top"><span class="cc-fish" style="background:' + col + '22;color:' + col + ';border-color:' + col + '66">🐟 ' + _esc(c.fish) + '</span>' +
+      (c.kg ? '<span class="cc-kg">⚖️ ' + fmtKg(c.kg) + '</span>' : '') +
       '<span class="cc-who">' + _esc(c.name || '') + '</span>' +
       (isAdmin() ? '<button class="amod-del" style="margin-left:auto" onclick="deleteCatch(\'' + c.id + '\')">🗑</button>' : '') + '</div>' +
       '<div class="cc-when">📅 ' + fmtDate(c.date) + ' · 🕐 ' + _esc(c.time || '') + '</div>' +
-      '<div class="cc-chips">' + weather + '</div>' +
+      '<div class="cc-chips">' + weather + wxChips(c) + '</div>' +
       '<div class="cc-bait">' + methodEmoji(c.method) + ' <b>' + _esc(c.method || '') + '</b>' + (c.bait ? ' – ' + _esc(c.bait) : '') + '</div>' +
-      (lake.photo && c.spotX != null ? '<div class="cc-spot-toggle" onclick="this.nextElementSibling.classList.toggle(\'open\')">📍 Gdje je ulovljena?</div>' +
-        '<div class="cc-spot"><div class="spot-wrap"><img src="' + lake.photo + '"><div class="spot-pin" style="left:' + (c.spotX * 100) + '%;top:' + (c.spotY * 100) + '%;background:' + col + '"></div></div></div>' : '') +
+      (lakeHasPhoto(lake) && c.spotX != null ? '<div class="cc-spot-toggle" onclick="this.nextElementSibling.classList.toggle(\'open\')">📍 Gdje je ulovljena?</div>' +
+        '<div class="cc-spot"><div class="spot-wrap"><img src="' + lakeImgNow(lake) + '" decoding="async"><div class="spot-pin" style="left:' + (c.spotX * 100) + '%;top:' + (c.spotY * 100) + '%;background:' + col + '"></div></div></div>' : '') +
     '</div></div>';
 }
 
+function wxChips(c) {
+  var h = '';
+  if (c.tempC != null) h += '<span class="cc-chip cc-temp">🌡️ ' + fmtNum(c.tempC) + ' °C</span>';
+  if (c.pressure != null) h += '<span class="cc-chip">🧭 ' + Math.round(c.pressure) + ' hPa</span>';
+  if (c.windKmh != null) h += '<span class="cc-chip">💨 ' + Math.round(c.windKmh) + ' km/h</span>';
+  return h;
+}
+function fmtNum(n) { return String(Math.round(n * 10) / 10).replace('.', ','); }
+function findCatch(id) {
+  var lists = [window._catchList || [], RB.statCatches || []];
+  for (var l = 0; l < lists.length; l++) for (var i = 0; i < lists[l].length; i++) if (lists[l][i].id === id) return lists[l][i];
+  return null;
+}
+function openCatchImg(id) {
+  var c = findCatch(id); if (!c) return;
+  var name = 'ulov-' + (c.fish || '') + '-' + (c.date || '');
+  if (RB.full[id]) { openImgFull(RB.full[id], name); return; }
+  showToast('⏳ Učitavam sliku...');
+  getFull('rb_catch_full', c, function(u) { openImgFull(u || c.thumb || '', name); });
+}
 function deleteCatch(id) {
   if (!isAdmin()) return;
   if (!confirm('Obrisati ovaj ulov?')) return;
-  fbDb.collection('rb_catches').doc(id).delete().then(function() { showToast('Ulov obrisan'); loadCatches(); })
+  var batch = fbDb.batch();
+  batch.delete(fbDb.collection('rb_catches').doc(id));
+  batch.delete(fbDb.collection('rb_catch_full').doc(id));
+  batch.commit().then(function() { showToast('Ulov obrisan'); loadCatches(); })
     .catch(function(e) { showToast('Greška: ' + e.message); });
 }
 
@@ -3336,7 +3523,7 @@ function deleteCatch(id) {
 function openCatchForm() {
   if (!ME) return;
   var lake = lakeById(RB.ulovLake); if (!lake) return;
-  RB.catchForm = { name: ME.name || '', date: todayISO(), time: nowHM(), weather: [], fish: '', method: '', bait: '', spotX: null, spotY: null, image: null };
+  RB.catchForm = { name: ME.name || '', date: todayISO(), time: nowHM(), weather: [], fish: '', kg: null, method: '', bait: '', spotX: null, spotY: null, image: null };
   var cf = RB.catchForm;
   var f = folderById(RB.ulovLake, RB.ulovFolder) || {};
   var h =
@@ -3344,19 +3531,22 @@ function openCatchForm() {
     '<div class="cf-q"><div class="cf-qn">1</div><div class="cf-qb"><div class="cf-qt">Ime</div><input class="poll-inp" id="cf-name" value="' + _esc(cf.name) + '" oninput="cfSet(\'name\',this.value)" placeholder="Tvoje ime"></div></div>' +
     '<div class="cf-q"><div class="cf-qn">2</div><div class="cf-qb"><div class="cf-qt">Datum</div><input class="poll-inp" type="date" id="cf-date" value="' + cf.date + '" onchange="cfSet(\'date\',this.value)"></div></div>' +
     '<div class="cf-q"><div class="cf-qn">3</div><div class="cf-qb"><div class="cf-qt">Vrijeme</div><input class="poll-inp" type="time" id="cf-time" value="' + cf.time + '" onchange="cfSet(\'time\',this.value)"></div></div>' +
+    '<div class="cf-wx" id="cf-wx"><span class="cf-wx-ic">🌡️</span><div class="cf-wx-b"><b id="cf-wx-t">Temperatura se učitava...</b><small id="cf-wx-s">automatski za ovo jezero, datum i vrijeme</small></div><button class="cf-wx-r" onclick="fetchCatchWeather()">↻</button></div>' +
     '<div class="cf-q"><div class="cf-qn">4</div><div class="cf-qb"><div class="cf-qt">Vremenski uslovi <small>(može više)</small></div><div class="cf-chips" id="cf-weather">' +
       WEATHER.map(function(w) { return '<div class="cf-chip" data-v="' + w.k + '" onclick="cfToggleWeather(this)">' + w.e + ' ' + w.k + '</div>'; }).join('') + '</div></div></div>' +
     '<div class="cf-q"><div class="cf-qn">5</div><div class="cf-qb"><div class="cf-qt">Riba</div><div class="cf-chips" id="cf-fish">' +
       FISH.map(function(x) { return '<div class="cf-chip" data-v="' + x.k + '" style="--fc:' + x.c + '" onclick="cfPick(\'fish\',this)">🐟 ' + x.k + '</div>'; }).join('') + '</div></div></div>' +
-    '<div class="cf-q"><div class="cf-qn">6</div><div class="cf-qb"><div class="cf-qt">Ulov na šta?</div><div class="cf-chips" id="cf-method">' +
+    '<div class="cf-q"><div class="cf-qn">6</div><div class="cf-qb"><div class="cf-qt">Težina <small>(kg)</small></div>' +
+      '<div class="cf-kg"><input class="poll-inp" id="cf-kg" type="text" inputmode="decimal" placeholder="npr. 4,35" oninput="cfSetKg(this.value)"><span>kg</span></div></div></div>' +
+    '<div class="cf-q"><div class="cf-qn">7</div><div class="cf-qb"><div class="cf-qt">Ulov na šta?</div><div class="cf-chips" id="cf-method">' +
       METHODS.map(function(m) { return '<div class="cf-chip" data-v="' + m.k + '" onclick="cfPick(\'method\',this)">' + m.e + ' ' + m.k + '</div>'; }).join('') + '</div>' +
       '<input class="poll-inp" id="cf-bait" style="margin-top:8px" placeholder="Koji mamac / varalica / boili?" oninput="cfSet(\'bait\',this.value)"></div></div>' +
-    '<div class="cf-q"><div class="cf-qn">7</div><div class="cf-qb"><div class="cf-qt">Gdje? <small>(klikni na sliku jezera gdje si ga ulovio)</small></div>' +
-      (lake.photo ? '<div class="spot-wrap spot-pick" id="cf-spot" onclick="cfSetSpot(event)"><img src="' + lake.photo + '" draggable="false"><div class="spot-pin" id="cf-pin" style="display:none"></div><div class="spot-hint" id="cf-spot-hint">👆 Dodirni mjesto ulova</div></div>'
+    '<div class="cf-q"><div class="cf-qn">8</div><div class="cf-qb"><div class="cf-qt">Gdje? <small>(klikni na sliku jezera gdje si ga ulovio)</small></div>' +
+      (lakeHasPhoto(lake) ? '<div class="spot-wrap spot-pick" id="cf-spot" onclick="cfSetSpot(event)"><img data-lakefull="' + lake.id + '" src="' + lakeImgNow(lake) + '" draggable="false"><div class="spot-pin" id="cf-pin" style="display:none"></div><div class="spot-hint" id="cf-spot-hint">👆 Dodirni mjesto ulova</div></div>'
         : '<div class="rb-hint">⚠️ Admin još nije dodao fotografiju ovog jezera – ovaj korak se preskače.</div>') +
     '</div></div>' +
     '<div class="cf-photo-box locked" id="cf-photo-box">' +
-      '<div class="cf-lock" id="cf-lock">🔒 Prvo odgovori na svih 7 pitanja<br><small id="cf-missing"></small></div>' +
+      '<div class="cf-lock" id="cf-lock">🔒 Prvo odgovori na svih 8 pitanja<br><small id="cf-missing"></small></div>' +
       '<input type="file" id="cf-file" accept="image/*" style="display:none" onchange="cfPhoto(this)">' +
       '<div class="cf-photo-inner" id="cf-photo-inner" onclick="cfPickPhoto()"><img id="cf-prev" style="display:none"><span id="cf-ph">📷 Izaberi fotografiju ulova</span></div>' +
     '</div>';
@@ -3364,9 +3554,62 @@ function openCatchForm() {
   document.getElementById('catch-screen').classList.add('open');
   document.getElementById('cf-body').scrollTop = 0;
   cfValidate();
+  fetchCatchWeather();
+  upgradeLakeImgs(lake);
 }
 function closeCatchForm() { document.getElementById('catch-screen').classList.remove('open'); RB.catchForm = null; }
-function cfSet(k, v) { if (!RB.catchForm) return; RB.catchForm[k] = String(v || '').trim(); cfValidate(); }
+function parseKg(v) { var n = parseFloat(String(v || '').replace(',', '.').replace(/[^0-9.]/g, '')); return (n > 0 && n < 300) ? Math.round(n * 1000) / 1000 : null; }
+function fmtKg(n) { return n == null ? '' : String(Math.round(n * 100) / 100).replace('.', ',') + ' kg'; }
+function cfSetKg(v) { if (!RB.catchForm) return; RB.catchForm.kg = parseKg(v); cfValidate(); }
+function cfSet(k, v) {
+  if (!RB.catchForm) return; RB.catchForm[k] = String(v || '').trim(); cfValidate();
+  if (k === 'date' || k === 'time') { clearTimeout(RB._wxT); RB._wxT = setTimeout(fetchCatchWeather, 500); }
+}
+
+// ── Automatska temperatura (Open-Meteo, bez ključa) za koordinate jezera ili lokaciju telefona ──
+function wxCoords(cb) {
+  var l = lakeById(RB.ulovLake) || {};
+  if (l.lat != null && l.lat !== '' && l.lng != null && l.lng !== '') { cb(+l.lat, +l.lng, l.name || 'jezero'); return; }
+  if (!navigator.geolocation) { cb(null); return; }
+  navigator.geolocation.getCurrentPosition(function(p) { cb(p.coords.latitude, p.coords.longitude, 'tvoja lokacija'); },
+    function() { cb(null); }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 });
+}
+function fetchCatchWeather() {
+  var cf = RB.catchForm; if (!cf) return;
+  var t = document.getElementById('cf-wx-t'), sub = document.getElementById('cf-wx-s'), box = document.getElementById('cf-wx');
+  if (!t) return;
+  var date = cf.date || todayISO(), time = cf.time || nowHM();
+  var reqKey = date + ' ' + time; cf._wxKey = reqKey;
+  t.textContent = 'Temperatura se učitava...'; box.classList.remove('err'); box.classList.remove('ok');
+  wxCoords(function(lat, lng, label) {
+    if (!RB.catchForm || cf._wxKey !== reqKey) return;
+    if (lat == null) { cf.wx = null; t.textContent = 'Temperatura nije dostupna'; sub.textContent = 'Jezero nema koordinate i lokacija nije dozvoljena'; box.classList.add('err'); return; }
+    var daysAgo = Math.round((new Date(todayISO()) - new Date(date)) / 86400000);
+    var host = daysAgo > 80 ? 'https://archive-api.open-meteo.com/v1/archive' : 'https://api.open-meteo.com/v1/forecast';
+    var url = host + '?latitude=' + lat.toFixed(4) + '&longitude=' + lng.toFixed(4) +
+      '&hourly=temperature_2m,pressure_msl,wind_speed_10m&start_date=' + date + '&end_date=' + date + '&timezone=auto';
+    fetch(url).then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function(j) {
+      if (!RB.catchForm || cf._wxKey !== reqKey) return;
+      var hp = time.split(':'), hh = parseInt(hp[0], 10) || 0, mm = parseInt(hp[1], 10) || 0;
+      var H = j.hourly || {}, times = H.time || [];
+      function at(arr, h) { var key = date + 'T' + ('0' + h).slice(-2) + ':00'; var i = times.indexOf(key); return i > -1 && arr && arr[i] != null ? arr[i] : null; }
+      function interp(arr) {
+        var a = at(arr, hh), b = hh < 23 ? at(arr, hh + 1) : null;
+        if (a == null) return null; if (b == null) return a;
+        return a + (b - a) * (mm / 60);
+      }
+      var temp = interp(H.temperature_2m), pr = interp(H.pressure_msl), wind = interp(H.wind_speed_10m);
+      if (temp == null) throw new Error('nema podataka');
+      cf.wx = { temp: Math.round(temp * 10) / 10, pressure: pr != null ? Math.round(pr) : null, wind: wind != null ? Math.round(wind) : null };
+      t.textContent = fmtNum(cf.wx.temp) + ' °C' + (cf.wx.pressure != null ? '  ·  ' + cf.wx.pressure + ' hPa' : '') + (cf.wx.wind != null ? '  ·  💨 ' + cf.wx.wind + ' km/h' : '');
+      sub.textContent = 'Automatski · ' + label + ' · ' + fmtDate(date) + ' ' + time;
+      box.classList.add('ok');
+    }).catch(function() {
+      if (!RB.catchForm || cf._wxKey !== reqKey) return;
+      cf.wx = null; t.textContent = 'Temperatura nije dostupna'; sub.textContent = 'Nema interneta ili podataka – ulov se svejedno može spremiti (↻ pokušaj ponovo)'; box.classList.add('err');
+    });
+  });
+}
 function cfToggleWeather(el) {
   var cf = RB.catchForm; var v = el.getAttribute('data-v');
   var i = cf.weather.indexOf(v);
@@ -3403,8 +3646,9 @@ function cfMissing() {
   if (!cf.time) m.push('3 Vrijeme');
   if (!cf.weather.length) m.push('4 Vremenski uslovi');
   if (!cf.fish) m.push('5 Riba');
-  if (!cf.method || !cf.bait) m.push('6 Ulov na šta' + (cf.method && !cf.bait ? ' (opiši mamac)' : ''));
-  if (lake.photo && cf.spotX == null) m.push('7 Gdje');
+  if (!(cf.kg > 0)) m.push('6 Težina (kg)');
+  if (!cf.method || !cf.bait) m.push('7 Ulov na šta' + (cf.method && !cf.bait ? ' (opiši mamac)' : ''));
+  if (lakeHasPhoto(lake) && cf.spotX == null) m.push('8 Gdje');
   return m;
 }
 function cfValidate() {
@@ -3426,9 +3670,10 @@ function cfPickPhoto() {
 function cfPhoto(input) {
   if (cfMissing().length) { input.value = ''; showToast('Prvo odgovori na sva pitanja!'); return; }
   var f = input.files[0]; if (!f) return;
-  compressImage(f, 1280, 0.72, function(data) {
-    RB.catchForm.image = data;
-    var p = document.getElementById('cf-prev'); p.src = data; p.style.display = 'block';
+  makeImages(f, 720, function(im) {
+    if (!im || !RB.catchForm) { showToast('Slika se ne može učitati'); return; }
+    RB.catchForm.image = im.full; RB.catchForm.thumb = im.thumb;
+    var p = document.getElementById('cf-prev'); p.src = im.thumb; p.style.display = 'block';
     document.getElementById('cf-ph').style.display = 'none';
     cfValidate();
   });
@@ -3440,14 +3685,23 @@ function saveCatch() {
   if (!cf.image) { showToast('Dodaj fotografiju ulova!'); return; }
   var btn = document.getElementById('cf-save'); btn.disabled = true; btn.textContent = '...';
   var lake = lakeById(RB.ulovLake) || {};
-  fbDb.collection('rb_catches').add({
+  var ref = fbDb.collection('rb_catches').doc();
+  var wx = cf.wx || {};
+  RB.full[ref.id] = cf.image;
+  var batch = fbDb.batch();
+  batch.set(fbDb.collection('rb_catch_full').doc(ref.id), { imageUrl: cf.image, folderId: RB.ulovFolder, lakeId: RB.ulovLake });
+  batch.set(ref, {
     lakeId: RB.ulovLake, lakeName: lake.name || '', folderId: RB.ulovFolder,
     uid: ME.uid, username: ME.username, name: cf.name,
     date: cf.date, time: cf.time, hour: parseInt((cf.time || '0').split(':')[0], 10) || 0,
-    weather: cf.weather, fish: cf.fish, method: cf.method, bait: cf.bait,
-    spotX: cf.spotX, spotY: cf.spotY, imageUrl: cf.image,
+    weather: cf.weather, fish: cf.fish, kg: cf.kg, method: cf.method, bait: cf.bait,
+    spotX: cf.spotX, spotY: cf.spotY, thumb: cf.thumb,
+    tempC: wx.temp != null ? wx.temp : null, pressure: wx.pressure != null ? wx.pressure : null, windKmh: wx.wind != null ? wx.wind : null,
+    wxSource: wx.temp != null ? 'open-meteo' : '',
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  }).then(function() {
+  });
+  batch.commit().then(function() {
+    logActivity('catch', cf.name + ' je ulovio ' + cf.fish + ' ' + fmtKg(cf.kg) + ' · ' + (lake.name || ''), { lakeId: RB.ulovLake, folderId: RB.ulovFolder });
     closeCatchForm(); showToast('✅ Ulov spremljen! Petrovo! 🎣'); loadCatches();
   }).catch(function(e) { btn.disabled = false; cfValidate(); showToast('Greška: ' + e.message); });
 }
@@ -3456,8 +3710,9 @@ function saveCatch() {
 // STATISTIKA — automatski iz svih ulova
 // ════════════════════════════════════════════════════════════
 function statPickLake(id) {
-  RB.statLake = id; RB.statFish = 'Sve'; RB.statCatches = null; renderStat();
-  fbDb.collection('rb_catches').where('lakeId', '==', id).get().then(function(snap) {
+  if (RB.statLake !== id) RB.statFish = 'Sve';
+  RB.statLake = id; RB.statCatches = null; renderStat();
+  fastGet(fbDb.collection('rb_catches').where('lakeId', '==', id), function(snap) {
     if (RB.statLake !== id) return;
     var arr = []; snap.forEach(function(doc) { arr.push(Object.assign({ id: doc.id }, doc.data())); });
     RB.statCatches = arr; renderStat();
@@ -3536,6 +3791,8 @@ function renderStat() {
 
   var tP = topOf(periodCounts), tH = topOf(hourCounts), tM = topOf(monthCounts), tW = topOf(weatherCounts), tMe = topOf(methodCounts), tB = topOf(baitCounts), tWho = topOf(whoCounts);
   var hot = hotspotOf(cs);
+  var kgList = cs.filter(function(c) { return c.kg > 0; }).sort(function(a, b) { return b.kg - a.kg; });
+  var kgSum = kgList.reduce(function(a, c) { return a + c.kg; }, 0);
   var title = RB.statFish === 'Sve' ? 'Sve ribe' : RB.statFish;
 
   // sažetak
@@ -3547,8 +3804,21 @@ function renderStat() {
       '<div><span>' + (tW ? weatherEmoji(tW.k) : '🌤️') + '</span><b>' + (tW ? _esc(tW.k) : '–') + '</b><small>vrijeme</small></div>' +
       '<div><span>' + (tMe ? methodEmoji(tMe.k) : '🎣') + '</span><b>' + (tMe ? _esc(tMe.k) : '–') + '</b><small>' + (tB ? _esc(baitLabel[tB.k]) : 'metoda') + '</small></div>' +
     '</div>' +
-    '<div class="st-sum-foot">Ukupno <b>' + cs.length + '</b> ' + (cs.length === 1 ? 'ulov' : 'ulova') + (tWho ? ' · najviše: <b>' + _esc(tWho.k) + '</b> (' + tWho.n + ')' : '') + '</div>' +
+    '<div class="st-sum-foot">Ukupno <b>' + cs.length + '</b> ' + (cs.length === 1 ? 'ulov' : 'ulova') + (kgList.length ? ' · <b>' + fmtKg(kgSum) + '</b> ukupno · prosjek <b>' + fmtKg(kgSum / kgList.length) + '</b>' : '') + (tWho ? ' · najviše: <b>' + _esc(tWho.k) + '</b> (' + tWho.n + ')' : '') + '</div>' +
   '</div>';
+
+  if (kgList.length) {
+    var rec = kgList[0];
+    h += '<div class="st-card st-record"><div class="st-t">🏆 Rekord – najteži ulov</div>' +
+      '<div class="st-rec">' + ((rec.thumb || rec.imageUrl) ? '<img src="' + (rec.thumb || rec.imageUrl) + '" onclick="openCatchImg(\'' + rec.id + '\')">' : '') +
+      '<div><div class="st-rec-kg">' + fmtKg(rec.kg) + '</div><div class="st-rec-m">🐟 ' + _esc(rec.fish) + ' · ' + _esc(rec.name || '') + '</div>' +
+      '<div class="st-rec-m">📅 ' + fmtDate(rec.date) + ' · 🕐 ' + _esc(rec.time || '') + '</div>' +
+      '<div class="st-rec-m">' + methodEmoji(rec.method) + ' ' + _esc(rec.method || '') + (rec.bait ? ' – ' + _esc(rec.bait) : '') + '</div></div></div>' +
+      (kgList.length > 1 ? '<div class="st-sub">Top 5 najtežih</div><div class="st-top">' + kgList.slice(0, 5).map(function(c, i) {
+        return '<div class="st-top-row"><span class="st-top-i">' + (i + 1) + '</span><span class="st-top-n">' + _esc(c.name || '') + ' <small>' + _esc(c.fish) + ' · ' + fmtDate(c.date) + '</small></span><b style="color:' + fishColor(c.fish) + '">' + fmtKg(c.kg) + '</b></div>';
+      }).join('') + '</div>' : '') +
+      '</div>';
+  }
 
   if (RB.statFish === 'Sve') {
     h += '<div class="st-card"><div class="st-t">🐟 Koja riba se najviše lovi</div>' +
@@ -3556,10 +3826,10 @@ function renderStat() {
   }
 
   // GDJE
-  if (lake.photo) {
+  if (lakeHasPhoto(lake)) {
     var dots = cs.filter(function(c) { return c.spotX != null; });
     h += '<div class="st-card"><div class="st-t">📍 Gdje se najviše lovi</div>' +
-      '<div class="spot-wrap"><img src="' + lake.photo + '">' +
+      '<div class="spot-wrap"><img data-lakefull="' + lake.id + '" src="' + lakeImgNow(lake) + '">' +
       (hot ? '<div class="st-hot" style="left:' + (hot.x * 100) + '%;top:' + (hot.y * 100) + '%;width:' + (hot.size * 160) + '%;padding-bottom:' + (hot.size * 160) + '%"></div>' : '') +
       dots.map(function(c) { return '<div class="spot-dot" style="left:' + (c.spotX * 100) + '%;top:' + (c.spotY * 100) + '%;background:' + fishColor(c.fish) + '"></div>'; }).join('') +
       '</div>' +
@@ -3574,6 +3844,19 @@ function renderStat() {
 
   h += '<div class="st-card"><div class="st-t">📅 Po mjesecima</div>' +
     barsHTML(MONTHS.map(function(m) { return { label: m, n: monthCounts[m] || 0 }; }).filter(function(r, i, a) { return true; }), cs.length, color) + '</div>';
+
+  // TEMPERATURA (automatski spremljena uz svaki ulov)
+  var withT = cs.filter(function(c) { return c.tempC != null; });
+  if (withT.length) {
+    var TB = [{ k: 'ispod 5 °C', a: -99, b: 5 }, { k: '5–10 °C', a: 5, b: 10 }, { k: '10–15 °C', a: 10, b: 15 }, { k: '15–20 °C', a: 15, b: 20 }, { k: '20–25 °C', a: 20, b: 25 }, { k: 'preko 25 °C', a: 25, b: 99 }];
+    var tSum = withT.reduce(function(a, c) { return a + c.tempC; }, 0);
+    var tMin = Math.min.apply(null, withT.map(function(c) { return c.tempC; })), tMax = Math.max.apply(null, withT.map(function(c) { return c.tempC; }));
+    var withP = withT.filter(function(c) { return c.pressure != null; });
+    var pAvg = withP.length ? Math.round(withP.reduce(function(a, c) { return a + c.pressure; }, 0) / withP.length) : null;
+    h += '<div class="st-card"><div class="st-t">🌡️ Temperatura zraka</div>' +
+      '<div class="rb-hint" style="margin:0 0 10px">Prosjek <b style="color:var(--white)">' + fmtNum(tSum / withT.length) + ' °C</b> · raspon ' + fmtNum(tMin) + ' – ' + fmtNum(tMax) + ' °C' + (pAvg ? ' · pritisak ⌀ <b style="color:var(--white)">' + pAvg + ' hPa</b>' : '') + '</div>' +
+      barsHTML(TB.map(function(b) { return { label: b.k, n: withT.filter(function(c) { return c.tempC >= b.a && c.tempC < b.b; }).length }; }), withT.length, color) + '</div>';
+  }
 
   h += '<div class="st-card"><div class="st-t">🌤️ Vremenski uslovi</div>' +
     barsHTML(WEATHER.map(function(w) { return { label: w.e + ' ' + w.k, n: weatherCounts[w.k] || 0 }; }), cs.length, color) + '</div>';
@@ -3590,6 +3873,236 @@ function renderStat() {
   h += '<div class="st-card"><div class="st-t">👑 Najbolji ribolovci</div>' + barsHTML(whoRows, cs.length, color) + '</div>';
 
   el.innerHTML = h;
+  upgradeLakeImgs(lake);
+}
+
+// ════════════════════════════════════════════════════════════
+// NEZABORAVI — lista stvari za sljedeću sesiju
+// rb_todos: { text, done, scope: 'me' | 'all', uid, name, createdAt, doneBy }
+// ════════════════════════════════════════════════════════════
+var NZ = { scope: 'me', items: { me: [], all: [] }, loaded: { me: false, all: false }, unsub: {} };
+try { NZ.scope = localStorage.getItem('rb_nz_scope') || 'me'; } catch (e) {}
+
+function startTodoListeners() {
+  if (!fbDb || !ME) return;
+  if (!NZ.unsub.me) NZ.unsub.me = fbDb.collection('rb_todos').where('uid', '==', ME.uid).onSnapshot(function(snap) {
+    var arr = []; snap.forEach(function(d) { var x = Object.assign({ id: d.id }, d.data()); if (x.scope !== 'all') arr.push(x); });
+    NZ.items.me = arr; NZ.loaded.me = true; nzRefresh();
+  }, function(e) { NZ.loaded.me = true; NZ.err = e.message; nzRefresh(); });
+  if (!NZ.unsub.all) NZ.unsub.all = fbDb.collection('rb_todos').where('scope', '==', 'all').onSnapshot(function(snap) {
+    var arr = []; snap.forEach(function(d) { arr.push(Object.assign({ id: d.id }, d.data())); });
+    NZ.items.all = arr; NZ.loaded.all = true; nzRefresh();
+  }, function(e) { NZ.loaded.all = true; NZ.err = e.message; nzRefresh(); });
+}
+function stopTodoListeners() {
+  ['me', 'all'].forEach(function(k) { if (NZ.unsub[k]) { NZ.unsub[k](); NZ.unsub[k] = null; } });
+  NZ.items = { me: [], all: [] }; NZ.loaded = { me: false, all: false };
+}
+function nzRefresh() {
+  var p = document.getElementById('tp-nezab');
+  if (p && p.classList.contains('on')) renderNezab(true);
+  nzBadge();
+}
+function nzBadge() {
+  var btn = document.querySelector('.nbtn[data-tab="nezab"] .nicon'); if (!btn) return;
+  var open = NZ.items.me.filter(function(x) { return !x.done; }).length + NZ.items.all.filter(function(x) { return !x.done; }).length;
+  var b = btn.querySelector('.nz-badge');
+  if (!open) { if (b) b.remove(); return; }
+  if (!b) { b = document.createElement('span'); b.className = 'nz-badge'; btn.appendChild(b); }
+  b.textContent = open > 9 ? '9+' : open;
+}
+function nzSetScope(s) { NZ.scope = s; try { localStorage.setItem('rb_nz_scope', s); } catch (e) {} renderNezab(); }
+
+function renderNezab(keepInput) {
+  var el = document.getElementById('nezab-inner'); if (!el) return;
+  var draft = keepInput ? ((document.getElementById('nz-inp') || {}).value || '') : '';
+  var hadFocus = keepInput && document.activeElement && document.activeElement.id === 'nz-inp';
+  var sc = NZ.scope;
+  var items = (NZ.items[sc] || []).slice();
+  var open = items.filter(function(x) { return !x.done; }).sort(function(a, b) { return tsMs(a) - tsMs(b); });
+  var done = items.filter(function(x) { return x.done; }).sort(function(a, b) { return tsMs(b) - tsMs(a); });
+  var h = '<div class="rb-hero" style="padding:14px 14px"><div><div class="rb-hero-t">Ne zaboravi!</div><div class="rb-hero-s" style="padding-bottom:0">Šta trebaš za sljedeću sesiju – baterije za signalizatore, mamci, dozvola...</div></div></div>' +
+    '<div class="nz-seg"><div class="' + (sc === 'me' ? 'on' : '') + '" onclick="nzSetScope(\'me\')">📝 Moja lista</div><div class="' + (sc === 'all' ? 'on' : '') + '" onclick="nzSetScope(\'all\')">👥 Zajednička</div></div>' +
+    '<div class="nz-add"><input class="poll-inp" id="nz-inp" placeholder="' + (sc === 'me' ? 'npr. nove baterije za signalizatore' : 'npr. ko nosi roštilj?') + '" enterkeyhint="done" onkeydown="if(event.key===\'Enter\'){event.preventDefault();nzAdd();}"><button onclick="nzAdd()">＋</button></div>' +
+    (sc === 'all' ? '<div class="rb-hint">Zajedničku listu vide svi članovi i svako može štiklirati.</div>' : '<div class="rb-hint">Ovu listu vidiš samo ti.</div>');
+  if (!NZ.loaded[sc]) h += '<div class="rb-load">Učitavam...</div>';
+  else if (NZ.err && !items.length) h += '<div style="color:var(--red);font-size:13px">Greška: ' + _esc(NZ.err) + '</div>';
+  else if (!items.length) h += rbEmpty('🧾', 'Lista je prazna', 'Upiši gore šta ne smiješ zaboraviti.');
+  else {
+    h += '<div class="nz-sec"><span>Za ponijeti (' + open.length + ')</span></div>' + (open.length ? open.map(nzItemHTML).join('') : '<div class="rb-hint" style="padding:4px 2px 8px">✅ Sve spremno!</div>');
+    if (done.length) h += '<div class="nz-sec"><span>Spremno (' + done.length + ')</span><button onclick="nzClearDone()">🗑 Obriši spremno</button></div>' + done.map(nzItemHTML).join('');
+  }
+  el.innerHTML = h;
+  var inp = document.getElementById('nz-inp');
+  if (inp && draft) inp.value = draft;
+  if (inp && hadFocus) inp.focus();
+}
+function nzCanEdit(x) { return ME && (x.uid === ME.uid || isAdmin()); }
+function nzItemHTML(x) {
+  var who = NZ.scope === 'all' ? '<small>' + _esc(x.name || '') + (x.done && x.doneBy ? ' · ✓ ' + _esc(x.doneBy) : '') + '</small>' : '';
+  return '<div class="nz-item' + (x.done ? ' done' : '') + '">' +
+    '<div class="nz-check" onclick="nzToggle(\'' + x.id + '\')">' + (x.done ? '✓' : '') + '</div>' +
+    '<div class="nz-txt" onclick="' + (nzCanEdit(x) ? 'nzEdit(\'' + x.id + '\')' : 'nzToggle(\'' + x.id + '\')') + '">' + _esc(x.text) + who + '</div>' +
+    (nzCanEdit(x) ? '<button class="nz-del" onclick="nzDelete(\'' + x.id + '\')">✕</button>' : '') + '</div>';
+}
+function nzFind(id) {
+  var a = NZ.items.me.concat(NZ.items.all);
+  for (var i = 0; i < a.length; i++) if (a[i].id === id) return a[i];
+  return null;
+}
+function nzAdd() {
+  var inp = document.getElementById('nz-inp'); var txt = (inp.value || '').trim();
+  if (!txt || !ME) return;
+  inp.value = '';
+  var sc = NZ.scope;
+  fbDb.collection('rb_todos').add({
+    text: txt, done: false, scope: sc, uid: ME.uid, name: ME.name, username: ME.username,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function() {
+    if (sc === 'all') logActivity('todo', ME.name + ' je dodao na zajedničku listu: ' + txt, {});
+  }).catch(function(e) { showToast('Greška: ' + e.message); inp.value = txt; });
+  inp.focus();
+}
+function nzToggle(id) {
+  var x = nzFind(id); if (!x) return;
+  x.done = !x.done; renderNezab(true); nzBadge();
+  fbDb.collection('rb_todos').doc(id).update({ done: x.done, doneBy: x.done ? (ME.name || '') : '' })
+    .catch(function(e) { showToast('Greška: ' + e.message); });
+}
+function nzEdit(id) {
+  var x = nzFind(id); if (!x) return;
+  rbSheet('✏️ Uredi stavku',
+    '<input class="poll-inp" id="nz-edit" value="' + _esc(x.text) + '" style="font-size:16px">' +
+    '<button class="apin-btn" onclick="nzSaveEdit(\'' + id + '\')">💾 Spremi</button>');
+  setTimeout(function() { var i = document.getElementById('nz-edit'); if (i) i.focus(); }, 250);
+}
+function nzSaveEdit(id) {
+  var v = (document.getElementById('nz-edit').value || '').trim(); if (!v) return;
+  fbDb.collection('rb_todos').doc(id).update({ text: v }).then(rbSheetClose).catch(function(e) { showToast('Greška: ' + e.message); });
+}
+function nzDelete(id) {
+  fbDb.collection('rb_todos').doc(id).delete().catch(function(e) { showToast('Greška: ' + e.message); });
+}
+function nzClearDone() {
+  var done = (NZ.items[NZ.scope] || []).filter(function(x) { return x.done && nzCanEdit(x); });
+  if (!done.length) { showToast('Možeš brisati samo svoje stavke'); return; }
+  if (!confirm('Obrisati ' + done.length + ' spremnih stavki?')) return;
+  var batch = fbDb.batch();
+  done.forEach(function(x) { batch.delete(fbDb.collection('rb_todos').doc(x.id)); });
+  batch.commit().catch(function(e) { showToast('Greška: ' + e.message); });
+}
+
+// ════════════════════════════════════════════════════════════
+// AKTIVNOST — obavještenja kad neko nešto doda
+// rb_activity: { type, text, uid, name, lakeId, folderId, createdAt }
+// ════════════════════════════════════════════════════════════
+var ACT = { list: [], unsub: null, firstLoad: true, seen: 0, startedAt: Date.now() };
+var ACT_ICONS = { catch: '🐟', photos: '📸', post: '💬', story: '⏱️', folder: '📁', lake: '🏞️', todo: '📝' };
+try { ACT.seen = parseInt(localStorage.getItem('rb_act_seen') || '0', 10) || 0; } catch (e) {}
+
+function logActivity(type, text, extra) {
+  if (!fbDb || !ME) return;
+  extra = extra || {};
+  fbDb.collection('rb_activity').add({
+    type: type, text: text, uid: ME.uid, name: ME.name || '', username: ME.username || '',
+    lakeId: extra.lakeId || '', folderId: extra.folderId || '',
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(function() {});
+}
+
+function startActivityListener() {
+  if (!fbDb || !ME || ACT.unsub) return;
+  ACT.firstLoad = true;
+  ACT.unsub = fbDb.collection('rb_activity').orderBy('createdAt', 'desc').limit(40).onSnapshot(function(snap) {
+    var arr = [];
+    snap.forEach(function(d) { arr.push(Object.assign({ id: d.id }, d.data())); });
+    var known = {}; ACT.list.forEach(function(a) { known[a.id] = 1; });
+    var fresh = arr.filter(function(a) { return !known[a.id] && a.uid !== ME.uid && actTime(a) > ACT.startedAt - 30000; });
+    ACT.list = arr;
+    if (!ACT.firstLoad && fresh.length) {
+      var a = fresh[0];
+      showActivityBanner(a);
+      systemNotify(a);
+    }
+    ACT.firstLoad = false;
+    updateBell();
+  }, function() {});
+}
+function stopActivityListener() { if (ACT.unsub) { ACT.unsub(); ACT.unsub = null; } ACT.list = []; }
+
+function actTime(a) { return a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : Date.now(); }
+function actUnread() { return ACT.list.filter(function(a) { return a.uid !== (ME && ME.uid) && actTime(a) > ACT.seen; }).length; }
+
+function updateBell() {
+  var btn = document.getElementById('notif-btn'); if (!btn) return;
+  var mentions = (window._notifications || []).filter(function(n) { return !n.read; }).length;
+  var n = mentions + actUnread();
+  btn.innerHTML = '&#x1F514;' + (n > 0 ? '<span style="position:absolute;top:-3px;right:-3px;background:var(--red);color:#fff;border-radius:10px;min-width:17px;height:17px;padding:0 4px;font-size:9.5px;display:flex;align-items:center;justify-content:center;font-weight:800">' + (n > 9 ? '9+' : n) + '</span>' : '');
+}
+
+function showActivityBanner(a) {
+  var el = document.getElementById('act-banner');
+  if (!el) { el = document.createElement('div'); el.id = 'act-banner'; el.className = 'act-banner'; document.body.appendChild(el); }
+  el.innerHTML = '<span class="ab-ic">' + (ACT_ICONS[a.type] || '🔔') + '</span><div class="ab-t">' + _esc(a.text) + '<small>upravo · Ribolovci</small></div>';
+  el.onclick = function() { el.classList.remove('show'); openActivity(a.id); };
+  requestAnimationFrame(function() { el.classList.add('show'); });
+  clearTimeout(ACT._bt); ACT._bt = setTimeout(function() { el.classList.remove('show'); }, 5000);
+  try { if (navigator.vibrate) navigator.vibrate(60); } catch (e) {}
+}
+
+// Sistemsko obavještenje dok je aplikacija otvorena/u pozadini (gdje browser dozvoljava)
+function systemNotify(a) {
+  try {
+    if (!('Notification' in window) || Notification.permission !== 'granted' || !document.hidden) return;
+    var n = new Notification('Ribolovci', { body: a.text, tag: 'rb-' + a.id, icon: document.querySelector('link[rel="apple-touch-icon"]').href });
+    n.onclick = function() { window.focus(); openActivity(a.id); n.close(); };
+  } catch (e) {}
+}
+function askNotifPermission() {
+  if (!('Notification' in window)) { showToast('Ovaj telefon/preglednik ne podržava obavještenja'); return; }
+  Notification.requestPermission().then(function(p) {
+    showToast(p === 'granted' ? '✅ Obavještenja uključena' : 'Obavještenja nisu dozvoljena');
+    openNotifications();
+  });
+}
+
+function openActivity(id) {
+  var a = null; ACT.list.forEach(function(x) { if (x.id === id) a = x; });
+  closeNotifModal();
+  if (!a) return;
+  if (a.type === 'catch' && a.lakeId) { goTab('ulov'); RB.ulovLake = a.lakeId; RB.ulovFolder = a.folderId || null; loadFolders(a.lakeId, renderUlov); renderUlov(); }
+  else if (a.type === 'photos' && a.lakeId) { goTab('ribe'); RB.ribeLake = a.lakeId; RB.ribeFolder = a.folderId || null; loadFolders(a.lakeId, renderRibe); renderRibe(); }
+  else if (a.type === 'folder' && a.lakeId) { goTab('ribe'); RB.ribeLake = a.lakeId; RB.ribeFolder = null; loadFolders(a.lakeId, renderRibe); renderRibe(); }
+  else if (a.type === 'lake' && a.lakeId) { goTab('jezera'); setTimeout(function() { openLake(a.lakeId); }, 150); }
+  else if (a.type === 'post' || a.type === 'story') goTab('bihbook');
+  else if (a.type === 'todo') { NZ.scope = 'all'; goTab('nezab'); }
+}
+
+function activityListHTML() {
+  var others = ACT.list.filter(function(a) { return a.uid !== (ME && ME.uid); });
+  if (!others.length) return '';
+  return '<div class="notif-sec">Novo u grupi</div>' + others.map(function(a) {
+    var unread = actTime(a) > ACT.seen;
+    var d = new Date(actTime(a));
+    var ts = d.toLocaleDateString('bs-BA', { day: '2-digit', month: '2-digit' }) + ' ' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+    return '<div style="display:flex;gap:10px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;' + (unread ? 'background:rgba(95,212,196,.06)' : '') + '" onclick="openActivity(\'' + a.id + '\')">' +
+      (unread ? '<span style="width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:14px"></span>' : '') +
+      '<div style="width:38px;height:38px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">' + (ACT_ICONS[a.type] || '🔔') + '</div>' +
+      '<div style="flex:1;min-width:0"><div style="color:var(--white);font-size:13px;font-weight:700;line-height:1.4">' + _esc(a.text) + '</div>' +
+      '<div style="color:var(--gray2);font-size:10px;margin-top:3px">' + ts + '</div></div></div>';
+  }).join('');
+}
+function notifPermissionHTML() {
+  if (!('Notification' in window)) return '';
+  if (Notification.permission === 'granted') return '';
+  return '<div class="notif-push">🔔 Želiš obavještenje i kad je aplikacija u pozadini? <button onclick="askNotifPermission()" style="background:var(--gold);color:#03201c;border:none;border-radius:8px;padding:5px 10px;font-weight:800;font-size:12px;margin-left:4px;cursor:pointer">Uključi</button></div>';
+}
+function markActivitySeen() {
+  var max = ACT.seen;
+  ACT.list.forEach(function(a) { var t = actTime(a); if (t > max) max = t; });
+  ACT.seen = max;
+  try { localStorage.setItem('rb_act_seen', String(max)); } catch (e) {}
+  updateBell();
 }
 
 </script>
