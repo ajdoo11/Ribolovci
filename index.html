@@ -516,7 +516,9 @@ a{text-decoration:none;color:inherit}
 .nz-sec button{background:none;border:none;color:var(--red);font-size:11.5px;font-weight:700;cursor:pointer;text-transform:none;letter-spacing:0}
 /* aktivnost / obavještenja */
 .act-banner{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 10px);transform:translate(-50%,-140%);width:calc(100% - 24px);max-width:456px;background:var(--bg2);border:1px solid rgba(95,212,196,.4);border-radius:16px;padding:11px 13px;display:flex;align-items:center;gap:10px;z-index:900;box-shadow:0 14px 40px rgba(0,0,0,.6);transition:transform .35s;cursor:pointer}
-.act-banner.show{transform:translate(-50%,0)}
+.act-banner{opacity:0;visibility:hidden;transform:translate(-50%,calc(-100% - 40px - env(safe-area-inset-top,0px)))!important;transition:transform .35s,opacity .35s,visibility 0s .35s;pointer-events:none}
+.act-banner.show{opacity:1;visibility:visible;transform:translate(-50%,0)!important;transition:transform .35s,opacity .35s;pointer-events:auto}
+.act-banner .ab-x{background:rgba(255,255,255,.08);border:none;color:var(--gray);width:28px;height:28px;border-radius:50%;font-size:13px;cursor:pointer;flex-shrink:0}
 .act-banner .ab-ic{font-size:24px}
 .act-banner .ab-t{flex:1;color:var(--white);font-size:13px;font-weight:700;line-height:1.35}
 .act-banner .ab-t small{display:block;color:var(--gray);font-weight:500;font-size:11px}
@@ -547,6 +549,19 @@ a{text-decoration:none;color:inherit}
 .lf-map-cap{color:var(--green);font-size:11.5px;font-weight:700;padding:7px 10px}
 .lf-map-empty{color:var(--gray);font-size:12.5px;padding:16px 12px;text-align:center;line-height:1.5}
 .ld-warn{background:rgba(255,159,10,.12);border:1px solid rgba(255,159,10,.4);color:#fdba74;border-radius:11px;padding:9px 11px;font-size:12.5px;line-height:1.45;margin-top:10px}
+
+/* iOS datum/vrijeme: bez nativne širine, lijepo poravnato */
+input[type="date"].poll-inp,input[type="time"].poll-inp{-webkit-appearance:none;appearance:none;display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;height:48px;line-height:22px;text-align:left;font-size:16px;font-weight:600;color:var(--white);background:var(--bg3);padding:12px 14px 12px 42px;background-repeat:no-repeat;background-position:13px center;background-size:20px}
+input[type="date"].poll-inp{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235fd4c4' stroke-width='2' stroke-linecap='round'%3E%3Crect x='3' y='5' width='18' height='16' rx='3'/%3E%3Cpath d='M3 10h18M8 3v4M16 3v4'/%3E%3C/svg%3E")}
+input[type="time"].poll-inp{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235fd4c4' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E")}
+input[type="date"].poll-inp::-webkit-date-and-time-value,input[type="time"].poll-inp::-webkit-date-and-time-value{text-align:left;margin:0;min-height:22px}
+input[type="date"].poll-inp::-webkit-calendar-picker-indicator,input[type="time"].poll-inp::-webkit-calendar-picker-indicator{opacity:0;position:absolute;right:0;width:100%;height:100%;cursor:pointer}
+input[type="date"].poll-inp,input[type="time"].poll-inp{position:relative}
+.cf-qb{overflow:hidden}
+.cf-dt{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:8px}
+.cf-dt .cf-dtl{color:var(--gray);font-size:10.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px}
+.cf-dt>div{min-width:0}
+.cf-dt input[type="date"].poll-inp,.cf-dt input[type="time"].poll-inp{padding-left:36px;padding-right:8px;background-position:10px center;background-size:18px;font-size:15.5px}
 </style>
 </head>
 <body>
@@ -3643,8 +3658,10 @@ function openCatchForm() {
   var h =
     '<div class="cf-head">' + _esc(lake.name) + ' · ' + _esc(f.name || '') + '</div>' +
     '<div class="cf-q"><div class="cf-qn">1</div><div class="cf-qb"><div class="cf-qt">Ime</div><input class="poll-inp" id="cf-name" value="' + _esc(cf.name) + '" oninput="cfSet(\'name\',this.value)" placeholder="Tvoje ime"></div></div>' +
-    '<div class="cf-q"><div class="cf-qn">2</div><div class="cf-qb"><div class="cf-qt">Datum</div><input class="poll-inp" type="date" id="cf-date" value="' + cf.date + '" onchange="cfSet(\'date\',this.value)"></div></div>' +
-    '<div class="cf-q"><div class="cf-qn">3</div><div class="cf-qb"><div class="cf-qt">Vrijeme</div><input class="poll-inp" type="time" id="cf-time" value="' + cf.time + '" onchange="cfSet(\'time\',this.value)"></div></div>' +
+    '<div class="cf-q"><div class="cf-qn" style="font-size:9.5px;letter-spacing:-.3px">2·3</div><div class="cf-qb"><div class="cf-qt">Datum i vrijeme</div><div class="cf-dt">' +
+      '<div><div class="cf-dtl">Datum</div><input class="poll-inp" type="date" id="cf-date" value="' + cf.date + '" onchange="cfSet(\'date\',this.value)"></div>' +
+      '<div><div class="cf-dtl">Vrijeme</div><input class="poll-inp" type="time" id="cf-time" value="' + cf.time + '" onchange="cfSet(\'time\',this.value)"></div>' +
+    '</div></div></div>' +
     '<div class="cf-wx" id="cf-wx"><span class="cf-wx-ic">🌡️</span><div class="cf-wx-b"><b id="cf-wx-t">Temperatura se učitava...</b><small id="cf-wx-s">automatski za ovo jezero, datum i vrijeme</small></div><button class="cf-wx-r" onclick="fetchCatchWeather()">↻</button></div>' +
     '<div class="cf-q"><div class="cf-qn">4</div><div class="cf-qb"><div class="cf-qt">Vremenski uslovi <small>(može više)</small></div><div class="cf-chips" id="cf-weather">' +
       WEATHER.map(function(w) { return '<div class="cf-chip" data-v="' + w.k + '" onclick="cfToggleWeather(this)">' + w.e + ' ' + w.k + '</div>'; }).join('') + '</div></div></div>' +
@@ -4154,13 +4171,20 @@ function updateBell() {
   btn.innerHTML = '&#x1F514;' + (n > 0 ? '<span style="position:absolute;top:-3px;right:-3px;background:var(--red);color:#fff;border-radius:10px;min-width:17px;height:17px;padding:0 4px;font-size:9.5px;display:flex;align-items:center;justify-content:center;font-weight:800">' + (n > 9 ? '9+' : n) + '</span>' : '');
 }
 
+function hideActivityBanner() { var el = document.getElementById('act-banner'); if (el) el.classList.remove('show'); clearTimeout(ACT._bt); }
+// iPhone: tajmeri se pauziraju kad je app u pozadini → pri povratku sakrij stari banner
+document.addEventListener('visibilitychange', function() { if (!document.hidden) setTimeout(hideActivityBanner, 2500); });
 function showActivityBanner(a) {
   var el = document.getElementById('act-banner');
   if (!el) { el = document.createElement('div'); el.id = 'act-banner'; el.className = 'act-banner'; document.body.appendChild(el); }
-  el.innerHTML = '<span class="ab-ic">' + (ACT_ICONS[a.type] || '🔔') + '</span><div class="ab-t">' + _esc(a.text) + '<small>upravo · Ribolovci</small></div>';
-  el.onclick = function() { el.classList.remove('show'); openActivity(a.id); };
+  el.innerHTML = '<span class="ab-ic">' + (ACT_ICONS[a.type] || '🔔') + '</span><div class="ab-t">' + _esc(a.text) + '<small>upravo · Ribolovci</small></div><button class="ab-x" aria-label="Zatvori">✕</button>';
+  el.onclick = function(ev) { hideActivityBanner(); if (!(ev.target && ev.target.classList.contains('ab-x'))) openActivity(a.id); };
+  // povuci gore = zatvori
+  var sy = null;
+  el.ontouchstart = function(ev) { sy = ev.touches[0].clientY; };
+  el.ontouchmove = function(ev) { if (sy != null && ev.touches[0].clientY - sy < -15) { sy = null; hideActivityBanner(); } };
   requestAnimationFrame(function() { el.classList.add('show'); });
-  clearTimeout(ACT._bt); ACT._bt = setTimeout(function() { el.classList.remove('show'); }, 5000);
+  clearTimeout(ACT._bt); ACT._bt = setTimeout(hideActivityBanner, 4500);
   try { if (navigator.vibrate) navigator.vibrate(60); } catch (e) {}
 }
 
