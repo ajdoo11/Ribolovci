@@ -562,6 +562,40 @@ input[type="date"].poll-inp,input[type="time"].poll-inp{position:relative}
 .cf-dt .cf-dtl{color:var(--gray);font-size:10.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px}
 .cf-dt>div{min-width:0}
 .cf-dt input[type="date"].poll-inp,.cf-dt input[type="time"].poll-inp{padding-left:36px;padding-right:8px;background-position:10px center;background-size:18px;font-size:15.5px}
+/* veliki izbor mjesta ulova */
+#spot-full{display:none;position:fixed;inset:0;z-index:700;background:#000;flex-direction:column}
+#spot-full.open{display:flex}
+.spf-top{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 10px) 12px 10px;background:var(--bg2);border-bottom:1px solid var(--border)}
+.spf-t{color:var(--white);font-weight:900;font-size:16px;line-height:1.25}
+.spf-t small{display:block;color:var(--gray);font-weight:500;font-size:11.5px}
+.spf-scroll{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;display:flex;align-items:safe center;justify-content:safe center;touch-action:pan-x pan-y}
+.spf-inner{position:relative;flex-shrink:0;line-height:0;margin:auto;transition:width .2s}
+.spf-inner img{width:100%;display:block;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;pointer-events:none}
+.spf-pin{width:28px;height:28px;border-width:3px}
+.spf-bot{display:flex;gap:10px;align-items:center;padding:10px 12px calc(env(safe-area-inset-bottom,0px) + 12px);background:var(--bg2);border-top:1px solid var(--border)}
+.spf-zoom{display:flex;align-items:center;background:var(--bg3);border:1px solid var(--border2);border-radius:13px;overflow:hidden}
+.spf-zoom button{background:none;border:none;color:var(--white);font-size:24px;font-weight:700;width:46px;height:48px;cursor:pointer}
+.spf-zoom span{color:var(--gold);font-weight:900;font-size:14px;min-width:30px;text-align:center}
+.spf-ok{flex:1;background:var(--gold);border:none;border-radius:13px;height:50px;color:#03201c;font-size:15px;font-weight:900;cursor:pointer}
+.spf-ok:disabled{opacity:.4}
+/* ankete */
+.poll-new{width:100%;background:var(--bg2);border:1.5px dashed rgba(95,212,196,.45);border-radius:14px;padding:11px;color:var(--gold);font-weight:800;font-size:14px;cursor:pointer;margin-bottom:12px}
+.pl-card{background:linear-gradient(140deg,var(--bg3),var(--bg2));border:1px solid rgba(95,212,196,.35);border-radius:16px;padding:13px;margin-bottom:12px}
+.pl-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.pl-badge{background:var(--gold);color:#03201c;font-size:10px;font-weight:900;letter-spacing:1px;padding:3px 8px;border-radius:8px}
+.pl-by{color:var(--gray);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl-q{color:var(--white);font-size:15.5px;font-weight:800;line-height:1.35;margin-bottom:10px}
+.pl-opts{display:flex;flex-direction:column;gap:7px}
+.pl-opt{position:relative;overflow:hidden;background:var(--bg);border:1.5px solid var(--border2);border-radius:11px;padding:10px 12px;display:flex;justify-content:space-between;gap:8px;cursor:pointer}
+.pl-opt.mine{border-color:var(--gold)}
+.pl-bar{position:absolute;left:0;top:0;bottom:0;background:rgba(95,212,196,.18);transition:width .5s}
+.pl-l,.pl-p{position:relative;color:var(--white);font-size:13.5px;font-weight:700}
+.pl-p{color:var(--gold);font-size:12px;white-space:nowrap}
+.pl-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:10px}
+.pl-tot{color:var(--gray);font-size:11.5px}
+.pl-del,.pl-ask{background:var(--bg3);border:1px solid var(--border2);border-radius:9px;color:var(--white);font-size:12px;font-weight:700;padding:6px 10px;cursor:pointer}
+.pl-del{color:var(--red);border-color:rgba(255,71,87,.35)}
+.pl-req{width:100%;background:rgba(255,159,10,.1);border:1px solid rgba(255,159,10,.35);color:#fdba74;font-size:12px;border-radius:9px;padding:7px 10px}
 </style>
 </head>
 <body>
@@ -1170,7 +1204,7 @@ function renderBihbook() {
     '</div>' +
     '<div id="admin-pinned-area"></div>' +
     '' +
-    '<div id="admin-poll-area"></div>' +
+    '<div id="rb-poll-area"></div>' +
     '<div id="admin-announce-area"></div>' +
     '<div class="compose">' +
     '<div class="compose-top"><div class="cavatar">' + ini + '</div>' +
@@ -1190,6 +1224,7 @@ function renderBihbook() {
   loadLiveFeed();
   loadStories();
   loadAdminContent(); // NEU: laedt alles aus Firestore
+  startPollListener(); renderPollArea();
   setTimeout(initPullToRefresh, 200);
 }
 
@@ -1654,7 +1689,7 @@ function doLogout() {
   fbAuth.signOut().then(function() {
     ME = null; votedPoll = null;
     if (RB.lakesUnsub) { RB.lakesUnsub(); RB.lakesUnsub = null; }
-    stopTodoListeners(); stopActivityListener();
+    stopTodoListeners(); stopActivityListener(); stopPollListener();
     RB.lakes = []; RB.lakesLoaded = false;
     showScreen('s-auth');
     renderAuthForm('login');
@@ -2497,43 +2532,28 @@ function publishAdminCompose() {
 // ── Poll — gespeichert in Firestore ──
 function publishAdminPoll() {
   if (!fbDb) { showToast('Nema veze s bazom!'); return; }
-  var q = (document.getElementById('poll-question')||{}).value||'';
-  var o1= (document.getElementById('poll-opt1')||{}).value||'';
-  var o2= (document.getElementById('poll-opt2')||{}).value||'';
-  var o3= (document.getElementById('poll-opt3')||{}).value||'';
-  var o4= (document.getElementById('poll-opt4')||{}).value||'';
-  if (!q||!o1||!o2) { showToast('Pitanje + min. 2 opcije!'); return; }
-  var opts = [o1,o2]; if(o3)opts.push(o3); if(o4)opts.push(o4);
-  var durLabel = pollDurHours === 0 ? 'Neograničeno' : 'Završava za ' + (pollDurHours<24?pollDurHours+'h':(pollDurHours/24|0)+' dan(a)');
-  var expiresAt = pollDurHours === 0 ? null : new Date(Date.now() + pollDurHours*3600000);
+  var q = ((document.getElementById('poll-question')||{}).value||'').trim();
+  var opts = ['poll-opt1','poll-opt2','poll-opt3','poll-opt4'].map(function(id){ return ((document.getElementById(id)||{}).value||'').trim(); }).filter(Boolean);
+  if (!q || opts.length < 2) { showToast('Pitanje + min. 2 opcije!'); return; }
+  if (activePoll() && !confirm('Već postoji aktivna anketa. Zamijeniti je novom?')) return;
   var btn = document.querySelector('#atab-poll .apin-btn');
   if (btn) { btn.disabled = true; btn.textContent = '...'; }
-
-  // Bestehende Polls loeschen (nur einer aktiv gleichzeitig)
-  fbDb.collection('admin_content').where('type','==','poll').get().then(function(snap) {
-    var batch = fbDb.batch();
-    snap.forEach(function(doc) { batch.delete(doc.ref); });
-    return batch.commit();
-  }).then(function() {
-    return fbDb.collection('admin_content').add({
-      type: 'poll',
-      title: q, body: 'Izaberi odgovor!', expires: durLabel,
-      options: opts, votes: {}, voteCounts: opts.reduce(function(acc,_,i){acc[i]=0;return acc;},{}),
-      expiresAt: expiresAt ? firebase.firestore.Timestamp.fromDate(expiresAt) : null,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      createdBy: ME.uid
-    });
-  }).then(function() {
-    if (btn) { btn.disabled = false; btn.innerHTML = '&#x1F5F3; Objavi anketu'; }
-    ['poll-question','poll-opt1','poll-opt2','poll-opt3','poll-opt4'].forEach(function(id){
-      var el=document.getElementById(id); if(el) el.value='';
-    });
-    showToast('✅ Anketa objavljena! Svi je odmah vide.');
-    closeAdminPanel();
-  }).catch(function(e) {
-    if (btn) { btn.disabled = false; btn.innerHTML = '&#x1F5F3; Objavi anketu'; }
-    showToast('Greška: ' + e.message);
+  var batch = fbDb.batch();
+  PL.list.filter(pollActive).forEach(function(p) { batch.delete(fbDb.collection('rb_polls').doc(p.id)); });
+  var counts = {}; opts.forEach(function(_, i) { counts[i] = 0; });
+  batch.set(fbDb.collection('rb_polls').doc(), {
+    question: q, options: opts, votes: {}, voteCounts: counts,
+    createdBy: ME.uid, createdByName: ME.name || '', createdByUsername: ME.username || '',
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    expiresAt: pollDurHours ? firebase.firestore.Timestamp.fromDate(new Date(Date.now() + pollDurHours * 3600000)) : null,
+    deleteRequests: {}
   });
+  batch.commit().then(function() {
+    if (btn) { btn.disabled = false; btn.innerHTML = '&#x1F5F3; Objavi anketu'; }
+    ['poll-question','poll-opt1','poll-opt2','poll-opt3','poll-opt4'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+    showToast('✅ Anketa objavljena!'); closeAdminPanel();
+    logActivity('poll', (ME.name || 'Admin') + ' je pokrenuo anketu: ' + q, {});
+  }).catch(function(e) { if (btn) { btn.disabled = false; btn.innerHTML = '&#x1F5F3; Objavi anketu'; } showToast('Greška: ' + e.message); });
 }
 
 // ── Announce — gespeichert in Firestore ──
@@ -2816,6 +2836,7 @@ function startNotifPolling() {
 function notifLabel(n) {  var who = '@' + (n.fromUsername || 'fan');
   if (n.type === 'mention_comment') return who + ' te je spomenuo u komentaru';
   if (n.type === 'story_reply') return who + ' je odgovorio na tvoju priču';
+  if (n.type === 'poll_delete_req') return who + ' traži da se obriše anketa';
   return who + ' te je spomenuo';
 }
 
@@ -2855,7 +2876,9 @@ function notifClick(id) {
     n.read = true;
   }
   closeNotifModal();
-  if (n.type === 'story_reply') {
+  if (n.type === 'poll_delete_req') {
+    goTab('bihbook');
+  } else if (n.type === 'story_reply') {
     if (n.storyUid) openStoryByUid(n.storyUid);
   } else if (n.postId) {
     // Beitrag/Kommentar oeffnen (Modal liegt ueber jedem Tab)
@@ -3673,7 +3696,7 @@ function openCatchForm() {
       METHODS.map(function(m) { return '<div class="cf-chip" data-v="' + m.k + '" onclick="cfPick(\'method\',this)">' + m.e + ' ' + m.k + '</div>'; }).join('') + '</div>' +
       '<input class="poll-inp" id="cf-bait" style="margin-top:8px" placeholder="Koji mamac / varalica / boili?" oninput="cfSet(\'bait\',this.value)"></div></div>' +
     '<div class="cf-q"><div class="cf-qn">8</div><div class="cf-qb"><div class="cf-qt">Gdje? <small>(klikni na sliku jezera gdje si ga ulovio)</small></div>' +
-      (lakeHasPhoto(lake) ? '<div class="spot-wrap spot-pick" id="cf-spot" onclick="cfSetSpot(event)"><img data-lakefull="' + lake.id + '" src="' + lakeImgNow(lake) + '" draggable="false"><div class="spot-pin" id="cf-pin" style="display:none"></div><div class="spot-hint" id="cf-spot-hint">👆 Dodirni mjesto ulova</div></div>'
+      (lakeHasPhoto(lake) ? '<div class="spot-wrap spot-pick" id="cf-spot" onclick="openSpotPicker()"><img data-lakefull="' + lake.id + '" src="' + lakeImgNow(lake) + '" draggable="false"><div class="spot-pin" id="cf-pin" style="display:none"></div><div class="spot-hint" id="cf-spot-hint">🔍 Dodirni – otvara se velika slika</div></div>'
         : '<div class="rb-hint">⚠️ Admin još nije dodao fotografiju ovog jezera – ovaj korak se preskače.</div>') +
     '</div></div>' +
     '<div class="cf-photo-box locked" id="cf-photo-box">' +
@@ -4128,7 +4151,7 @@ function nzClearDone() {
 // rb_activity: { type, text, uid, name, lakeId, folderId, createdAt }
 // ════════════════════════════════════════════════════════════
 var ACT = { list: [], unsub: null, firstLoad: true, seen: 0, startedAt: Date.now() };
-var ACT_ICONS = { catch: '🐟', photos: '📸', post: '💬', story: '⏱️', folder: '📁', lake: '🏞️', todo: '📝' };
+var ACT_ICONS = { poll: '📊', catch: '🐟', photos: '📸', post: '💬', story: '⏱️', folder: '📁', lake: '🏞️', todo: '📝' };
 try { ACT.seen = parseInt(localStorage.getItem('rb_act_seen') || '0', 10) || 0; } catch (e) {}
 
 function logActivity(type, text, extra) {
@@ -4212,7 +4235,7 @@ function openActivity(id) {
   else if (a.type === 'photos' && a.lakeId) { goTab('ribe'); RB.ribeLake = a.lakeId; RB.ribeFolder = a.folderId || null; loadFolders(a.lakeId, renderRibe); renderRibe(); }
   else if (a.type === 'folder' && a.lakeId) { goTab('ribe'); RB.ribeLake = a.lakeId; RB.ribeFolder = null; loadFolders(a.lakeId, renderRibe); renderRibe(); }
   else if (a.type === 'lake' && a.lakeId) { goTab('jezera'); setTimeout(function() { openLake(a.lakeId); }, 150); }
-  else if (a.type === 'post' || a.type === 'story') goTab('bihbook');
+  else if (a.type === 'post' || a.type === 'story' || a.type === 'poll') goTab('bihbook');
   else if (a.type === 'todo') { NZ.scope = 'all'; goTab('nezab'); }
 }
 
@@ -4241,6 +4264,226 @@ function markActivitySeen() {
   ACT.seen = max;
   try { localStorage.setItem('rb_act_seen', String(max)); } catch (e) {}
   updateBell();
+}
+
+// ════════════════════════════════════════════════════════════
+// MJESTO ULOVA — velika slika preko cijelog ekrana, zum + tačno označavanje
+// ════════════════════════════════════════════════════════════
+var SP = { zoom: 1, x: null, y: null };
+function openSpotPicker() {
+  var cf = RB.catchForm; if (!cf) return;
+  var lake = lakeById(RB.ulovLake); if (!lake) return;
+  SP.zoom = 1; SP.x = cf.spotX; SP.y = cf.spotY;
+  var el = document.getElementById('spot-full');
+  if (!el) {
+    el = document.createElement('div'); el.id = 'spot-full';
+    el.innerHTML =
+      '<div class="spf-top"><button class="pv-btn" onclick="closeSpotPicker()">✕</button><div class="spf-t">📍 Gdje si ga ulovio?<small>Dodirni tačno mjesto · zumiraj sa + / −</small></div></div>' +
+      '<div class="spf-scroll" id="spf-scroll"><div class="spf-inner" id="spf-inner"><img id="spf-img" draggable="false" alt=""><div class="spot-pin spf-pin" id="spf-pin" style="display:none"></div></div></div>' +
+      '<div class="spf-bot"><div class="spf-zoom"><button onclick="spotZoom(-1)">−</button><span id="spf-z">1×</span><button onclick="spotZoom(1)">+</button></div>' +
+      '<button class="spf-ok" id="spf-ok" onclick="confirmSpot()" disabled>✓ Potvrdi mjesto</button></div>';
+    document.body.appendChild(el);
+    // tap (ne povlačenje) postavlja pin
+    var sc = el.querySelector('#spf-scroll'), sx = 0, sy = 0, moved = false;
+    sc.addEventListener('pointerdown', function(e) { sx = e.clientX; sy = e.clientY; moved = false; });
+    sc.addEventListener('pointermove', function(e) { if (Math.abs(e.clientX - sx) > 8 || Math.abs(e.clientY - sy) > 8) moved = true; });
+    sc.addEventListener('click', function(e) { if (!moved) spotTap(e); });
+  }
+  var img = document.getElementById('spf-img');
+  img.src = lakeImgNow(lake);
+  getLakePhoto(lake, function(u) { if (u && img.src !== u) img.src = u; });
+  spotApplyZoom();
+  spotPaintPin();
+  el.classList.add('open');
+}
+function closeSpotPicker() { var el = document.getElementById('spot-full'); if (el) el.classList.remove('open'); }
+function spotApplyZoom() {
+  var inner = document.getElementById('spf-inner');
+  inner.style.width = (SP.zoom * 100) + '%';
+  document.getElementById('spf-z').textContent = SP.zoom + '×';
+}
+function spotZoom(d) {
+  var sc = document.getElementById('spf-scroll');
+  var cx = (sc.scrollLeft + sc.clientWidth / 2) / sc.scrollWidth, cy = (sc.scrollTop + sc.clientHeight / 2) / Math.max(1, sc.scrollHeight);
+  var nz = Math.max(1, Math.min(4, SP.zoom + d));
+  if (nz === SP.zoom) return;
+  SP.zoom = nz; spotApplyZoom();
+  // drži isti centar (ili pin) u sredini
+  if (SP.x != null && d > 0) { cx = SP.x; }
+  requestAnimationFrame(function() {
+    var img = document.getElementById('spf-img');
+    sc.scrollLeft = cx * sc.scrollWidth - sc.clientWidth / 2;
+    sc.scrollTop = (SP.y != null && d > 0 ? (img.offsetTop + SP.y * img.offsetHeight) / sc.scrollHeight : cy) * sc.scrollHeight - sc.clientHeight / 2;
+  });
+}
+function spotTap(e) {
+  var img = document.getElementById('spf-img');
+  var r = img.getBoundingClientRect();
+  var x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+  if (x < 0 || x > 1 || y < 0 || y > 1) return;
+  SP.x = +x.toFixed(4); SP.y = +y.toFixed(4);
+  spotPaintPin();
+  try { if (navigator.vibrate) navigator.vibrate(15); } catch (er) {}
+}
+function spotPaintPin() {
+  var pin = document.getElementById('spf-pin'), ok = document.getElementById('spf-ok');
+  if (SP.x == null) { pin.style.display = 'none'; ok.disabled = true; return; }
+  pin.style.left = (SP.x * 100) + '%'; pin.style.top = (SP.y * 100) + '%'; pin.style.display = 'block';
+  pin.style.background = RB.catchForm && RB.catchForm.fish ? fishColor(RB.catchForm.fish) : 'var(--red)';
+  ok.disabled = false;
+}
+function confirmSpot() {
+  var cf = RB.catchForm; if (!cf || SP.x == null) return;
+  cf.spotX = SP.x; cf.spotY = SP.y;
+  var pin = document.getElementById('cf-pin');
+  if (pin) { pin.style.left = (SP.x * 100) + '%'; pin.style.top = (SP.y * 100) + '%'; pin.style.display = 'block'; pin.style.background = cf.fish ? fishColor(cf.fish) : 'var(--red)'; }
+  var hint = document.getElementById('cf-spot-hint'); if (hint) hint.textContent = '✏️ Promijeni mjesto';
+  closeSpotPicker();
+  cfValidate();
+}
+
+// ════════════════════════════════════════════════════════════
+// ANKETE — svako može pokrenuti; samo jedna aktivna;
+// briše admin ili autor; ostali mogu zatražiti brisanje
+// rb_polls: { question, options[], votes{uid:i}, voteCounts{i:n}, createdBy, createdByName, createdByUsername,
+//             createdAt, expiresAt|null, deleteRequests{uid:name} }
+// ════════════════════════════════════════════════════════════
+var PL = { list: [], unsub: null, dur: 72 };
+function pollActive(p) { return !(p.expiresAt && p.expiresAt.toDate && p.expiresAt.toDate() < new Date()); }
+function activePoll() { var a = PL.list.filter(pollActive); a.sort(function(x, y) { return tsMs(y) - tsMs(x); }); return a[0] || null; }
+function startPollListener() {
+  if (!fbDb || PL.unsub) return;
+  PL.unsub = fbDb.collection('rb_polls').orderBy('createdAt', 'desc').limit(10).onSnapshot(function(snap) {
+    var arr = []; snap.forEach(function(d) { arr.push(Object.assign({ id: d.id }, d.data())); });
+    PL.list = arr; renderPollArea();
+  }, function() {});
+}
+function stopPollListener() { if (PL.unsub) { PL.unsub(); PL.unsub = null; } PL.list = []; }
+function pollCanDelete(p) { return ME && (isAdmin() || p.createdBy === ME.uid); }
+
+function renderPollArea() {
+  var area = document.getElementById('rb-poll-area'); if (!area) return;
+  var p = activePoll();
+  if (!p) {
+    area.innerHTML = '<button class="poll-new" onclick="openPollForm()">📊 Pokreni anketu</button>';
+    return;
+  }
+  var my = p.votes && ME ? p.votes[ME.uid] : undefined;
+  var voted = my !== undefined && my !== null;
+  var total = 0; (p.options || []).forEach(function(_, i) { total += (p.voteCounts && p.voteCounts[i]) || 0; });
+  var opts = (p.options || []).map(function(o, i) {
+    var n = (p.voteCounts && p.voteCounts[i]) || 0, pct = total ? Math.round(n / total * 100) : 0;
+    return '<div class="pl-opt' + (voted ? ' res' : '') + (my === i ? ' mine' : '') + '" onclick="votePoll(\'' + p.id + '\',' + i + ')">' +
+      (voted ? '<div class="pl-bar" style="width:' + pct + '%"></div>' : '') +
+      '<span class="pl-l">' + (my === i ? '✓ ' : '') + _esc(o) + '</span>' + (voted ? '<span class="pl-p">' + pct + '% · ' + n + '</span>' : '') + '</div>';
+  }).join('');
+  var reqs = p.deleteRequests ? Object.keys(p.deleteRequests) : [];
+  var exp = p.expiresAt && p.expiresAt.toDate ? 'do ' + fmtDT(p.expiresAt.toDate()) : 'bez roka';
+  var foot = '';
+  if (pollCanDelete(p)) {
+    foot = (reqs.length ? '<div class="pl-req">🙋 ' + reqs.length + (reqs.length === 1 ? ' član traži' : ' člana traže') + ' brisanje: ' + reqs.map(function(k) { return _esc(p.deleteRequests[k]); }).join(', ') + '</div>' : '') +
+      '<button class="pl-del" onclick="deletePoll(\'' + p.id + '\')">🗑 Obriši anketu</button>';
+  } else if (ME && p.deleteRequests && p.deleteRequests[ME.uid]) {
+    foot = '<div class="pl-req">✅ Zahtjev za brisanje poslan autoru i adminu</div>';
+  } else {
+    foot = '<button class="pl-ask" onclick="requestPollDelete(\'' + p.id + '\')">🙋 Zatraži brisanje</button>';
+  }
+  area.innerHTML = '<div class="pl-card">' +
+    '<div class="pl-head"><span class="pl-badge">📊 ANKETA</span><span class="pl-by">' + _esc(p.createdByName || '') + ' · ' + exp + '</span></div>' +
+    '<div class="pl-q">' + _esc(p.question) + '</div>' +
+    '<div class="pl-opts">' + opts + '</div>' +
+    '<div class="pl-foot"><span class="pl-tot">' + total + (total === 1 ? ' glas' : ' glasova') + (voted ? '' : ' · klikni za glas') + '</span>' + foot + '</div></div>';
+}
+
+function votePoll(id, i) {
+  var p = PL.list.filter(function(x) { return x.id === id; })[0]; if (!p || !ME) return;
+  if (p.votes && p.votes[ME.uid] !== undefined && p.votes[ME.uid] !== null) {
+    if (p.votes[ME.uid] === i) return;
+    // promjena glasa
+    var old = p.votes[ME.uid];
+    var u = {}; u['votes.' + ME.uid] = i;
+    u['voteCounts.' + old] = firebase.firestore.FieldValue.increment(-1);
+    u['voteCounts.' + i] = firebase.firestore.FieldValue.increment(1);
+    p.votes[ME.uid] = i; p.voteCounts = p.voteCounts || {}; p.voteCounts[old] = (p.voteCounts[old] || 1) - 1; p.voteCounts[i] = (p.voteCounts[i] || 0) + 1;
+    renderPollArea();
+    fbDb.collection('rb_polls').doc(id).update(u).catch(function(e) { showToast('Greška: ' + e.message); });
+    return;
+  }
+  var upd = {}; upd['votes.' + ME.uid] = i; upd['voteCounts.' + i] = firebase.firestore.FieldValue.increment(1);
+  p.votes = Object.assign({}, p.votes || {}); p.votes[ME.uid] = i;
+  p.voteCounts = Object.assign({}, p.voteCounts || {}); p.voteCounts[i] = (p.voteCounts[i] || 0) + 1;
+  renderPollArea();
+  fbDb.collection('rb_polls').doc(id).update(upd).catch(function(e) { showToast('Greška: ' + e.message); });
+}
+
+function openPollForm() {
+  if (!ME) return;
+  if (activePoll()) { showToast('Već postoji aktivna anketa – samo jedna može biti aktivna'); return; }
+  PL.dur = 72;
+  rbSheet('📊 Nova anketa',
+    '<div class="rb-label">Pitanje *</div><input class="poll-inp" id="pf-q" placeholder="npr. Na koje jezero idemo sljedeći vikend?">' +
+    '<div class="rb-label">Odgovori * <small>(min. 2)</small></div><div id="pf-opts">' +
+      [1, 2, 3].map(function(i) { return '<input class="poll-inp pf-o" placeholder="Opcija ' + i + (i > 2 ? ' (opcionalno)' : '') + '">'; }).join('') + '</div>' +
+    '<button class="rb-btn" onclick="pollAddOpt()" style="margin-top:2px">＋ Dodaj opciju</button>' +
+    '<div class="rb-label">Trajanje</div><div class="duration-row" id="pf-dur">' +
+      [[24, '1 dan'], [72, '3 dana'], [168, '1 sedm.'], [0, 'Bez roka']].map(function(d) {
+        return '<div class="dur-btn' + (d[0] === 72 ? ' on' : '') + '" onclick="pollPickDur2(this,' + d[0] + ')">' + d[1] + '</div>';
+      }).join('') + '</div>' +
+    '<div class="rb-hint">Samo jedna anketa može biti aktivna. Obrisati je možeš ti ili admin.</div>' +
+    '<button class="apin-btn" id="pf-save" onclick="savePoll()">📊 Pokreni anketu</button>');
+}
+function pollAddOpt() {
+  var box = document.getElementById('pf-opts'); var n = box.querySelectorAll('.pf-o').length;
+  if (n >= 6) { showToast('Max. 6 opcija'); return; }
+  var i = document.createElement('input'); i.className = 'poll-inp pf-o'; i.placeholder = 'Opcija ' + (n + 1) + ' (opcionalno)';
+  box.appendChild(i); i.focus();
+}
+function pollPickDur2(el, h) {
+  PL.dur = h; el.parentNode.querySelectorAll('.dur-btn').forEach(function(b) { b.classList.toggle('on', b === el); });
+}
+function savePoll() {
+  var q = (document.getElementById('pf-q').value || '').trim();
+  var opts = Array.prototype.map.call(document.querySelectorAll('#pf-opts .pf-o'), function(i) { return i.value.trim(); }).filter(Boolean);
+  if (!q || opts.length < 2) { showToast('Pitanje + min. 2 odgovora!'); return; }
+  var btn = document.getElementById('pf-save'); btn.disabled = true; btn.textContent = '...';
+  // provjeri na serveru da nema aktivne ankete
+  fbDb.collection('rb_polls').orderBy('createdAt', 'desc').limit(10).get().then(function(snap) {
+    var act = false; snap.forEach(function(d) { if (pollActive(d.data())) act = true; });
+    if (act) { throw new Error('Već postoji aktivna anketa'); }
+    var counts = {}; opts.forEach(function(_, i) { counts[i] = 0; });
+    return fbDb.collection('rb_polls').add({
+      question: q, options: opts, votes: {}, voteCounts: counts,
+      createdBy: ME.uid, createdByName: ME.name || '', createdByUsername: ME.username || '',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      expiresAt: PL.dur ? firebase.firestore.Timestamp.fromDate(new Date(Date.now() + PL.dur * 3600000)) : null,
+      deleteRequests: {}
+    });
+  }).then(function() {
+    rbSheetClose(); showToast('✅ Anketa pokrenuta!');
+    logActivity('poll', (ME.name || 'Neko') + ' je pokrenuo anketu: ' + q, {});
+  }).catch(function(e) { btn.disabled = false; btn.textContent = '📊 Pokreni anketu'; showToast(e.message); });
+}
+function deletePoll(id) {
+  var p = PL.list.filter(function(x) { return x.id === id; })[0]; if (!p || !pollCanDelete(p)) return;
+  if (!confirm('Obrisati anketu „' + p.question + '"?')) return;
+  fbDb.collection('rb_polls').doc(id).delete().then(function() { showToast('Anketa obrisana'); })
+    .catch(function(e) { showToast('Greška: ' + e.message); });
+}
+function requestPollDelete(id) {
+  var p = PL.list.filter(function(x) { return x.id === id; })[0]; if (!p || !ME) return;
+  if (!confirm('Zatražiti od autora (' + (p.createdByName || '') + ') i admina da obrišu ovu anketu?')) return;
+  var u = {}; u['deleteRequests.' + ME.uid] = ME.name || ME.username || '';
+  fbDb.collection('rb_polls').doc(id).update(u).then(function() {
+    showToast('✅ Zahtjev poslan');
+    var txt = 'Anketa: ' + p.question;
+    if (p.createdByUsername) createNotification(p.createdByUsername, 'poll_delete_req', { text: txt });
+    // admin(i) po e-mailu → korisničko ime
+    ADMIN_EMAILS.forEach(function(em) {
+      fbDb.collection('users').where('email', '==', em).limit(1).get().then(function(s) {
+        s.forEach(function(d) { var un = d.data().username; if (un && un !== p.createdByUsername) createNotification(un, 'poll_delete_req', { text: txt }); });
+      }).catch(function() {});
+    });
+  }).catch(function(e) { showToast('Greška: ' + e.message); });
 }
 
 </script>
