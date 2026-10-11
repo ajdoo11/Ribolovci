@@ -1339,6 +1339,23 @@ function renderFeed(posts) {
   }
 
   window._currentFeedPosts = visible;
+  // Isti postovi kao prije (samo lajk/komentar promijenjen)? → ažuriraj samo brojke, bez skakanja stranice
+  var sig = visible.map(function(p) { return p.docId + (p.imageUrl ? 'i' : '') + (p.text || '').length; }).join('|');
+  if (sig === window._feedSig && list.querySelector('.fpost')) {
+    visible.forEach(function(p) {
+      var lb = list.querySelector('.fact[data-id="' + p.docId + '"][onclick^="likePost"]');
+      if (lb) { lb.innerHTML = likeBtnHTML(p); lb.classList.toggle('liked', !!(ME && p.likedBy && p.likedBy[ME.uid])); }
+      var cb = list.querySelector('.fact[data-id="' + p.docId + '"][onclick^="openComments"] span');
+      if (cb) cb.textContent = p.commentCount || 0;
+    });
+    return;
+  }
+  window._feedSig = sig;
+  var panel = document.getElementById('tp-bihbook');
+  var keepTop = panel ? panel.scrollTop : 0;
+  if (panel) panel.style.minHeight = '';
+  list.style.minHeight = list.offsetHeight + 'px'; // drži visinu dok se slike crtaju
+  setTimeout(function() { list.style.minHeight = ''; }, 1500);
   list.innerHTML = visible.map(function(p) {
     var ini = (p.displayName || 'F').split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
     var ts = '';
@@ -1374,6 +1391,7 @@ function renderFeed(posts) {
       '<button class="fact fact-share" data-id="' + p.docId + '" onclick="openShareSheetId(this)">&#x2197; Podijeli</button>' +
       '</div></div>';
   }).join('');
+  if (panel && keepTop) panel.scrollTop = keepTop;
 }
 function togglePost() {
   var v = document.getElementById('carea');
