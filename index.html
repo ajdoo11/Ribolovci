@@ -526,6 +526,27 @@ a{text-decoration:none;color:inherit}
 .nicon{position:relative}
 .nz-badge{position:absolute;top:-4px;right:-9px;background:var(--red);color:#fff;font-size:9px;font-weight:800;min-width:15px;height:15px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px;font-family:Inter,sans-serif;font-style:normal}
 .nlabel{font-size:8px;letter-spacing:.2px}
+
+#stories-dynamic{display:flex;gap:9px;flex-shrink:0}
+.stories{align-items:flex-start}
+.pc-like{position:absolute;left:4px;bottom:4px;background:rgba(0,0,0,.6);color:#fff;font-size:10.5px;font-weight:800;padding:2px 6px;border-radius:10px;pointer-events:none}
+.photo-cell{position:relative}
+.pv-like{min-width:auto;padding:0 11px;font-size:13px;font-weight:800;gap:5px}
+.cc-like{margin-left:auto;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;color:var(--white);font-size:12.5px;font-weight:800;padding:4px 10px;cursor:pointer;display:flex;align-items:center;gap:4px}
+.cc-like.liked{border-color:rgba(255,71,87,.5);background:rgba(255,71,87,.12)}
+.cc-top{flex-wrap:wrap}
+.fact span{pointer-events:none}
+
+.lf-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lf-row .rb-btn{font-size:13px;padding:11px 6px;margin-bottom:8px}
+.lf-res{background:var(--bg3);border:1px solid var(--border2);border-radius:11px;padding:9px 11px;margin-bottom:6px;cursor:pointer}
+.lf-res b{display:block;color:var(--white);font-size:13.5px}
+.lf-res small{display:block;color:var(--gray);font-size:11px;margin-top:2px;line-height:1.35}
+.lf-map{border-radius:12px;overflow:hidden;border:1px solid var(--border2);margin-bottom:6px;background:var(--bg3)}
+.lf-map iframe{width:100%;height:170px;border:0;display:block}
+.lf-map-cap{color:var(--green);font-size:11.5px;font-weight:700;padding:7px 10px}
+.lf-map-empty{color:var(--gray);font-size:12.5px;padding:16px 12px;text-align:center;line-height:1.5}
+.ld-warn{background:rgba(255,159,10,.12);border:1px solid rgba(255,159,10,.4);color:#fdba74;border-radius:11px;padding:9px 11px;font-size:12.5px;line-height:1.45;margin-top:10px}
 </style>
 </head>
 <body>
@@ -609,6 +630,7 @@ a{text-decoration:none;color:inherit}
   <div class="pv-top">
     <button class="pv-btn" onclick="closePhotoViewer()">&#x2715;</button>
     <div class="pv-meta" id="pv-meta"></div>
+    <button class="pv-btn pv-like" id="pv-like" onclick="likeAlbumPhoto(this)">🤍 <span>0</span></button>
     <button class="pv-btn" id="pv-dl" onclick="downloadAlbumPhoto()" title="Sačuvaj" style="min-width:auto;padding:0 12px;font-size:13px;font-weight:800;gap:5px">⬇</button>
     <button class="pv-btn" id="pv-del" onclick="deleteAlbumPhoto()" style="background:rgba(255,71,87,.85)" title="Obriši">&#x1F5D1;</button>
   </div>
@@ -858,6 +880,7 @@ var LANG = {
   errPrefix: 'Greška: ',
   welcome: 'Dobrodošao ', welcomeBack: 'Dobrodošao nazad!'
 };
+function fmtDT(d) { return ('0' + d.getDate()).slice(-2) + '.' + ('0' + (d.getMonth() + 1)).slice(-2) + '. ' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); }
 function t(key) { return LANG[key] || key; }
 
 // ════════════════════════════════════════════════════════════
@@ -916,7 +939,7 @@ function enterApp(welcomeMsg) {
   renderUserPill();
   renderAll();
   if (welcomeMsg) showToast(welcomeMsg);
-  setTimeout(runAutoCleanup, 3000);
+  setTimeout(runAutoCleanup, 45000);
   setTimeout(loadNotifications, 1000);
   startNotifPolling();
   startTodoListeners();
@@ -993,7 +1016,7 @@ function goTab(tab, btn) {
   if (tab === 'ribe') { if (RB.ribeLake && !RB.folders[RB.ribeLake]) loadFolders(RB.ribeLake, renderRibe); renderRibe(); }
   if (tab === 'ulov') { if (RB.ulovLake && !RB.folders[RB.ulovLake]) loadFolders(RB.ulovLake, renderUlov); renderUlov(); }
   if (tab === 'stat') { if (RB.statLake) statPickLake(RB.statLake); else renderStat(); }
-  if (tab === 'bihbook') { renderBihbook(); loadStories(); }
+  if (tab === 'bihbook') { renderBihbook(); }
   if (tab === 'nezab') renderNezab();
 }
 function goTabKey(tab) { goTab(tab); }
@@ -1321,12 +1344,12 @@ function renderFeed(posts) {
     var ts = '';
     if (p.createdAt && p.createdAt.toDate) {
       var d = p.createdAt.toDate();
-      ts = d.toLocaleDateString('bs-BA',{day:'2-digit',month:'short'}) + ' ' + d.toLocaleTimeString('bs-BA',{hour:'2-digit',minute:'2-digit'});
+      ts = fmtDT(d);
     }
     var lc = p.likedBy ? Object.keys(p.likedBy).length : 0;
     var liked = p.likedBy && ME && p.likedBy[ME.uid];
     var mine = ME && p.uid === ME.uid;
-    var txt = (p.text || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    var txt = (p.text || '').replace(/&#8627;/g, '↳').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     // Highlight @mentions
     txt = txt.replace(/@(\w+)/g,'<span style="color:var(--gold);font-weight:700">@$1</span>');
     // Repost label
@@ -1346,7 +1369,7 @@ function renderFeed(posts) {
       (txt ? '<div class="ftext">' + txt + '</div>' : '') +
       (p.imageUrl ? '<img src="' + p.imageUrl + '" style="width:100%;max-height:340px;object-fit:cover;display:block;cursor:pointer;' + (txt ? '' : 'margin-top:8px') + '" onclick="openImgFull(this.src)" loading="lazy">' : '') +
       '<div class="factions">' +
-      '<button class="fact' + (liked?' liked':'') + '" data-id="' + p.docId + '" onclick="likePostEl(this)">' + (liked?'&#10084;':'&#x1F90D;') + ' <span>' + lc + '</span></button>' +
+      '<button class="fact' + (liked?' liked':'') + '" data-id="' + p.docId + '" onclick="likePostEl(this)">' + likeBtnHTML(p) + '</button>' +
       '<button class="fact" data-id="' + p.docId + '" onclick="openCommentsByEl(this)">&#x1F4AC; <span>' + (p.commentCount||0) + '</span></button>' +
       '<button class="fact fact-share" data-id="' + p.docId + '" onclick="openShareSheetId(this)">&#x2197; Podijeli</button>' +
       '</div></div>';
@@ -1423,13 +1446,32 @@ function submitPost() {
 }
 function likePost(docId, btn) {
   if (!ME) return;
-  var ref = fbDb.collection('posts').doc(docId);
-  ref.get().then(function(doc) {
-    if (!doc.exists) return;
-    var update = {};
-    if ((doc.data().likedBy || {})[ME.uid]) update['likedBy.' + ME.uid] = firebase.firestore.FieldValue.delete();
-    else update['likedBy.' + ME.uid] = true;
-    ref.update(update);
+  var p = (window._currentFeedPosts || []).find(function(x) { return x.docId === docId; }) || { likedBy: {} };
+  toggleLike('posts', docId, p, btn);
+}
+
+// Zajedničko lajkanje (objave, fotografije, ulovi): odmah prikaži, pa spremi; greška → vrati nazad
+function likeBtnHTML(item) {
+  var n = item && item.likedBy ? Object.keys(item.likedBy).length : 0;
+  var on = !!(ME && item && item.likedBy && item.likedBy[ME.uid]);
+  return (on ? '❤️' : '🤍') + ' <span>' + n + '</span>';
+}
+function toggleLike(col, id, item, btn, after) {
+  if (!ME || !fbDb || !id) return;
+  var was = !!(item.likedBy && item.likedBy[ME.uid]);
+  function paint() {
+    if (btn) { btn.classList.toggle('liked', !!(item.likedBy && item.likedBy[ME.uid])); btn.innerHTML = likeBtnHTML(item); }
+    if (after) after();
+  }
+  item.likedBy = Object.assign({}, item.likedBy || {});
+  if (was) delete item.likedBy[ME.uid]; else item.likedBy[ME.uid] = true;
+  paint();
+  try { if (!was && navigator.vibrate) navigator.vibrate(15); } catch (e) {}
+  var upd = {}; upd['likedBy.' + ME.uid] = was ? firebase.firestore.FieldValue.delete() : true;
+  fbDb.collection(col).doc(id).update(upd).catch(function(e) {
+    if (was) item.likedBy[ME.uid] = true; else delete item.likedBy[ME.uid];
+    paint();
+    showToast('Lajk nije spremljen: ' + e.message);
   });
 }
 
@@ -1753,8 +1795,9 @@ function loadStories() {
   var sixHoursAgo = new Date(now.getTime() - 6 * 60 * 60 * 1000);
 
   fbDb.collection('stories')
+    .where('createdAt', '>', sixHoursAgo)
     .orderBy('createdAt', 'desc')
-    .limit(50)
+    .limit(40)
     .get().then(function(snap) {
       var stories = [];
       snap.forEach(function(doc) {
@@ -2100,7 +2143,7 @@ function shareVia(method) {
     if (!ME || !fbDb) { showToast('Prijavi se!'); return; }
     var pd = {
       uid: ME.uid, displayName: ME.name, username: ME.username,
-      text: (post.text || '') + (post.displayName ? '\n\n&#8627; Podijelio @' + (post.username || post.displayName) : ''),
+      text: (post.text || '') + (post.displayName ? '\n\n↳ Podijelio @' + (post.username || post.displayName) : ''),
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       likedBy: {}, commentCount: 0, isRepost: true
     };
@@ -2535,6 +2578,7 @@ window.addEventListener('DOMContentLoaded', function() {
   fbAuth = firebase.auth();
   fbDb = firebase.firestore();
   // lokalni keš → albumi i ulovi se drugi put otvaraju odmah
+  try { fbDb.settings({ experimentalAutoDetectLongPolling: true, merge: true }); } catch (e) {}
   try { if (fbDb.enablePersistence) fbDb.enablePersistence({ synchronizeTabs: true }).catch(function() {}); } catch (e) {}
 
   // Angemeldet bleiben — auch nach App-Neustart (LOCAL = dauerhaft gespeichert)
@@ -2568,7 +2612,9 @@ function likePostEl(el) { likePost(el.getAttribute('data-id'), el); }
 function sharePostEl(el) { sharePost(el.getAttribute('data-txt') || ''); }
 
 function runAutoCleanup() {
-  if (!fbDb || !ME) return;
+  // samo admin, max. jednom dnevno, malim paketima i tek kad je sve ostalo učitano
+  if (!fbDb || !ME || !isAdmin()) return;
+  try { var lastC = localStorage.getItem('rb_cleanup_day'); if (lastC === todayISO()) return; localStorage.setItem('rb_cleanup_day', todayISO()); } catch (e) {}
   var now = new Date();
   var twelveHoursAgo = new Date(now.getTime() - 12 * 60 * 60 * 1000);
   var sixMonthsAgo = new Date(now.getTime() - 6 * 30 * 24 * 60 * 60 * 1000);
@@ -2579,7 +2625,7 @@ function runAutoCleanup() {
 
   // Delete photo posts older than 12h (batch)
   fbDb.collection('posts')
-    .where('createdAt', '<', twelveHoursAgo)
+    .where('createdAt', '<', twelveHoursAgo).orderBy('createdAt', 'asc').limit(25)
     .get().then(function(snap) {
       var batch = fbDb.batch();
       var count = 0;
@@ -2596,7 +2642,7 @@ function runAutoCleanup() {
 
   // Delete all posts older than 6 months
   fbDb.collection('posts')
-    .where('createdAt', '<', sixMonthsAgo)
+    .where('createdAt', '<', sixMonthsAgo).orderBy('createdAt', 'asc').limit(25)
     .get().then(function(snap) {
       var batch = fbDb.batch();
       snap.forEach(function(doc) { batch.delete(doc.ref); });
@@ -2605,7 +2651,7 @@ function runAutoCleanup() {
 
   // Delete expired stories
   fbDb.collection('stories')
-    .where('createdAt', '<', new Date(now.getTime() - 6 * 60 * 60 * 1000))
+    .where('createdAt', '<', new Date(now.getTime() - 6 * 60 * 60 * 1000)).orderBy('createdAt', 'asc').limit(25)
     .get().then(function(snap) {
       var batch = fbDb.batch();
       snap.forEach(function(doc) { batch.delete(doc.ref); });
@@ -2750,7 +2796,7 @@ function openNotifications() {
     list.innerHTML = notifPermissionHTML() + '<div style="text-align:center;padding:28px;color:var(--gray);font-size:14px">Nema obavještenja</div>';
   } else {
     list.innerHTML = notifPermissionHTML() + act + (notifs.length ? '<div class="notif-sec">Spominjanja i odgovori</div>' : '') + notifs.map(function(n) {
-      var ts = n.createdAt && n.createdAt.toDate ? n.createdAt.toDate().toLocaleDateString('bs-BA', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
+      var ts = n.createdAt && n.createdAt.toDate ? fmtDT(n.createdAt.toDate()) : '';
       var txt = _esc(n.text || '').replace(/@(\w+)/g, '<span style="color:var(--gold);font-weight:700">@$1</span>');
       var dot = n.read ? '' : '<span style="width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:6px"></span>';
       return '<div style="display:flex;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;' + (n.read ? '' : 'background:rgba(95,212,196,.05)') + '" onclick="notifClick(&apos;' + n.id + '&apos;)">' +
@@ -2992,6 +3038,7 @@ function openLake(id) {
     '<div class="ld-name">' + _esc(l.name) + '</div>' +
     (l.address ? '<div class="ld-addr">📍 ' + _esc(l.address) + '</div>' : '') +
     (l.lat != null && l.lat !== '' ? '<div class="ld-coords" onclick="copyCoords(\'' + l.id + '\')">🌐 ' + Number(l.lat).toFixed(5) + ', ' + Number(l.lng).toFixed(5) + ' <span>kopiraj</span></div>' : '') +
+    (l.lat == null || l.lat === '' ? '<div class="ld-warn">⚠️ Ovo jezero još nema tačnu lokaciju – ruta ne može raditi.' + (isAdmin() ? ' Klikni ✏️ Uredi → „Pronađi po nazivu".' : '') + '</div>' : '') +
     '<div class="ld-btns">' +
       '<button class="rb-btn rb-btn-main" onclick="openRoute(\'' + l.id + '\')">🧭 Ruta</button>' +
       '<button class="rb-btn" onclick="openGoogleInfo(\'' + l.id + '\')">ℹ️ Google info</button>' +
@@ -3022,7 +3069,12 @@ function openGoogleInfo(id) {
 
 function openRoute(id) {
   var l = lakeById(id); if (!l) return;
-  var dest = lakeMapQuery(l);
+  if (l.lat == null || l.lat === '' || l.lng == null || l.lng === '') {
+    showToast('⚠️ Jezero nema tačnu lokaciju' + (isAdmin() ? ' – uredi jezero → „Pronađi po nazivu"' : ' – javi adminu'));
+    if (l.mapsUrl) window.open(l.mapsUrl, '_blank');
+    return;
+  }
+  var dest = Number(l.lat).toFixed(6) + ',' + Number(l.lng).toFixed(6);
   var gWeb = 'https://www.google.com/maps/dir/?api=1&destination=' + dest + '&travelmode=driving';
   if (isAndroid()) { window.location.href = gWeb; return; }
   if (isIOS()) {
@@ -3055,7 +3107,9 @@ function openLakeForm(id) {
     '<div class="rb-label">Google Maps link ili koordinate</div>' +
     '<input class="poll-inp" id="lf-url" placeholder="Zalijepi link iz Google Maps ili 47.12, 8.45" value="' + _esc(l ? (l.mapsUrl || (l.lat != null && l.lat !== '' ? l.lat + ', ' + l.lng : '')) : '') + '" oninput="lfParse()">' +
     '<div class="rb-hint" id="lf-parsed">' + (l && l.lat != null && l.lat !== '' ? '✅ Koordinate: ' + l.lat + ', ' + l.lng : 'Savjet: u Google Maps klikni na jezero → Podijeli → Kopiraj link.') + '</div>' +
-    '<button class="rb-btn" style="margin:2px 0 8px" onclick="lfMyLocation()">📍 Koristi moju trenutnu lokaciju</button>' +
+    '<div class="lf-row"><button class="rb-btn rb-btn-main" onclick="lfFind()">🔎 Pronađi po nazivu</button><button class="rb-btn" onclick="lfMyLocation()">📍 Stojim na jezeru</button></div>' +
+    '<div id="lf-results"></div>' +
+    '<div class="lf-map" id="lf-map">' + (l && l.lat != null && l.lat !== '' ? lfMapHTML(l.lat, l.lng) : '<div class="lf-map-empty">📍 Još nema tačne lokacije – ruta neće raditi.<br><small>Klikni „Pronađi po nazivu" ili zalijepi Google Maps link.</small></div>') + '</div>' +
     '<input type="hidden" id="lf-lat" value="' + (l && l.lat != null ? l.lat : '') + '"><input type="hidden" id="lf-lng" value="' + (l && l.lng != null ? l.lng : '') + '">' +
     '<div class="rb-label">Mjesto / adresa</div><input class="poll-inp" id="lf-addr" placeholder="npr. Nancy, Francuska" value="' + _esc(l ? (l.address || '') : '') + '">' +
     '<div class="rb-label">Napomena (dozvola, cijena, pravila...)</div><textarea class="poll-inp" id="lf-note" style="height:70px;resize:none">' + _esc(l ? (l.note || '') : '') + '</textarea>' +
@@ -3082,15 +3136,45 @@ function parseCoords(s) {
   if (isNaN(lat) || isNaN(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) return null;
   return { lat: lat, lng: lng };
 }
+function lfMapHTML(lat, lng) {
+  return '<iframe loading="lazy" src="https://maps.google.com/maps?q=' + lat + ',' + lng + '&z=13&t=k&output=embed"></iframe>' +
+    '<div class="lf-map-cap">✅ Ruta vodi tačno ovdje: ' + Number(lat).toFixed(5) + ', ' + Number(lng).toFixed(5) + '</div>';
+}
+function lfSetCoords(lat, lng, label) {
+  lat = +(+lat).toFixed(6); lng = +(+lng).toFixed(6);
+  document.getElementById('lf-lat').value = lat; document.getElementById('lf-lng').value = lng;
+  document.getElementById('lf-parsed').textContent = '✅ ' + (label || 'Koordinate') + ': ' + lat + ', ' + lng;
+  document.getElementById('lf-map').innerHTML = lfMapHTML(lat, lng);
+}
+// Traži jezero po nazivu (OpenStreetMap) → izaberi tačnu lokaciju
+function lfFind() {
+  var q = (document.getElementById('lf-name').value + ' ' + document.getElementById('lf-addr').value).trim();
+  var box = document.getElementById('lf-results');
+  if (!q) { showToast('Upiši naziv jezera'); return; }
+  box.innerHTML = '<div class="rb-hint">🔎 Tražim „' + _esc(q) + '"...</div>';
+  fetch('https://nominatim.openstreetmap.org/search?format=json&limit=6&accept-language=bs,de,en&q=' + encodeURIComponent(q))
+    .then(function(r) { return r.json(); }).then(function(arr) {
+      if (!arr || !arr.length) { box.innerHTML = '<div class="rb-hint">Ništa nađeno. Dodaj mjesto/državu u polje „Mjesto / adresa" ili zalijepi Google Maps link.</div>'; return; }
+      window._lfRes = arr;
+      box.innerHTML = '<div class="rb-hint" style="margin-top:4px">Izaberi tačno jezero:</div>' + arr.map(function(r, i) {
+        return '<div class="lf-res" onclick="lfPickRes(' + i + ')"><b>' + _esc((r.display_name || '').split(',')[0]) + '</b><small>' + _esc(r.display_name || '') + '</small></div>';
+      }).join('');
+    }).catch(function() { box.innerHTML = '<div class="rb-hint">Pretraga trenutno ne radi – zalijepi Google Maps link.</div>'; });
+}
+function lfPickRes(i) {
+  var r = (window._lfRes || [])[i]; if (!r) return;
+  lfSetCoords(r.lat, r.lon, 'Izabrano');
+  var a = document.getElementById('lf-addr'); if (a && !a.value.trim()) a.value = (r.display_name || '').split(',').slice(1, 4).join(',').trim();
+  document.getElementById('lf-results').innerHTML = '';
+}
 function lfParse() {
   var v = document.getElementById('lf-url').value;
   var c = parseCoords(v);
   var info = document.getElementById('lf-parsed');
   if (c) {
-    document.getElementById('lf-lat').value = c.lat; document.getElementById('lf-lng').value = c.lng;
-    info.textContent = '✅ Koordinate prepoznate: ' + c.lat.toFixed(5) + ', ' + c.lng.toFixed(5);
+    lfSetCoords(c.lat, c.lng, 'Koordinate prepoznate');
   } else if (/^https?:\/\//.test(v.trim())) {
-    info.textContent = 'ℹ️ Link će se koristiti za Google info. Za tačnu rutu dodaj i lokaciju (dugme ispod) ili naziv/adresu.';
+    info.textContent = 'ℹ️ Iz ovog (kratkog) linka se ne vide koordinate. Klikni „Pronađi po nazivu" da ruta radi tačno.';
   } else {
     info.textContent = 'Savjet: u Google Maps klikni na jezero → Podijeli → Kopiraj link.';
   }
@@ -3100,9 +3184,7 @@ function lfMyLocation() {
   showToast('Tražim lokaciju...');
   navigator.geolocation.getCurrentPosition(function(p) {
     var lat = +p.coords.latitude.toFixed(6), lng = +p.coords.longitude.toFixed(6);
-    document.getElementById('lf-lat').value = lat; document.getElementById('lf-lng').value = lng;
-    var u = document.getElementById('lf-url'); if (u && !u.value.trim()) u.value = lat + ', ' + lng;
-    document.getElementById('lf-parsed').textContent = '✅ Tvoja lokacija: ' + lat + ', ' + lng;
+    lfSetCoords(lat, lng, 'Tvoja trenutna lokacija');
   }, function() { showToast('Lokacija nije dozvoljena'); }, { enableHighAccuracy: true, timeout: 12000 });
 }
 function lfPhoto(input) {
@@ -3121,6 +3203,7 @@ function saveLake() {
   var lat = document.getElementById('lf-lat').value, lng = document.getElementById('lf-lng').value;
   if (!name) { showToast('Naziv je obavezan!'); return; }
   if (!RB.lakeFormPhoto) { showToast('Dodaj fotografiju jezera!'); return; }
+  if (lat === '' && !confirm('Jezero nema tačnu lokaciju – ruta neće raditi. Ipak spremiti?')) return;
   var data = {
     name: name,
     mapsUrl: /^https?:\/\//.test(url) ? url : '',
@@ -3310,7 +3393,9 @@ function loadAlbum() {
     var g = document.getElementById('ribe-grid'); if (!g) return;
     if (!arr.length) { if (!fromCache) g.innerHTML = '<div style="grid-column:1/-1">' + rbEmpty('🖼️', 'Album je prazan', 'Dodaj prve fotografije!') + '</div>'; return; }
     g.innerHTML = arr.map(function(p, i) {
-      return '<div class="photo-cell" onclick="openAlbumPhoto(' + i + ')"><img src="' + (p.thumb || p.imageUrl) + '" decoding="async"></div>';
+      var lc = p.likedBy ? Object.keys(p.likedBy).length : 0;
+      return '<div class="photo-cell" onclick="openAlbumPhoto(' + i + ')"><img src="' + (p.thumb || p.imageUrl) + '" decoding="async" loading="' + (i < 12 ? 'eager' : 'lazy') + '">' +
+        (lc ? '<span class="pc-like" id="pcl-' + p.id + '">❤️ ' + lc + '</span>' : '<span class="pc-like" id="pcl-' + p.id + '" style="display:none"></span>') + '</div>';
     }).join('');
     if (!fromCache) migrateLegacy('rb_photos', 'rb_photo_full', arr, 360);
   }).catch(function(e) {
@@ -3394,6 +3479,7 @@ function openAlbumPhoto(i) {
   var ts = p.createdAt && p.createdAt.toDate ? p.createdAt.toDate().toLocaleDateString('bs-BA', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '';
   document.getElementById('pv-meta').textContent = '@' + (p.username || '') + (ts ? ' · ' + ts : '') + '  (' + (i + 1) + '/' + arr.length + ')';
   document.getElementById('pv-del').style.display = isAdmin() ? 'flex' : 'none';
+  var lb = document.getElementById('pv-like'); lb.innerHTML = likeBtnHTML(p); lb.classList.toggle('liked', !!(p.likedBy && ME && p.likedBy[ME.uid]));
   var dl = document.getElementById('pv-dl');
   v.classList.add('open');
   if (!RB.full[p.id]) {
@@ -3407,6 +3493,15 @@ function openAlbumPhoto(i) {
   // unaprijed učitaj susjedne
   [i + 1, i - 1].forEach(function(j) { var q = arr[(j + arr.length) % arr.length]; if (q && !RB.full[q.id]) getFull('rb_photo_full', q, function() {}); });
 }
+function likeAlbumPhoto(btn) {
+  var p = (window._albumPhotos || [])[window._albumIdx]; if (!p) return;
+  toggleLike('rb_photos', p.id, p, btn, function() {
+    var s = document.getElementById('pcl-' + p.id); if (!s) return;
+    var n = p.likedBy ? Object.keys(p.likedBy).length : 0;
+    s.textContent = '❤️ ' + n; s.style.display = n ? '' : 'none';
+  });
+}
+function likeCatch(id, btn) { var c = findCatch(id); if (c) toggleLike('rb_catches', id, c, btn); }
 function albumNav(d) {
   var arr = window._albumPhotos || []; if (!arr.length) return;
   var i = (window._albumIdx + d + arr.length) % arr.length; openAlbumPhoto(i);
@@ -3480,7 +3575,8 @@ function catchCardHTML(c, lake) {
       '<div class="cc-top"><span class="cc-fish" style="background:' + col + '22;color:' + col + ';border-color:' + col + '66">🐟 ' + _esc(c.fish) + '</span>' +
       (c.kg ? '<span class="cc-kg">⚖️ ' + fmtKg(c.kg) + '</span>' : '') +
       '<span class="cc-who">' + _esc(c.name || '') + '</span>' +
-      (isAdmin() ? '<button class="amod-del" style="margin-left:auto" onclick="deleteCatch(\'' + c.id + '\')">🗑</button>' : '') + '</div>' +
+      '<button class="cc-like' + (c.likedBy && ME && c.likedBy[ME.uid] ? ' liked' : '') + '" onclick="likeCatch(\'' + c.id + '\',this)">' + likeBtnHTML(c) + '</button>' +
+      (isAdmin() ? '<button class="amod-del" onclick="deleteCatch(\'' + c.id + '\')">🗑</button>' : '') + '</div>' +
       '<div class="cc-when">📅 ' + fmtDate(c.date) + ' · 🕐 ' + _esc(c.time || '') + '</div>' +
       '<div class="cc-chips">' + weather + wxChips(c) + '</div>' +
       '<div class="cc-bait">' + methodEmoji(c.method) + ' <b>' + _esc(c.method || '') + '</b>' + (c.bait ? ' – ' + _esc(c.bait) : '') + '</div>' +
