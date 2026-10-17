@@ -607,6 +607,34 @@ input[type="date"].poll-inp,input[type="time"].poll-inp{position:relative}
 #auth-splash .as-s{color:var(--gray);font-size:12px}
 .auth-tip{margin-top:14px;background:rgba(95,212,196,.08);border:1px solid rgba(95,212,196,.3);border-radius:12px;padding:10px 12px;color:var(--white);font-size:12.5px;line-height:1.5}
 .auth-tip b{color:var(--gold)}
+
+/* nova jezera */
+.idea-head{display:flex;align-items:center;justify-content:space-between;margin:2px 2px 8px}
+.idea-head span{color:var(--gold);font-size:12px;font-weight:900;letter-spacing:1.3px;text-transform:uppercase}
+.idea-head button{background:var(--bg3);border:1px solid var(--border2);border-radius:20px;color:var(--white);font-size:12px;font-weight:800;padding:6px 11px;cursor:pointer}
+.idea-row{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;margin:0 -12px 12px;padding:0 12px 2px;scroll-snap-type:x mandatory}
+.idea-row::-webkit-scrollbar{display:none}
+.idea-card{position:relative;flex:0 0 78%;max-width:300px;background:var(--bg2);border:1px solid rgba(95,212,196,.3);border-radius:16px;overflow:hidden;cursor:pointer;scroll-snap-align:start}
+.idea-card:only-child{flex-basis:100%;max-width:none}
+.idea-card>img,.idea-noimg{width:100%;height:130px;object-fit:cover;display:block}
+.idea-noimg{display:flex;align-items:center;justify-content:center;font-size:40px;background:var(--bg3)}
+.idea-cnt{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;font-size:11px;font-weight:800;padding:3px 8px;border-radius:12px}
+.idea-b{padding:10px 12px 11px}
+.idea-t{color:var(--white);font-weight:900;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.idea-p{color:var(--gray);font-size:11.5px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.idea-x{color:var(--white);opacity:.85;font-size:12.5px;line-height:1.4;margin-top:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.idea-f{display:flex;justify-content:space-between;color:var(--gray);font-size:11.5px;font-weight:700;margin-top:8px}
+.idea-gal{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;border-radius:14px;overflow:hidden;margin-bottom:12px}
+.idea-gal img{width:100%;aspect-ratio:1;object-fit:cover;display:block;cursor:zoom-in}
+.idea-gal img:first-child{grid-column:1/-1;aspect-ratio:16/10}
+.idea-gal.one img{aspect-ratio:16/10}
+.idea-by{color:var(--gray);font-size:12px;margin-top:6px}
+.idea-by b{color:var(--white)}
+.idea-text{background:var(--bg3);border-radius:12px;padding:11px 12px;color:var(--white);font-size:14px;line-height:1.55;margin-top:12px;word-break:break-word}
+.idea-like.liked{border-color:rgba(255,71,87,.5);background:rgba(255,71,87,.12)}
+.idea-ph{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:8px}
+.idea-ph img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px}
+.idea-ph-note,.idea-ph .rb-hint{grid-column:1/-1;color:var(--gray);font-size:11px}
 </style>
 </head>
 <body>
@@ -1230,6 +1258,7 @@ function renderBihbook() {
     '</div>' +
     '<div id="admin-pinned-area"></div>' +
     '' +
+    '<div id="idea-area"></div>' +
     '<div id="rb-poll-area"></div>' +
     '<div id="admin-announce-area"></div>' +
     '<div class="compose">' +
@@ -1245,12 +1274,13 @@ function renderBihbook() {
     '<button class="ctool">&#128522;</button>' +
     '</div>' +
     '<button class="cpost" id="cpost-btn" onclick="submitPost()" disabled>Objavi</button></div></div>' +
-    '<div id="feedlist"><div style="text-align:center;padding:20px;color:var(--gray);font-size:13px">&#x1F504; Učitavam objave...</div></div>';
+    '<div id="feedlist"><div style="text-align:center;padding:20px;color:var(--gray);font-size:13px">&#x1F504; Učitavam objave...</div></div><div id="feed-more"></div>';
 
   loadLiveFeed();
   loadStories();
   loadAdminContent(); // NEU: laedt alles aus Firestore
   startPollListener(); renderPollArea();
+  startIdeaListener(); renderIdeaArea();
   setTimeout(initPullToRefresh, 200);
 }
 
@@ -1381,9 +1411,11 @@ function doVote(i) {
   }
 }
 
+var FEED_LIMIT = 30;
+function loadMorePosts() { FEED_LIMIT += 30; var b = document.getElementById('feed-more'); if (b) b.innerHTML = '<div class="rb-load">Učitavam...</div>'; loadLiveFeed(); }
 function loadLiveFeed() {
   if (feedUnsub) feedUnsub();
-  feedUnsub = fbDb.collection('posts').orderBy('createdAt', 'desc').limit(30).onSnapshot(function(snap) {
+  feedUnsub = fbDb.collection('posts').orderBy('createdAt', 'desc').limit(FEED_LIMIT).onSnapshot(function(snap) {
     var posts = [];
     snap.forEach(function(doc) { posts.push(Object.assign({ docId: doc.id }, doc.data())); });
     renderFeed(posts);
@@ -1396,6 +1428,8 @@ function loadLiveFeed() {
 function renderFeed(posts) {
   var list = document.getElementById('feedlist');
   if (!list) return;
+  var more = document.getElementById('feed-more');
+  if (more) more.innerHTML = posts.length >= FEED_LIMIT ? '<button class="rb-btn" onclick="loadMorePosts()">⬇ Učitaj starije objave</button>' : '';
   var now = Date.now();
   var TWELVE_HOURS = 12 * 60 * 60 * 1000;
   var SIX_MONTHS = 6 * 30 * 24 * 60 * 60 * 1000;
@@ -1404,8 +1438,7 @@ function renderFeed(posts) {
   var visible = posts.filter(function(p) {
     var created = p.createdAt && p.createdAt.toDate ? p.createdAt.toDate().getTime() : now;
     var age = now - created;
-    if (p.imageUrl && age > TWELVE_HOURS) return false;
-    if (age > SIX_MONTHS) return false;
+    // objave ostaju zauvijek
     return true;
   });
 
@@ -1450,7 +1483,7 @@ function renderFeed(posts) {
     // Time badge for photo posts
     var created2 = p.createdAt && p.createdAt.toDate ? p.createdAt.toDate().getTime() : now;
     var ageH = Math.floor((now - created2) / 3600000);
-    var timeBadge = p.imageUrl ? '<span style="color:var(--gray2);font-size:10px;margin-left:6px">' + (ageH < 1 ? 'Upravo' : ageH + 'h') + ' &#xB7; briše se za ' + Math.max(0, 12 - ageH) + 'h</span>' : '';
+    var timeBadge = '';
 
     return '<div class="fpost fu">' +
       '<div class="fpost-header"><div class="favatar">' + ini + '</div>' +
@@ -1715,7 +1748,7 @@ function doLogout() {
   fbAuth.signOut().then(function() {
     ME = null; votedPoll = null;
     if (RB.lakesUnsub) { RB.lakesUnsub(); RB.lakesUnsub = null; }
-    stopTodoListeners(); stopActivityListener(); stopPollListener();
+    stopTodoListeners(); stopActivityListener(); stopPollListener(); stopIdeaListener();
     RB.lakes = []; RB.lakesLoaded = false;
     showScreen('s-auth');
     renderAuthForm('login');
@@ -1725,7 +1758,8 @@ function doLogout() {
 
 
 // ════════════════════════════════════════════════════════════
-// STORIES — Firebase Firestore (6h expiry)
+// STORIES — Firebase Firestore (3 dana)
+var STORY_MS = 3 * 24 * 60 * 60 * 1000;
 // ════════════════════════════════════════════════════════════
 var currentStoryIndex = 0;
 var currentStories = [];
@@ -1862,14 +1896,14 @@ function uploadStory() {
       text: text || '', imageUrl: imgUrl || null, bgColor: bg,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       order: base + i,
-      expiresAt: new Date(base + 6 * 60 * 60 * 1000), views: 0
+      expiresAt: new Date(base + STORY_MS), views: 0
     }).then(function() { ok++; }).catch(function() { fail++; });
   }
   function finish() {
     if (btn) btn.disabled = false;
     if (ok) logActivity('story', (ME.name || 'Neko') + (ok > 1 ? ' je objavio ' + ok + ' nove priče' : ' je objavio novu priču'), {});
     closeStoryUpload();
-    showToast(fail ? ('⚠️ ' + ok + ' objavljeno, ' + fail + ' greška') : (ok > 1 ? ok + ' priče su 6h aktivne!' : 'Priča je 6h aktivna!'));
+    showToast(fail ? ('⚠️ ' + ok + ' objavljeno, ' + fail + ' greška') : (ok > 1 ? ok + ' priče su aktivne 3 dana!' : 'Priča je aktivna 3 dana!'));
     loadStories();
   }
   if (!items.length) { saveOne(storyTextOnly.trim(), null, 0).then(finish); return; }
@@ -1886,7 +1920,7 @@ function loadStories() {
   if (!fbDb) return;
   var now = new Date();
   // Get stories from last 6 hours
-  var sixHoursAgo = new Date(now.getTime() - 6 * 60 * 60 * 1000);
+  var sixHoursAgo = new Date(now.getTime() - STORY_MS);
 
   fbDb.collection('stories')
     .where('createdAt', '>', sixHoursAgo)
@@ -1898,7 +1932,7 @@ function loadStories() {
         var d = doc.data();
         // Check expiry: either expiresAt field or 6h from createdAt
         var created = d.createdAt && d.createdAt.toDate ? d.createdAt.toDate() : new Date(0);
-        var expires = d.expiresAt && d.expiresAt.toDate ? d.expiresAt.toDate() : new Date(created.getTime() + 6*3600000);
+        var expires = new Date(created.getTime() + STORY_MS);
         if (expires > now) {
           stories.push(Object.assign({ docId: doc.id }, d));
         }
@@ -1994,7 +2028,7 @@ function viewStoryEl(el) {
       snap.forEach(function(doc) {
         var d = doc.data();
         var created = d.createdAt && d.createdAt.toDate ? d.createdAt.toDate() : new Date(0);
-        var expires = d.expiresAt && d.expiresAt.toDate ? d.expiresAt.toDate() : new Date(created.getTime() + 6*3600000);
+        var expires = new Date(created.getTime() + STORY_MS);
         if (expires > now) {
           stories.push(Object.assign({ docId: doc.id }, d));
         }
@@ -2472,7 +2506,7 @@ function loadAdminStories() {
     snap.forEach(function(doc) {
       var d = doc.data();
       var created = d.createdAt && d.createdAt.toDate ? d.createdAt.toDate() : new Date(0);
-      var expires = d.expiresAt && d.expiresAt.toDate ? d.expiresAt.toDate() : new Date(created.getTime()+6*3600000);
+      var expires = new Date(created.getTime() + STORY_MS);
       if (expires <= now) return;
       count++;
       var remH = Math.max(0,Math.floor((expires-now)/3600000));
@@ -2710,35 +2744,9 @@ function runAutoCleanup() {
   if (window._cleanupDone) return;
   window._cleanupDone = true;
 
-  // Delete photo posts older than 12h (batch)
-  fbDb.collection('posts')
-    .where('createdAt', '<', twelveHoursAgo).orderBy('createdAt', 'asc').limit(25)
-    .get().then(function(snap) {
-      var batch = fbDb.batch();
-      var count = 0;
-      snap.forEach(function(doc) {
-        if (doc.data().imageUrl) {
-          batch.delete(doc.ref);
-          count++;
-        }
-      });
-      if (count > 0) {
-        batch.commit().catch(function(){});
-      }
-    }).catch(function(){});
-
-  // Delete all posts older than 6 months
-  fbDb.collection('posts')
-    .where('createdAt', '<', sixMonthsAgo).orderBy('createdAt', 'asc').limit(25)
-    .get().then(function(snap) {
-      var batch = fbDb.batch();
-      snap.forEach(function(doc) { batch.delete(doc.ref); });
-      if (!snap.empty) batch.commit().catch(function(){});
-    }).catch(function(){});
-
   // Delete expired stories
   fbDb.collection('stories')
-    .where('createdAt', '<', new Date(now.getTime() - 6 * 60 * 60 * 1000)).orderBy('createdAt', 'asc').limit(25)
+    .where('createdAt', '<', new Date(now.getTime() - STORY_MS)).orderBy('createdAt', 'asc').limit(25)
     .get().then(function(snap) {
       var batch = fbDb.batch();
       snap.forEach(function(doc) { batch.delete(doc.ref); });
@@ -2940,7 +2948,7 @@ function openStoryByUid(uid) {
       snap.forEach(function(doc) {
         var d = doc.data();
         var created = d.createdAt && d.createdAt.toDate ? d.createdAt.toDate() : new Date(0);
-        var expires = d.expiresAt && d.expiresAt.toDate ? d.expiresAt.toDate() : new Date(created.getTime() + 6 * 3600000);
+        var expires = new Date(created.getTime() + STORY_MS);
         if (expires > now) stories.push(Object.assign({ docId: doc.id }, d));
       });
       if (!stories.length) { showToast('Priča je istekla.'); return; }
@@ -4185,7 +4193,7 @@ function nzClearDone() {
 // rb_activity: { type, text, uid, name, lakeId, folderId, createdAt }
 // ════════════════════════════════════════════════════════════
 var ACT = { list: [], unsub: null, firstLoad: true, seen: 0, startedAt: Date.now() };
-var ACT_ICONS = { poll: '📊', catch: '🐟', photos: '📸', post: '💬', story: '⏱️', folder: '📁', lake: '🏞️', todo: '📝' };
+var ACT_ICONS = { idea: '🏞️', poll: '📊', catch: '🐟', photos: '📸', post: '💬', story: '⏱️', folder: '📁', lake: '🏞️', todo: '📝' };
 try { ACT.seen = parseInt(localStorage.getItem('rb_act_seen') || '0', 10) || 0; } catch (e) {}
 
 function logActivity(type, text, extra) {
@@ -4269,7 +4277,9 @@ function openActivity(id) {
   else if (a.type === 'photos' && a.lakeId) { goTab('ribe'); RB.ribeLake = a.lakeId; RB.ribeFolder = a.folderId || null; loadFolders(a.lakeId, renderRibe); renderRibe(); }
   else if (a.type === 'folder' && a.lakeId) { goTab('ribe'); RB.ribeLake = a.lakeId; RB.ribeFolder = null; loadFolders(a.lakeId, renderRibe); renderRibe(); }
   else if (a.type === 'lake' && a.lakeId) { goTab('jezera'); setTimeout(function() { openLake(a.lakeId); }, 150); }
-  else if (a.type === 'post' || a.type === 'story' || a.type === 'poll') goTab('bihbook');
+  else if (a.type === 'story') { goTab('bihbook'); setTimeout(function() { openStoryByUid(a.uid); }, 300); }
+  else if (a.type === 'idea') { goTab('bihbook'); setTimeout(function() { var it = ID.list.filter(function(i) { return a.text.indexOf(i.title) > -1; })[0]; if (it) openIdea(it.id); }, 500); }
+  else if (a.type === 'post' || a.type === 'poll') goTab('bihbook');
   else if (a.type === 'todo') { NZ.scope = 'all'; goTab('nezab'); }
 }
 
@@ -4518,6 +4528,180 @@ function requestPollDelete(id) {
       }).catch(function() {});
     });
   }).catch(function(e) { showToast('Greška: ' + e.message); });
+}
+
+// ════════════════════════════════════════════════════════════
+// NOVA JEZERA — članovi predstavljaju nova jezera (tekst, web, fotke)
+// Uvijek na vrhu taba Ribolovci, ispod su objave.
+// rb_ideas: { title, place, url, mapsUrl, lat, lng, text, thumbs[], uid, name, username, createdAt, likedBy }
+// rb_idea_full/{id}_{i}: { imageUrl }  (pune slike, učitavaju se tek na klik)
+// ════════════════════════════════════════════════════════════
+var ID = { list: [], unsub: null, form: null, full: {} };
+function startIdeaListener() {
+  if (!fbDb || ID.unsub) return;
+  ID.unsub = fbDb.collection('rb_ideas').orderBy('createdAt', 'desc').limit(30).onSnapshot(function(snap) {
+    var arr = []; snap.forEach(function(d) { arr.push(Object.assign({ id: d.id }, d.data())); });
+    ID.list = arr; renderIdeaArea();
+  }, function() {});
+}
+function stopIdeaListener() { if (ID.unsub) { ID.unsub(); ID.unsub = null; } ID.list = []; }
+function ideaById(id) { for (var i = 0; i < ID.list.length; i++) if (ID.list[i].id === id) return ID.list[i]; return null; }
+function ideaCanEdit(x) { return ME && x && (isAdmin() || x.uid === ME.uid); }
+
+function renderIdeaArea() {
+  var area = document.getElementById('idea-area'); if (!area) return;
+  if (!ID.list.length) {
+    area.innerHTML = '<button class="poll-new" onclick="openIdeaForm()">🏞️ Predstavi novo jezero</button>';
+    return;
+  }
+  area.innerHTML = '<div class="idea-head"><span>🏞️ Nova jezera</span><button onclick="openIdeaForm()">＋ Predstavi jezero</button></div>' +
+    '<div class="idea-row">' + ID.list.map(function(x) {
+      var lc = x.likedBy ? Object.keys(x.likedBy).length : 0;
+      return '<div class="idea-card" onclick="openIdea(\'' + x.id + '\')">' +
+        ((x.thumbs && x.thumbs[0]) ? '<img src="' + x.thumbs[0] + '" decoding="async">' : '<div class="idea-noimg">🏞️</div>') +
+        ((x.thumbs && x.thumbs.length > 1) ? '<span class="idea-cnt">📷 ' + x.thumbs.length + '</span>' : '') +
+        '<div class="idea-b"><div class="idea-t">' + _esc(x.title) + '</div>' +
+        (x.place ? '<div class="idea-p">📍 ' + _esc(x.place) + '</div>' : '') +
+        '<div class="idea-x">' + _esc((x.text || '').slice(0, 110)) + '</div>' +
+        '<div class="idea-f"><span>' + _esc((x.name || '').split(' ')[0]) + '</span><span>❤️ ' + lc + '</span></div></div></div>';
+    }).join('') + '</div>';
+}
+
+function ideaUrl(u) { u = String(u || '').trim(); if (!u) return ''; return /^https?:\/\//i.test(u) ? u : 'https://' + u; }
+
+function openIdea(id) {
+  var x = ideaById(id); if (!x) return;
+  var th = x.thumbs || [];
+  var hasLL = x.lat != null && x.lat !== '';
+  var maps = x.mapsUrl || ('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent((x.title || '') + (x.place ? ', ' + x.place : '')));
+  var ts = x.createdAt && x.createdAt.toDate ? fmtDT(x.createdAt.toDate()) : '';
+  var h = (th.length ? '<div class="idea-gal' + (th.length === 1 ? ' one' : '') + '">' + th.map(function(t, i) {
+      return '<img src="' + t + '" onclick="openIdeaPhoto(\'' + x.id + '\',' + i + ')" decoding="async">';
+    }).join('') + '</div>' : '') +
+    '<div class="ld-name">' + _esc(x.title) + '</div>' +
+    (x.place ? '<div class="ld-addr">📍 ' + _esc(x.place) + '</div>' : '') +
+    '<div class="idea-by">Predstavio: <b>' + _esc(x.name || '') + '</b>' + (ts ? ' · ' + ts : '') + '</div>' +
+    (x.text ? '<div class="idea-text">' + _esc(x.text).replace(/\n/g, '<br>') + '</div>' : '') +
+    '<div class="ld-btns">' +
+      (x.url ? '<button class="rb-btn rb-btn-main" onclick="window.open(\'' + _esc(ideaUrl(x.url)).replace(/'/g, '%27') + '\',\'_blank\')">🌐 Web stranica</button>' : '') +
+      '<button class="rb-btn" onclick="window.open(\'' + _esc(maps).replace(/'/g, '%27') + '\',\'_blank\')">📍 Google Maps</button>' +
+      (hasLL ? '<button class="rb-btn" onclick="ideaRoute(\'' + x.id + '\')">🧭 Ruta</button>' : '') +
+      '<button class="rb-btn idea-like' + (ME && x.likedBy && x.likedBy[ME.uid] ? ' liked' : '') + '" onclick="toggleLike(\'rb_ideas\',\'' + x.id + '\',ideaById(\'' + x.id + '\'),this,renderIdeaArea)">' + likeBtnHTML(x) + '</button>' +
+    '</div>' +
+    (isAdmin() ? '<button class="rb-btn" style="margin-top:4px" onclick="ideaToLake(\'' + x.id + '\')">➕ Dodaj u naša jezera (tab Jezera)</button>' : '') +
+    (ideaCanEdit(x) ? '<div class="ld-admin"><button class="rb-btn" onclick="openIdeaForm(\'' + x.id + '\')">✏️ Uredi</button><button class="rb-btn rb-btn-del" onclick="deleteIdea(\'' + x.id + '\')">🗑 Obriši</button></div>' : '');
+  rbSheet('🏞️ ' + (x.title || 'Novo jezero'), h);
+}
+function ideaRoute(id) {
+  var x = ideaById(id); if (!x) return;
+  var dest = Number(x.lat).toFixed(6) + ',' + Number(x.lng).toFixed(6);
+  if (isIOS()) { openGoogleMapsIOS(dest); return; }
+  window.open('https://www.google.com/maps/dir/?api=1&destination=' + dest + '&travelmode=driving', '_blank');
+}
+function ideaFull(id, i, cb) {
+  var key = id + '_' + i;
+  if (ID.full[key]) { cb(ID.full[key]); return; }
+  fbDb.collection('rb_idea_full').doc(key).get().then(function(d) {
+    var u = d.exists && d.data().imageUrl; if (u) ID.full[key] = u; cb(u || null);
+  }).catch(function() { cb(null); });
+}
+function openIdeaPhoto(id, i) {
+  var x = ideaById(id); if (!x) return;
+  var name = 'jezero-' + (x.title || '') + '-' + (i + 1);
+  if (ID.full[id + '_' + i]) { openImgFull(ID.full[id + '_' + i], name); return; }
+  showToast('⏳ Učitavam sliku...');
+  ideaFull(id, i, function(u) { openImgFull(u || (x.thumbs || [])[i] || '', name); });
+}
+
+function openIdeaForm(id) {
+  if (!ME) return;
+  var x = id ? ideaById(id) : null;
+  ID.form = { id: id || null, photos: [], keepOld: !!x };   // photos: [{thumb, full}]
+  var h = '<div class="rb-label">Naziv jezera *</div><input class="poll-inp" id="if-title" placeholder="npr. Étang de la Forêt" value="' + _esc(x ? x.title : '') + '">' +
+    '<div class="rb-label">Mjesto / država</div><input class="poll-inp" id="if-place" placeholder="npr. Lorraine, Francuska" value="' + _esc(x ? (x.place || '') : '') + '">' +
+    '<div class="rb-label">Web stranica</div><input class="poll-inp" id="if-url" type="url" inputmode="url" autocapitalize="none" placeholder="www.jezero.fr" value="' + _esc(x ? (x.url || '') : '') + '">' +
+    '<div class="rb-label">Google Maps link <small>(opcionalno – za rutu)</small></div><input class="poll-inp" id="if-maps" inputmode="url" autocapitalize="none" placeholder="Zalijepi link iz Google Maps" value="' + _esc(x ? (x.mapsUrl || '') : '') + '">' +
+    '<div class="rb-label">Opis *</div><textarea class="poll-inp" id="if-text" style="height:120px;resize:none;line-height:1.5" placeholder="Šta ima u jezeru, cijena, pravila, smještaj, zašto bismo išli...">' + _esc(x ? (x.text || '') : '') + '</textarea>' +
+    '<div class="rb-label">Fotografije <small>(do 6)</small></div>' +
+    '<input type="file" id="if-file" accept="image/*" multiple style="display:none" onchange="ideaPhotos(this)">' +
+    '<div class="idea-ph" id="if-ph">' + ((x && x.thumbs && x.thumbs.length) ? x.thumbs.map(function(t) { return '<img src="' + t + '">'; }).join('') + '<div class="idea-ph-note">Nove fotografije zamjenjuju postojeće</div>' : '') + '</div>' +
+    '<button class="rb-btn" onclick="document.getElementById(\'if-file\').click()">📷 Izaberi fotografije</button>' +
+    '<button class="apin-btn" id="if-save" onclick="saveIdea()">' + (x ? '💾 Spremi promjene' : '🏞️ Objavi jezero') + '</button>';
+  rbSheet(x ? '✏️ Uredi jezero' : '🏞️ Predstavi novo jezero', h);
+}
+function ideaPhotos(input) {
+  var files = Array.prototype.slice.call(input.files || []).slice(0, 6);
+  input.value = '';
+  if (!files.length) return;
+  ID.form.photos = []; ID.form.keepOld = false;
+  var box = document.getElementById('if-ph');
+  box.innerHTML = '<div class="rb-hint">⏳ Pripremam ' + files.length + ' fotografij' + (files.length === 1 ? 'u' : 'e') + '...</div>';
+  var done = 0, res = [];
+  files.forEach(function(f, i) {
+    makeImages(f, 480, function(im) {
+      if (im) res[i] = im;
+      if (++done === files.length) {
+        ID.form.photos = res.filter(Boolean);
+        box.innerHTML = ID.form.photos.map(function(p) { return '<img src="' + p.thumb + '">'; }).join('');
+      }
+    });
+  });
+}
+function saveIdea() {
+  var f = ID.form; if (!f || !ME) return;
+  var title = document.getElementById('if-title').value.trim();
+  var text = document.getElementById('if-text').value.trim();
+  if (!title || !text) { showToast('Naziv i opis su obavezni!'); return; }
+  var mapsUrl = document.getElementById('if-maps').value.trim();
+  var c = parseCoords(mapsUrl);
+  var data = {
+    title: title, place: document.getElementById('if-place').value.trim(),
+    url: document.getElementById('if-url').value.trim(), mapsUrl: /^https?:\/\//.test(mapsUrl) ? mapsUrl : '',
+    lat: c ? c.lat : null, lng: c ? c.lng : null, text: text,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  var btn = document.getElementById('if-save'); btn.disabled = true; btn.textContent = '...';
+  var ref = f.id ? fbDb.collection('rb_ideas').doc(f.id) : fbDb.collection('rb_ideas').doc();
+  var batch = fbDb.batch();
+  if (!f.keepOld) {
+    data.thumbs = f.photos.map(function(p) { return p.thumb; });
+    f.photos.forEach(function(p, i) { batch.set(fbDb.collection('rb_idea_full').doc(ref.id + '_' + i), { imageUrl: p.full }); ID.full[ref.id + '_' + i] = p.full; });
+  }
+  if (f.id) batch.set(ref, data, { merge: true });
+  else batch.set(ref, Object.assign({ uid: ME.uid, name: ME.name || '', username: ME.username || '', likedBy: {}, createdAt: firebase.firestore.FieldValue.serverTimestamp() }, data, { thumbs: data.thumbs || [] }));
+  batch.commit().then(function() {
+    rbSheetClose(); showToast(f.id ? '✅ Spremljeno!' : '✅ Jezero predstavljeno!');
+    if (!f.id) logActivity('idea', (ME.name || 'Neko') + ' predstavlja novo jezero: ' + title, {});
+    ID.form = null;
+  }).catch(function(e) { btn.disabled = false; btn.textContent = '💾 Pokušaj ponovo'; showToast('Greška: ' + e.message); });
+}
+function deleteIdea(id) {
+  var x = ideaById(id); if (!ideaCanEdit(x)) return;
+  if (!confirm('Obrisati „' + x.title + '"?')) return;
+  var batch = fbDb.batch();
+  batch.delete(fbDb.collection('rb_ideas').doc(id));
+  for (var i = 0; i < 6; i++) batch.delete(fbDb.collection('rb_idea_full').doc(id + '_' + i));
+  batch.commit().then(function() { rbSheetClose(); showToast('Obrisano'); }).catch(function(e) { showToast('Greška: ' + e.message); });
+}
+// Admin: prijedlog → pravo jezero u tabu Jezera (forma se popuni sama)
+function ideaToLake(id) {
+  var x = ideaById(id); if (!x || !isAdmin()) return;
+  function go(photo) {
+    goTab('jezera');
+    openLakeForm();
+    document.getElementById('lf-name').value = x.title || '';
+    document.getElementById('lf-addr').value = x.place || '';
+    document.getElementById('lf-note').value = (x.text || '') + (x.url ? '\n🌐 ' + ideaUrl(x.url) : '');
+    if (x.mapsUrl) { document.getElementById('lf-url').value = x.mapsUrl; lfParse(); }
+    if (x.lat != null && x.lat !== '') lfSetCoords(x.lat, x.lng, 'Iz prijedloga');
+    if (photo) {
+      RB.lakeFormPhoto = photo; RB.lakeFormChanged = true;
+      var p = document.getElementById('lf-prev'); p.src = photo; p.style.display = 'block';
+      var ph = document.getElementById('lf-ph'); if (ph) ph.style.display = 'none';
+    }
+    showToast('Provjeri podatke i lokaciju, pa spremi');
+  }
+  if (x.thumbs && x.thumbs.length) ideaFull(id, 0, function(u) { go(u || x.thumbs[0]); }); else go(null);
 }
 
 </script>
