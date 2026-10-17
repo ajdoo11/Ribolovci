@@ -635,6 +635,14 @@ input[type="date"].poll-inp,input[type="time"].poll-inp{position:relative}
 .idea-ph{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:8px}
 .idea-ph img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px}
 .idea-ph-note,.idea-ph .rb-hint{grid-column:1/-1;color:var(--gray);font-size:11px}
+
+.ip-box{background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:10px 11px 2px;margin:12px 0 4px}
+.ip-tog{display:flex;align-items:center;gap:8px;color:var(--white);font-weight:800;font-size:14px;margin-bottom:10px;cursor:pointer}
+.ip-tog input{width:20px;height:20px;accent-color:var(--gold)}
+.ip-card{margin-top:12px}
+.ip-mini{margin-top:8px;background:rgba(95,212,196,.08);border:1px solid rgba(95,212,196,.25);border-radius:9px;padding:6px 9px;font-size:11.5px;color:var(--gray);line-height:1.4}
+.ip-mini b{display:block;color:var(--white);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ip-mini i{color:var(--gold);font-style:normal;font-weight:800}
 </style>
 </head>
 <body>
@@ -4563,6 +4571,7 @@ function renderIdeaArea() {
         '<div class="idea-b"><div class="idea-t">' + _esc(x.title) + '</div>' +
         (x.place ? '<div class="idea-p">📍 ' + _esc(x.place) + '</div>' : '') +
         '<div class="idea-x">' + _esc((x.text || '').slice(0, 110)) + '</div>' +
+        ideaPollMiniHTML(x) +
         '<div class="idea-f"><span>' + _esc((x.name || '').split(' ')[0]) + '</span><span>❤️ ' + lc + '</span></div></div></div>';
     }).join('') + '</div>';
 }
@@ -4588,6 +4597,7 @@ function openIdea(id) {
       (hasLL ? '<button class="rb-btn" onclick="ideaRoute(\'' + x.id + '\')">🧭 Ruta</button>' : '') +
       '<button class="rb-btn idea-like' + (ME && x.likedBy && x.likedBy[ME.uid] ? ' liked' : '') + '" onclick="toggleLike(\'rb_ideas\',\'' + x.id + '\',ideaById(\'' + x.id + '\'),this,renderIdeaArea)">' + likeBtnHTML(x) + '</button>' +
     '</div>' +
+    '<div id="idea-poll-box">' + ideaPollHTML(x) + '</div>' +
     (isAdmin() ? '<button class="rb-btn" style="margin-top:4px" onclick="ideaToLake(\'' + x.id + '\')">➕ Dodaj u naša jezera (tab Jezera)</button>' : '') +
     (ideaCanEdit(x) ? '<div class="ld-admin"><button class="rb-btn" onclick="openIdeaForm(\'' + x.id + '\')">✏️ Uredi</button><button class="rb-btn rb-btn-del" onclick="deleteIdea(\'' + x.id + '\')">🗑 Obriši</button></div>' : '');
   rbSheet('🏞️ ' + (x.title || 'Novo jezero'), h);
@@ -4622,6 +4632,7 @@ function openIdeaForm(id) {
     '<div class="rb-label">Web stranica</div><input class="poll-inp" id="if-url" type="url" inputmode="url" autocapitalize="none" placeholder="www.jezero.fr" value="' + _esc(x ? (x.url || '') : '') + '">' +
     '<div class="rb-label">Google Maps link <small>(opcionalno – za rutu)</small></div><input class="poll-inp" id="if-maps" inputmode="url" autocapitalize="none" placeholder="Zalijepi link iz Google Maps" value="' + _esc(x ? (x.mapsUrl || '') : '') + '">' +
     '<div class="rb-label">Opis *</div><textarea class="poll-inp" id="if-text" style="height:120px;resize:none;line-height:1.5" placeholder="Šta ima u jezeru, cijena, pravila, smještaj, zašto bismo išli...">' + _esc(x ? (x.text || '') : '') + '</textarea>' +
+    ideaPollFormHTML(x) +
     '<div class="rb-label">Fotografije <small>(do 6)</small></div>' +
     '<input type="file" id="if-file" accept="image/*" multiple style="display:none" onchange="ideaPhotos(this)">' +
     '<div class="idea-ph" id="if-ph">' + ((x && x.thumbs && x.thumbs.length) ? x.thumbs.map(function(t) { return '<img src="' + t + '">'; }).join('') + '<div class="idea-ph-note">Nove fotografije zamjenjuju postojeće</div>' : '') + '</div>' +
@@ -4660,6 +4671,9 @@ function saveIdea() {
     lat: c ? c.lat : null, lng: c ? c.lng : null, text: text,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
+  var pollData = ideaPollFromForm(f.id ? ideaById(f.id) : null);
+  if (pollData === false) return;
+  data.poll = pollData;
   var btn = document.getElementById('if-save'); btn.disabled = true; btn.textContent = '...';
   var ref = f.id ? fbDb.collection('rb_ideas').doc(f.id) : fbDb.collection('rb_ideas').doc();
   var batch = fbDb.batch();
@@ -4702,6 +4716,79 @@ function ideaToLake(id) {
     showToast('Provjeri podatke i lokaciju, pa spremi');
   }
   if (x.thumbs && x.thumbs.length) ideaFull(id, 0, function(u) { go(u || x.thumbs[0]); }); else go(null);
+}
+
+
+// ── Anketa uz predstavljeno jezero (npr. „Hoćemo probati?" – Da / Ne) ──
+// poll: { q, options[], votes{uid:i}, voteCounts{i:n} } ili null
+function ideaPollFormHTML(x) {
+  var p = x ? x.poll : null;
+  var on = x ? !!p : true;
+  var opts = p ? p.options : ['Da', 'Ne'];
+  return '<div class="ip-box">' +
+    '<label class="ip-tog"><input type="checkbox" id="ip-on"' + (on ? ' checked' : '') + ' onchange="document.getElementById(\'ip-fields\').style.display=this.checked?\'block\':\'none\'"> 📊 Dodaj anketu</label>' +
+    '<div id="ip-fields" style="display:' + (on ? 'block' : 'none') + '">' +
+      '<input class="poll-inp" id="ip-q" placeholder="Pitanje" value="' + _esc(p ? p.q : 'Hoćemo probati?') + '">' +
+      '<div id="ip-opts">' + opts.map(function(o, i) { return '<input class="poll-inp ip-o" placeholder="Odgovor ' + (i + 1) + '" value="' + _esc(o) + '">'; }).join('') + '</div>' +
+      '<button class="rb-btn" type="button" onclick="ideaPollAddOpt()">＋ Dodaj odgovor</button>' +
+      (p ? '<div class="rb-hint">Ako promijeniš pitanje ili odgovore, glasovi se brišu.</div>' : '') +
+    '</div></div>';
+}
+function ideaPollAddOpt() {
+  var box = document.getElementById('ip-opts'); var n = box.querySelectorAll('.ip-o').length;
+  if (n >= 5) { showToast('Max. 5 odgovora'); return; }
+  var i = document.createElement('input'); i.className = 'poll-inp ip-o'; i.placeholder = 'Odgovor ' + (n + 1);
+  box.appendChild(i); i.focus();
+}
+// vraća poll objekt, null (bez ankete) ili false (greška)
+function ideaPollFromForm(old) {
+  var on = document.getElementById('ip-on'); if (!on || !on.checked) return null;
+  var q = (document.getElementById('ip-q').value || '').trim();
+  var opts = Array.prototype.map.call(document.querySelectorAll('#ip-opts .ip-o'), function(i) { return i.value.trim(); }).filter(Boolean);
+  if (!q || opts.length < 2) { showToast('Anketa: pitanje + min. 2 odgovora'); return false; }
+  var op = old && old.poll;
+  if (op && op.q === q && JSON.stringify(op.options) === JSON.stringify(opts)) return op; // ništa promijenjeno → zadrži glasove
+  var counts = {}; opts.forEach(function(_, i) { counts[i] = 0; });
+  return { q: q, options: opts, votes: {}, voteCounts: counts };
+}
+function ideaPollTotal(p) { var t = 0; (p.options || []).forEach(function(_, i) { t += (p.voteCounts && p.voteCounts[i]) || 0; }); return t; }
+function ideaPollHTML(x) {
+  var p = x.poll; if (!p || !p.options) return '';
+  var my = p.votes && ME ? p.votes[ME.uid] : undefined;
+  var voted = my !== undefined && my !== null;
+  var total = ideaPollTotal(p);
+  return '<div class="pl-card ip-card"><div class="pl-head"><span class="pl-badge">📊 ANKETA</span></div>' +
+    '<div class="pl-q">' + _esc(p.q) + '</div><div class="pl-opts">' +
+    p.options.map(function(o, i) {
+      var n = (p.voteCounts && p.voteCounts[i]) || 0, pct = total ? Math.round(n / total * 100) : 0;
+      var who = p.votes ? Object.keys(p.votes).filter(function(u) { return p.votes[u] === i; }).length : 0;
+      return '<div class="pl-opt' + (voted ? ' res' : '') + (my === i ? ' mine' : '') + '" onclick="voteIdeaPoll(\'' + x.id + '\',' + i + ')">' +
+        (voted ? '<div class="pl-bar" style="width:' + pct + '%"></div>' : '') +
+        '<span class="pl-l">' + (my === i ? '✓ ' : '') + _esc(o) + '</span>' + (voted ? '<span class="pl-p">' + pct + '% · ' + n + '</span>' : '') + '</div>';
+    }).join('') + '</div>' +
+    '<div class="pl-foot"><span class="pl-tot">' + total + (total === 1 ? ' glas' : ' glasova') + (voted ? ' · klikni drugi odgovor za promjenu' : ' · klikni za glas') + '</span></div></div>';
+}
+function ideaPollMiniHTML(x) {
+  var p = x.poll; if (!p || !p.options) return '';
+  var total = ideaPollTotal(p);
+  var my = p.votes && ME ? p.votes[ME.uid] : undefined;
+  return '<div class="ip-mini" onclick="event.stopPropagation();openIdea(\'' + x.id + '\')"><b>📊 ' + _esc(p.q) + '</b><span>' +
+    p.options.map(function(o, i) { return (my === i ? '✓ ' : '') + _esc(o) + ' ' + ((p.voteCounts && p.voteCounts[i]) || 0); }).join(' · ') +
+    (my === undefined || my === null ? ' · <i>glasaj!</i>' : '') + '</span></div>';
+}
+function voteIdeaPoll(id, i) {
+  var x = ideaById(id); if (!x || !x.poll || !ME) return;
+  var p = x.poll; p.votes = Object.assign({}, p.votes || {}); p.voteCounts = Object.assign({}, p.voteCounts || {});
+  var old = p.votes[ME.uid];
+  if (old === i) return;
+  var u = {};
+  u['poll.votes.' + ME.uid] = i;
+  u['poll.voteCounts.' + i] = firebase.firestore.FieldValue.increment(1);
+  if (old !== undefined && old !== null) { u['poll.voteCounts.' + old] = firebase.firestore.FieldValue.increment(-1); p.voteCounts[old] = Math.max(0, (p.voteCounts[old] || 1) - 1); }
+  p.votes[ME.uid] = i; p.voteCounts[i] = (p.voteCounts[i] || 0) + 1;
+  var box = document.getElementById('idea-poll-box'); if (box) box.innerHTML = ideaPollHTML(x);
+  renderIdeaArea();
+  fbDb.collection('rb_ideas').doc(id).update(u).catch(function(e) { showToast('Greška: ' + e.message); });
 }
 
 </script>
